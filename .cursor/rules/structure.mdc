@@ -1,0 +1,22 @@
+---
+description: Structure of the project
+globs: 
+alwaysApply: false
+---
+The project must follow a feature-first architecture based on Riverpod, organized into 4 layers: presentation, domain, application, and data.
+Each feature should have its own folder, containing these 4 subfolders to clearly separate responsibilities.
+- The "presentation" folder contains widgets, pages, and UI-related providers.
+- The "domain" folder contains business entities, repository interfaces, and pure business logic.
+- The "application" folder contains use cases and orchestration logic.
+- The "data" folder contains concrete repository implementations, data sources (API, database, etc.), and data models.
+
+Example structure:
+features/
+  └── feature_name/
+        ├── presentation/
+        ├── domain/
+        ├── application/
+        └── data/
+
+
+Always respect this structure for any new feature or code modification.

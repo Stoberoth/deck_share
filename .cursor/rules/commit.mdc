@@ -1,0 +1,12 @@
+---
+description: rules for commit
+globs: 
+alwaysApply: false
+---
+All commit messages must start with a type (feat, fix, chore, docs, refactor, test, style), followed by a short description in English.
+
+  Example: "feat: Add gestion of the users"
+
+  Always provide an example of commit message in English when suggesting a commit.
+
+  Always ask validation for a commit
