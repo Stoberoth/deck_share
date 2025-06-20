@@ -1,22 +1,19 @@
-class WishlistModel {
+class Wishlist {
   final String id;
   final String name;
   final List<String> cards;
-  final bool isShared;
 
-  WishlistModel({
+  Wishlist({
     required this.id,
     required this.name,
     required this.cards,
-    required this.isShared,
   });
 
-  factory WishlistModel.fromJson(Map<String, dynamic> json) {
-    return WishlistModel(
+  factory Wishlist.fromJson(Map<String, dynamic> json) {
+    return Wishlist(
       id: json['id'],
       name: json['name'],
-      cards: json['cards'],
-      isShared: json['isShared'],
+      cards: List<String>.from(json['cards']),
     );
   }
 
@@ -25,7 +22,6 @@ class WishlistModel {
       'id': id,
       'name': name,
       'cards': cards,
-      'isShared': isShared,
     };
   }
 }
