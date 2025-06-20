@@ -9,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
+
 final wishlistLocalRepositoryProvider = Provider<WishlistLocalRepository>((ref) {
   return WishlistLocalRepository();
 });
@@ -18,20 +20,52 @@ final wishlistLocalRepositoryProvider = Provider<WishlistLocalRepository>((ref) 
 class WishlistLocalRepository implements WishlistRepository {
   @override
   Future<void> saveWishlist(Wishlist wishlist) async {
-    // TODO: implement saveWishlist
-    throw UnimplementedError();
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/wishlist.json');
+    //file.delete();
+    if(!file.existsSync()){
+      file.create();
+    }
+    final json = await file.readAsString();
+    final wishlists = jsonDecode(json);
+    if(wishlists["wishlist"].where((element) => element["id"] == wishlist.id).isNotEmpty){  
+      return;
+    }
+    wishlists["wishlist"].add(wishlist.toJson());
+    file.writeAsString(jsonEncode(wishlists), mode: FileMode.writeOnly);
   }
-  
+
   @override
-  Future<void> deleteWishlist(String id) {
-    // TODO: implement deleteWishlist
-    throw UnimplementedError();
+  Future<void> deleteWishlist(String id) async{
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/wishlist.json');
+    //file.delete();
+    if(!file.existsSync()){
+      file.create();
+    }
+    final json = await file.readAsString();
+    final wishlists = jsonDecode(json);
+    wishlists["wishlist"].removeWhere((element) => element["id"] == id);
+    file.writeAsString(jsonEncode(wishlists), mode: FileMode.writeOnly);
   }
   
   @override
   Future<List<Wishlist>> getAllWishlists() async{
-    final json = await rootBundle.loadString('ressources/wishlist.json');
-    final wishlists = jsonDecode(json)["wishlists"];
+    /*final dir = await getApplicationDocumentsDirectory();
+    final json = await rootBundle.loadString('ressources/wishlist.json');*/
+    
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/wishlist.json');
+    //file.delete();
+    if(!file.existsSync()){
+      file.create();
+      file.writeAsString(jsonEncode({"wishlist": []}));
+    }
+    final json = await file.readAsString();
+    final wishlists = jsonDecode(json)["wishlist"];
+    if(wishlists == null){
+      return [];
+    }
     return List<Wishlist>.from(wishlists.map((wishlist) => Wishlist.fromJson(wishlist)));
   }
   

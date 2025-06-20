@@ -14,19 +14,20 @@ class WishListWidget extends ConsumerWidget {
     final AsyncValue<List<Wishlist>> state = ref.watch(
       wishlistViewerControllerProvider,
     );
-    ref.read(wishlistViewerControllerProvider.notifier).getAllWishlists();
+    //ref.read(wishlistViewerControllerProvider.notifier).getAllWishlists();
+    List<Wishlist> wishlists = state.value ?? [];
     return Container(
       height: 500,
       child: state.isLoading
           ? const CircularProgressIndicator()
           : ListView.builder(
               shrinkWrap: true,
-              itemCount: state.value?.length,
+              itemCount: wishlists.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text('Wishlist ${state.value?[index].name}'),
+                  title: Text('Wishlist ${wishlists?[index].name}'),
                   subtitle: Text(
-                    'Number of cards: ${state.value?[index].cards.length}',
+                    'Number of cards: ${wishlists?[index].cards.length}',
                   ),
                   leading: Icon(Icons.star),
                   trailing: Icon(Icons.arrow_forward),

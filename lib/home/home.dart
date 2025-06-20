@@ -1,14 +1,17 @@
+import 'package:deck_share/wishlist/domain/wishlist_model.dart';
+import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/widget/wishlist_listview_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Home extends StatefulWidget {
+class Home extends ConsumerStatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  ConsumerState<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +20,15 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             onPressed: () {
-              print("add a wishlist");
+              ref.read(wishlistViewerControllerProvider.notifier).addWishlist(Wishlist(id: "2", name: "test5", cards: []));
             },
             icon: Icon(Icons.add),
+          ),
+          IconButton(
+            onPressed: () {
+              ref.read(wishlistViewerControllerProvider.notifier).deleteWishlist("2");
+            },
+            icon: Icon(Icons.minimize_rounded),
           ),
         ],
       ),
