@@ -1,16 +1,10 @@
-# deck_share
+# Deck Share
 
-A new Flutter project.
+A new Flutter project to share magic cards between user for tournament.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project will make the connection between users that search for a card for a tournament (it's only for share at the beggining).  
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The user will create a "wishlist" that he can send to other users and those user can say if thay can share. 
+That will create a share between the two user and mark in the wishlist as alreay share for the other users.
