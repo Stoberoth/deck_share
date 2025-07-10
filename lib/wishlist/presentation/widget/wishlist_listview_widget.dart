@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// It will be used in the home page.
 /// It will be used to display the wishlists of the user.
+/// 
 
 class WishListWidget extends ConsumerWidget {
   const WishListWidget({super.key});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<List<Wishlist>> state = ref.watch(
@@ -24,13 +24,15 @@ class WishListWidget extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: wishlists.length,
               itemBuilder: (context, index) {
+                // need to rewrite this to change the text to have another presentation
                 return ListTile(
                   title: Text('Wishlist ${wishlists?[index].name}'),
                   subtitle: Text(
                     'Number of cards: ${wishlists?[index].cards.length}',
                   ),
-                  leading: Icon(Icons.star),
+                  leading: Icon(Icons.card_giftcard),
                   trailing: Icon(Icons.arrow_forward),
+                  onTap: (){ref.read(wishlistViewerControllerProvider.notifier).selectedItem(wishlists?[index].id);},
                 );
               },
             ),

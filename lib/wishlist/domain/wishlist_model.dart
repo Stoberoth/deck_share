@@ -1,10 +1,10 @@
 class Wishlist {
-  final String id;
+  String? id = "";
   final String name;
   final List<String> cards;
 
   Wishlist({
-    required this.id,
+    this.id,
     required this.name,
     required this.cards,
   });
