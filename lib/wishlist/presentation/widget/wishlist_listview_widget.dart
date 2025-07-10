@@ -7,10 +7,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// It will be used to display the wishlists of the user.
 /// 
 
-class WishListWidget extends ConsumerWidget {
+class WishListWidget extends ConsumerStatefulWidget {
   const WishListWidget({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<WishListWidget> createState() => _WishListWidgetState();
+}
+
+class _WishListWidgetState extends ConsumerState<WishListWidget> {
+  String? _selectedIndex;
+
+  @override
+  Widget build(BuildContext context) {
     final AsyncValue<List<Wishlist>> state = ref.watch(
       wishlistViewerControllerProvider,
     );
@@ -32,7 +40,18 @@ class WishListWidget extends ConsumerWidget {
                   ),
                   leading: Icon(Icons.card_giftcard),
                   trailing: Icon(Icons.arrow_forward),
-                  onTap: (){ref.read(wishlistViewerControllerProvider.notifier).selectedItem(wishlists?[index].id);},
+                  selectedColor: Colors.amber,
+                  selected: _selectedIndex == wishlists[index].id,
+                  onTap: () {
+                    ref.read(wishlistViewerControllerProvider.notifier).selectedItem(wishlists[index].id);
+                    setState(() {
+                      _selectedIndex = wishlists[index].id;
+                    });
+                    print(_selectedIndex);
+                  },
+                  onLongPress: () {
+                    // see what's inside
+                  },
                 );
               },
             ),

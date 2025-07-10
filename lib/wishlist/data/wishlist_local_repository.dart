@@ -4,6 +4,7 @@
 
 import 'package:deck_share/wishlist/data/wishlist_repository.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:convert';
@@ -70,9 +71,17 @@ class WishlistLocalRepository implements WishlistRepository {
   }
   
   @override
-  Future<Wishlist> getWishlistById(String id) {
-    // TODO: implement getWishlistById
-    throw UnimplementedError();
+  Future<Wishlist> getWishlistById(String id) async {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/wishlist.json');
+    //file.delete();
+    if(!file.existsSync()){
+      file.create();
+      file.writeAsString(jsonEncode({"wishlist": []}));
+    }
+    final json = await file.readAsString();
+    final wishlists = jsonDecode(json)["wishlist"];
+    return Wishlist.fromJson(wishlists.where((element) => element["id"] == id).first) ;
   }
   
   @override

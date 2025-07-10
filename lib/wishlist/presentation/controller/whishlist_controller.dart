@@ -23,10 +23,10 @@ class WishlistViewerController extends StateNotifier<AsyncValue<List<Wishlist>>>
     updateWishList();
   }
 
-  void selectedItem(String? selectedId)
-  {
-    this.selected = selectedId;
-    print(selected);
+  Future<void> selectedItem(String? selectedId)
+  async {
+    Wishlist w = await wishlistServices.getWishlistById(selectedId!);
+    this.selected = w.id;
   }
 
   Future<void> addWishlist(Wishlist wishlist) async {
