@@ -1,5 +1,6 @@
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
+import 'package:deck_share/wishlist/presentation/page/wishlist_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,10 +48,14 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                     setState(() {
                       _selectedIndex = wishlists[index].id;
                     });
-                    print(_selectedIndex);
                   },
-                  onLongPress: () {
+                  onLongPress: () async {
                     // see what's inside
+                    await ref.read(wishlistViewerControllerProvider.notifier).selectedItem(wishlists[index].id);
+                    setState(() {
+                      _selectedIndex = wishlists[index].id;
+                    });
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => WishlistEditPage()));
                   },
                 );
               },

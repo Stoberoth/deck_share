@@ -5,26 +5,33 @@ import 'package:deck_share/wishlist/application/wishlist_services.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-final selectedWishlist = StateProvider<String>((ref) {return "";});
-
-final wishlistViewerControllerProvider = StateNotifierProvider<WishlistViewerController, AsyncValue<List<Wishlist>>>((ref) {
-  return WishlistViewerController(wishlistServices: ref.read(wishlistServiceProvider), selected: ref.read(selectedWishlist));
+final selectedWishlist = StateProvider<String>((ref) {
+  return "";
 });
 
+final wishlistViewerControllerProvider =
+    StateNotifierProvider<WishlistViewerController, AsyncValue<List<Wishlist>>>(
+      (ref) {
+        return WishlistViewerController(
+          wishlistServices: ref.read(wishlistServiceProvider),
+          selected: ref.read(selectedWishlist),
+        );
+      },
+    );
 
-
-class WishlistViewerController extends StateNotifier<AsyncValue<List<Wishlist>>> {
+class WishlistViewerController
+    extends StateNotifier<AsyncValue<List<Wishlist>>> {
   final WishlistServices wishlistServices;
   String? selected = "";
 
-  WishlistViewerController({required this.wishlistServices, required this.selected}) : super(const AsyncValue.data([]))
-  {
+  WishlistViewerController({
+    required this.wishlistServices,
+    required this.selected,
+  }) : super(const AsyncValue.data([])) {
     updateWishList();
   }
 
-  Future<void> selectedItem(String? selectedId)
-  async {
+  Future<void> selectedItem(String? selectedId) async {
     Wishlist w = await wishlistServices.getWishlistById(selectedId!);
     this.selected = w.id;
   }
@@ -46,5 +53,10 @@ class WishlistViewerController extends StateNotifier<AsyncValue<List<Wishlist>>>
     state = await AsyncValue.guard(() async {
       return await wishlistServices.getAllWishlists();
     });
+  }
+
+  Future<Wishlist> getWishlistById(String id) async {
+    final wishlist = await wishlistServices.getWishlistById(id);
+    return wishlist;
   }
 }

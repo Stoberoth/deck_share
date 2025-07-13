@@ -39,7 +39,11 @@ class _HomeState extends ConsumerState<Home> {
             onPressed: () {
               ref
                   .read(wishlistViewerControllerProvider.notifier)
-                  .deleteWishlist(ref.read(wishlistViewerControllerProvider.notifier).selected!);
+                  .deleteWishlist(
+                    ref
+                        .read(wishlistViewerControllerProvider.notifier)
+                        .selected!,
+                  );
             },
             icon: Icon(Icons.minimize_rounded),
           ),
