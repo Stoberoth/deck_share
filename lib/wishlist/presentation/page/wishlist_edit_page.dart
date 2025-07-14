@@ -41,7 +41,7 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
                     .read(wishlistViewerControllerProvider.notifier)
                     .addCardToWishlistById(w.id!, controller.text);
                 setState(() {});
-                Navigator.pop(context, controller.text);
+                Navigator.pop(context);
               },
               child: Text("Validate"),
             ),
@@ -78,12 +78,9 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
             return CircularProgressIndicator();
           }
           w = snapshot.data!;
-          return Column(
-            children: [
-              Text("Wishlist ${w.name}"),
-              CardListViewWidget(),
-            ],
-          );
+          return SingleChildScrollView(child: Column(
+            children: [Text("Wishlist ${w.name}"), CardListViewWidget()],
+          ),); 
         },
       ),
     );

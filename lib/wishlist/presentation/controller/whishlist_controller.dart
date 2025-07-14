@@ -22,7 +22,7 @@ final wishlistViewerControllerProvider =
 class WishlistViewerController
     extends StateNotifier<AsyncValue<List<Wishlist>>> {
   final WishlistServices wishlistServices;
-  String? selected = "";
+  String? selected;
 
   WishlistViewerController({
     required this.wishlistServices,
@@ -44,6 +44,7 @@ class WishlistViewerController
 
   Future<void> deleteWishlist(String id) async {
     state = const AsyncLoading();
+    print("id $id");
     await wishlistServices.deleteWishlist(id);
     updateWishList();
   }
@@ -51,13 +52,13 @@ class WishlistViewerController
   Future<void> addCardToWishlistById(String id, String cardName) async {
     state = const AsyncLoading();
     Wishlist currentWishlist = await getWishlistById(id);
+    print(currentWishlist.cards.length);
     currentWishlist.cards.add(cardName);
     await wishlistServices.updateWishlist(currentWishlist);
     updateWishList();
   }
 
-  Future<void> removeCardToWishlistById(String id, String cardName) async
-  {
+  Future<void> removeCardToWishlistById(String id, String cardName) async {
     state = const AsyncLoading();
     Wishlist currentWishlist = await getWishlistById(id);
     currentWishlist.cards.remove(cardName);

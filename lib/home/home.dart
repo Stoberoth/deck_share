@@ -25,26 +25,12 @@ class _HomeState extends ConsumerState<Home> {
                 context,
                 MaterialPageRoute(builder: (context) => WishlistCreationPage()),
               );
-              w.id = (ref.read(wishlistViewerControllerProvider).value?.length)
-                  .toString();
               ref
                   .read(wishlistViewerControllerProvider.notifier)
                   .addWishlist(w);
               //ref.read(wishlistViewerControllerProvider.notifier).addWishlist(Wishlist(id: "2", name: "test5", cards: []));
             },
             icon: Icon(Icons.add),
-          ),
-          IconButton(
-            onPressed: () {
-              ref
-                  .read(wishlistViewerControllerProvider.notifier)
-                  .deleteWishlist(
-                    ref
-                        .read(wishlistViewerControllerProvider.notifier)
-                        .selected!,
-                  );
-            },
-            icon: Icon(Icons.minimize_rounded),
           ),
         ],
       ),

@@ -39,82 +39,70 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
             shrinkWrap: true,
             itemCount: currentWishlist.cards.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                tileColor: Colors.amber,
-                title: Text(currentWishlist.cards[index]),
-                leading: Icon(Icons.card_giftcard),
-                onLongPress: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Delete selected card"),
-                        content: TextButton(
-                          onPressed: () async {
-                            await ref
-                                .read(wishlistViewerControllerProvider.notifier)
-                                .removeCardToWishlistById(
-                                  currentWishlist.id!,
-                                  currentWishlist.cards[index],
-                                );
-                            setState(() {});
-                            //removeCard(w.cards[index]);
-                            Navigator.pop(context);
-                          },
-                          child: Text("Delete"),
-                        ),
-                      );
-                    },
-                  );
+              return Dismissible(
+                key: ValueKey(index),
+                background: Container(color: Colors.red),
+                onDismissed: (direction) async{
+                    await ref
+                        .read(wishlistViewerControllerProvider.notifier)
+                        .removeCardToWishlistById(
+                          currentWishlist.id!,
+                          currentWishlist.cards[index],
+                        );
+                    setState(() {});
                 },
-                onTap: () async{
-                  String new_card_name = await showDialog(
-                        context: context,
-                        builder: (context) {
-                          TextEditingController cardNameController =
-                              TextEditingController();
-                          return AlertDialog(
-                            title: Text("Change card name"),
-                            content: SingleChildScrollView(
-                              child: TextField(
-                                controller: cardNameController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  labelText: "Name of the card",
-                                  icon: Icon(Icons.text_fields),
-                                ),
+                child: ListTile(
+                  title: Text(currentWishlist.cards[index]),
+                  leading: Icon(Icons.card_giftcard),
+                  onTap: () async {
+                    String new_card_name = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        TextEditingController cardNameController =
+                            TextEditingController();
+                        return AlertDialog(
+                          title: Text("Change card name"),
+                          content: SingleChildScrollView(
+                            child: TextField(
+                              controller: cardNameController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                labelText: "Name of the card",
+                                icon: Icon(Icons.text_fields),
                               ),
                             ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(
-                                    context,
-                                    cardNameController.text,
-                                  );
-                                },
-                                child: Text("Validate"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                      Wishlist new_wishlist = Wishlist(
-                        id: currentWishlist.id,
-                        name: currentWishlist.name,
-                        cards: [
-                          for (int i = 0; i < currentWishlist.cards.length; i++)
-                            if (i == index) new_card_name else currentWishlist.cards[i],
-                        ],
-                      );
-                      await ref
-                          .read(wishlistLocalRepositoryProvider)
-                          .updateWishlist(new_wishlist);
-                      await ref
-                          .read(wishlistViewerControllerProvider.notifier)
-                          .updateWishList();
-                      setState(() {});
-                },
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, cardNameController.text);
+                              },
+                              child: Text("Validate"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    Wishlist new_wishlist = Wishlist(
+                      id: currentWishlist.id,
+                      name: currentWishlist.name,
+                      cards: [
+                        for (int i = 0; i < currentWishlist.cards.length; i++)
+                          if (i == index)
+                            new_card_name
+                          else
+                            currentWishlist.cards[i],
+                      ],
+                    );
+                    await ref
+                        .read(wishlistLocalRepositoryProvider)
+                        .updateWishlist(new_wishlist);
+                    await ref
+                        .read(wishlistViewerControllerProvider.notifier)
+                        .updateWishList();
+                    setState(() {});
+                  },
+                ),
               );
             },
           );

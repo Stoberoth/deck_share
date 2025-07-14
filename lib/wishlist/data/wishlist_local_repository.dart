@@ -21,6 +21,9 @@ final wishlistLocalRepositoryProvider = Provider<WishlistLocalRepository>((
 class WishlistLocalRepository implements WishlistRepository {
   @override
   Future<void> saveWishlist(Wishlist wishlist) async {
+    if (wishlist.id!.isEmpty) {
+      wishlist.id = UniqueKey().toString();
+    }
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/wishlist.json');
     //file.delete();
@@ -32,9 +35,16 @@ class WishlistLocalRepository implements WishlistRepository {
     if (wishlists["wishlist"]
         .where((element) => element["id"] == wishlist.id)
         .isNotEmpty) {
-      return;
+      for (int i = 0; i < wishlists["wishlist"].length; ++i) {
+        if (wishlists["wishlist"][i]["id"] == wishlist.id) {
+          wishlists["wishlist"][i] = wishlist.toJson();
+        }
+      }
+    } 
+    else 
+    {
+      wishlists["wishlist"].add(wishlist.toJson());
     }
-    wishlists["wishlist"].add(wishlist.toJson());
     file.writeAsString(jsonEncode(wishlists), mode: FileMode.writeOnly);
   }
 
@@ -99,8 +109,8 @@ class WishlistLocalRepository implements WishlistRepository {
       return;
     }
     final json = await file.readAsString();
-    final wishlists = jsonDecode(json);
-    await deleteWishlist(wishlist.id!);
+    //final wishlists = jsonDecode(json);
+    //await deleteWishlist(wishlist.id!);
     await saveWishlist(wishlist);
   }
 }

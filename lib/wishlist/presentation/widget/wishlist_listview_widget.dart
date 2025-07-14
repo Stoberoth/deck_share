@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// It will be used in the home page.
 /// It will be used to display the wishlists of the user.
-/// 
+///
 
 class WishListWidget extends ConsumerStatefulWidget {
   const WishListWidget({super.key});
@@ -34,29 +34,49 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
               itemCount: wishlists.length,
               itemBuilder: (context, index) {
                 // need to rewrite this to change the text to have another presentation
-                return ListTile(
-                  title: Text('Wishlist ${wishlists?[index].name}'),
-                  subtitle: Text(
-                    'Number of cards: ${wishlists?[index].cards.length}',
+                return Dismissible(
+                  key: ValueKey(index),
+                  background: Container(color: Colors.red),
+                  onDismissed: (direction) {
+                    if (direction == DismissDirection.endToStart || direction == DismissDirection.startToEnd) {
+                      ref
+                          .read(wishlistViewerControllerProvider.notifier)
+                          .deleteWishlist(wishlists[index].id!);
+                    }
+                  },
+                  child: ListTile(
+                    title: Text('Wishlist ${wishlists?[index].name}'),
+                    subtitle: Text(
+                      'Number of cards: ${wishlists?[index].cards.length}',
+                    ),
+                    leading: Icon(Icons.card_giftcard),
+                    trailing: Icon(Icons.arrow_forward),
+                    selectedColor: Colors.amber,
+                    selected: _selectedIndex == wishlists[index].id,
+                    onTap: () {
+                      ref
+                          .read(wishlistViewerControllerProvider.notifier)
+                          .selectedItem(wishlists[index].id);
+                      setState(() {
+                        _selectedIndex = wishlists[index].id;
+                      });
+                    },
+                    onLongPress: () async {
+                      // see what's inside
+                      await ref
+                          .read(wishlistViewerControllerProvider.notifier)
+                          .selectedItem(wishlists[index].id);
+                      setState(() {
+                        _selectedIndex = wishlists[index].id;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WishlistEditPage(),
+                        ),
+                      );
+                    },
                   ),
-                  leading: Icon(Icons.card_giftcard),
-                  trailing: Icon(Icons.arrow_forward),
-                  selectedColor: Colors.amber,
-                  selected: _selectedIndex == wishlists[index].id,
-                  onTap: () {
-                    ref.read(wishlistViewerControllerProvider.notifier).selectedItem(wishlists[index].id);
-                    setState(() {
-                      _selectedIndex = wishlists[index].id;
-                    });
-                  },
-                  onLongPress: () async {
-                    // see what's inside
-                    await ref.read(wishlistViewerControllerProvider.notifier).selectedItem(wishlists[index].id);
-                    setState(() {
-                      _selectedIndex = wishlists[index].id;
-                    });
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => WishlistEditPage()));
-                  },
                 );
               },
             ),
