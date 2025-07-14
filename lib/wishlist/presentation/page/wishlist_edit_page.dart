@@ -20,9 +20,14 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
 
   void addCard(String cardName) async {
     w.cards.add(cardName);
-    await ref
-        .read(wishlistLocalRepositoryProvider)
-        .updateWishlist(w);
+    await ref.read(wishlistLocalRepositoryProvider).updateWishlist(w);
+    await ref.read(wishlistViewerControllerProvider.notifier).updateWishList();
+    setState(() {});
+  }
+
+  void removeCard(String cardName) async {
+    w.cards.remove(cardName);
+    await ref.read(wishlistLocalRepositoryProvider).updateWishlist(w);
     await ref.read(wishlistViewerControllerProvider.notifier).updateWishList();
     setState(() {});
   }
@@ -65,7 +70,12 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
       appBar: AppBar(
         title: Text("Edit Wishlist"),
         actions: [
-          TextButton(onPressed: () {showAddCardDialog();}, child: Icon(Icons.add)),
+          TextButton(
+            onPressed: () {
+              showAddCardDialog();
+            },
+            child: Icon(Icons.add),
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -87,6 +97,23 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
                   return ListTile(
                     title: Text(w.cards[index]),
                     leading: Icon(Icons.card_membership),
+                    onLongPress: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Delete current card ?"),
+                            content: TextButton(
+                              onPressed: () {
+                                removeCard(w.cards[index]);
+                                Navigator.pop(context);
+                              },
+                              child: Text("Delete"),
+                            ),
+                          );
+                        },
+                      );
+                    },
                     onTap: () async {
                       // modify name of the card
                       String new_card_name = await showDialog(
