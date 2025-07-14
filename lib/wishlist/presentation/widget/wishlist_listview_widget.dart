@@ -45,9 +45,9 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                     }
                   },
                   child: ListTile(
-                    title: Text('Wishlist ${wishlists?[index].name}'),
+                    title: Text('Wishlist ${wishlists[index].name}'),
                     subtitle: Text(
-                      'Number of cards: ${wishlists?[index].cards.length}',
+                      'Number of cards: ${wishlists[index].cards.length}',
                     ),
                     leading: Icon(Icons.card_giftcard),
                     trailing: Icon(Icons.arrow_forward),
