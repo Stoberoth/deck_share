@@ -48,6 +48,23 @@ class WishlistViewerController
     updateWishList();
   }
 
+  Future<void> addCardToWishlistById(String id, String cardName) async {
+    state = const AsyncLoading();
+    Wishlist currentWishlist = await getWishlistById(id);
+    currentWishlist.cards.add(cardName);
+    await wishlistServices.updateWishlist(currentWishlist);
+    updateWishList();
+  }
+
+  Future<void> removeCardToWishlistById(String id, String cardName) async
+  {
+    state = const AsyncLoading();
+    Wishlist currentWishlist = await getWishlistById(id);
+    currentWishlist.cards.remove(cardName);
+    await wishlistServices.updateWishlist(currentWishlist);
+    updateWishList();
+  }
+
   Future<void> updateWishList() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {

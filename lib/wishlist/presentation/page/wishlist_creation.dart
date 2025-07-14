@@ -1,6 +1,7 @@
 // This page will be used to create a new wishlist
 
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
+import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';
 
 class WishlistCreationPage extends StatefulWidget {
