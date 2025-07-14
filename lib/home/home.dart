@@ -27,7 +27,6 @@ class _HomeState extends ConsumerState<Home> {
               );
               w.id = (ref.read(wishlistViewerControllerProvider).value?.length)
                   .toString();
-              print(w.id);
               ref
                   .read(wishlistViewerControllerProvider.notifier)
                   .addWishlist(w);
