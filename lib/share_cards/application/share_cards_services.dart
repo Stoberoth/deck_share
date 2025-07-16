@@ -14,12 +14,12 @@ class ShareCardsServices {
     await localRepository.deleteShareCards(id);
   }
 
-  Future<void> getAllShareCards() async {
-    await localRepository.getAllShareCards();
+  Future<List<ShareCards>> getAllShareCards() async {
+    return await localRepository.getAllShareCards();
   }
 
-  Future<void> getShareCardsById(String id) async {
-    await localRepository.getShareCardsById(id);
+  Future<ShareCards> getShareCardsById(String id) async {
+    return await localRepository.getShareCardsById(id);
   }
 
   Future<void> updateShareCards(ShareCards shareCards) async {
