@@ -79,7 +79,15 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                               },
                               child: Text("Validate"),
                             ),
+                            TextButton(
+                              onPressed: ()
+                              {
+                                Navigator.pop(context, currentWishlist.cards[index]);
+                              },
+                              child: Text("Cancel"),
+                            )
                           ],
+                          
                         );
                       },
                     );
