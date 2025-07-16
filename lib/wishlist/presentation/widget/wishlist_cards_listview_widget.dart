@@ -103,11 +103,11 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       ],
                     );
                     await ref
-                        .read(wishlistLocalRepositoryProvider)
+                        .read(wishlistViewerControllerProvider.notifier)
                         .updateWishlist(new_wishlist);
                     await ref
                         .read(wishlistViewerControllerProvider.notifier)
-                        .updateWishList();
+                        .getWishList();
                     setState(() {});
                   },
                 ),
