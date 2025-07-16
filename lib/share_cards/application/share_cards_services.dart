@@ -1,5 +1,12 @@
 import 'package:deck_share/share_cards/data/share_card_local_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final shareCardsServiceProvider = Provider<ShareCardsServices>((ref) {
+  return ShareCardsServices(
+    localRepository: ref.read(shareCardsLocalRepositoryProvider),
+  );
+});
 
 class ShareCardsServices {
   final ShareCardLocalRepository localRepository;

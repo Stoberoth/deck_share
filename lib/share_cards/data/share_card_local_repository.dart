@@ -1,6 +1,12 @@
-
 import 'package:deck_share/share_cards/data/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final shareCardsLocalRepositoryProvider = Provider<ShareCardLocalRepository>((
+  ref,
+) {
+  return ShareCardLocalRepository();
+});
 
 class ShareCardLocalRepository implements ShareCardRepository {
   @override
