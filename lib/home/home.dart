@@ -28,7 +28,6 @@ class _HomeState extends ConsumerState<Home> {
               ref
                   .read(wishlistViewerControllerProvider.notifier)
                   .addWishlist(w);
-              //ref.read(wishlistViewerControllerProvider.notifier).addWishlist(Wishlist(id: "2", name: "test5", cards: []));
             },
             icon: Icon(Icons.add),
           ),
