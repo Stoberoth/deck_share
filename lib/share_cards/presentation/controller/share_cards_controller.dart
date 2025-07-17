@@ -2,17 +2,21 @@ import 'package:deck_share/share_cards/application/share_cards_services.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final selectedItemProvider = StateProvider((ref) => "");
+
 final shareCardsControllerProvider =
     StateNotifierProvider<ShareCardsController, AsyncValue<List<ShareCards>>>((ref) {
       return ShareCardsController(
         shareCardsServices: ref.read(shareCardsServiceProvider),
+        selectedItem: ref.read(selectedItemProvider)
       );
     });
 
 class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   final ShareCardsServices shareCardsServices;
+  String selectedItem;
 
-  ShareCardsController({required this.shareCardsServices})
+  ShareCardsController({required this.shareCardsServices, required this.selectedItem})
     : super(const AsyncValue.data([]))
     {
       getAllShareCards();
@@ -22,6 +26,11 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     state = const AsyncLoading();
     await shareCardsServices.saveShareCards(shareCards);
     getAllShareCards();
+  }
+
+  Future<void> selectItem(String id) async
+  {
+    selectedItem = id;
   }
 
   Future<void> deleteShareCards(String id) async {

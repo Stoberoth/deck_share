@@ -49,9 +49,13 @@ class ShareCardLocalRepository implements ShareCardRepository {
   }
 
   @override
-  Future<ShareCards> getShareCardsById(String id) {
-    // TODO: implement getShareCardsById
-    throw UnimplementedError();
+  Future<ShareCards> getShareCardsById(String id) async{
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File("${dir.path}/wishlist.json");
+
+    final json = await file.readAsString();
+    final content = jsonDecode(json)["shareCards"];
+    return ShareCards.fromJson(content.where((element) => element["id"] == id).first);
   }
 
   @override

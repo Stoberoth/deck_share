@@ -1,6 +1,7 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
+import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,20 +45,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            child: state.isLoading
-                ? const CircularProgressIndicator()
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: shareCardsList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: Text(shareCardsList[index].lender),
-                        title: Text("Cards $index"),
-                      );
-                    },
-                  ),
-          ),
+          child: Column(children: [ShareCardsListWidget()]) ,
         ),
       ),
     );
