@@ -42,7 +42,11 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
             onPressed: () {
               Navigator.pop(
                 context,
-                Wishlist(id: UniqueKey().hashCode.toString(), name: nameController.text, cards: cards),
+                Wishlist(
+                  id: UniqueKey().hashCode.toString(),
+                  name: nameController.text,
+                  cards: cards,
+                ),
               );
             },
             icon: Icon(Icons.save),

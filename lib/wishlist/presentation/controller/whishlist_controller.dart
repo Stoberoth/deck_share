@@ -73,8 +73,7 @@ class WishlistViewerController
     });
   }
 
-  Future<void> updateWishlist(Wishlist wishlist) async
-  {
+  Future<void> updateWishlist(Wishlist wishlist) async {
     state = const AsyncLoading();
     wishlistServices.updateWishlist(wishlist);
     getWishList();

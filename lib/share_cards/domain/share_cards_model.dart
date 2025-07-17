@@ -1,5 +1,5 @@
 class ShareCards {
-  String? id = "";
+  String? id;
   final String lender;
   final String applicant;
   final List<String> lendingCards;
@@ -16,7 +16,7 @@ class ShareCards {
       id: json["id"],
       lender: json["lender"],
       applicant: json["applicant"],
-      lendingCards: json["lendingCards"],
+      lendingCards: List<String>.from(json['lendingCards']),
     );
   }
 

@@ -13,7 +13,10 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   final ShareCardsServices shareCardsServices;
 
   ShareCardsController({required this.shareCardsServices})
-    : super(const AsyncValue.data([]));
+    : super(const AsyncValue.data([]))
+    {
+      getAllShareCards();
+    }
 
   Future<void> addShareCards(ShareCards shareCards) async {
     state = const AsyncLoading();
