@@ -25,10 +25,16 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Share Cards"),
-        actions: [
-          IconButton(
-            onPressed: () async {
+        title: Text('Deck Share : Share Cards'),
+        backgroundColor: Colors.lightBlue,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(children: [ShareCardsListWidget()]) ,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(onPressed: () async {
               ShareCards sc = await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -38,16 +44,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               await ref
                   .read(shareCardsControllerProvider.notifier)
                   .addShareCards(sc);
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(children: [ShareCardsListWidget()]) ,
-        ),
-      ),
+            }, child: Icon(Icons.add),),
     );
   }
 }

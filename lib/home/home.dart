@@ -1,10 +1,7 @@
-import 'package:deck_share/share_cards/presentation/page/share_cards.dart';
-import 'package:deck_share/wishlist/domain/wishlist_model.dart';
-import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
-import 'package:deck_share/wishlist/presentation/widget/wishlist_listview_widget.dart';
+import 'package:deck_share/share_cards/presentation/page/home_share_cards.dart';
+import 'package:deck_share/wishlist/presentation/page/home_wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:deck_share/wishlist/presentation/page/wishlist_creation.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});
@@ -14,39 +11,26 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
+  final List<Widget> _listOfPages = [HomeWishlistPage(), ShareCardsPage()];
+
+  int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Deck Share'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              Wishlist w = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => WishlistCreationPage()),
-              );
-              ref
-                  .read(wishlistViewerControllerProvider.notifier)
-                  .addWishlist(w);
-            },
-            icon: Icon(Icons.add),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ShareCardsPage()),
-              );
-            },
-            child: Text("Share Cards Page"),
+      body: SafeArea(child: _listOfPages[currentPageIndex]),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'WishList'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.handshake),
+            label: 'ShareCards',
           ),
         ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(children: [WishListWidget()]),
-        ),
+        currentIndex: currentPageIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: (index) {setState(() {
+          currentPageIndex = index;
+        });},
       ),
     );
   }
