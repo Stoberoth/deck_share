@@ -1,3 +1,4 @@
+import 'package:deck_share/share_cards/presentation/page/share_cards.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/widget/wishlist_listview_widget.dart';
@@ -28,9 +29,17 @@ class _HomeState extends ConsumerState<Home> {
               ref
                   .read(wishlistViewerControllerProvider.notifier)
                   .addWishlist(w);
-              //ref.read(wishlistViewerControllerProvider.notifier).addWishlist(Wishlist(id: "2", name: "test5", cards: []));
             },
             icon: Icon(Icons.add),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ShareCardsPage()),
+              );
+            },
+            child: Text("Share Cards Page"),
           ),
         ],
       ),

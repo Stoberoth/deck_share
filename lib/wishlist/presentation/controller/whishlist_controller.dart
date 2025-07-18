@@ -28,7 +28,7 @@ class WishlistViewerController
     required this.wishlistServices,
     required this.selected,
   }) : super(const AsyncValue.data([])) {
-    updateWishList();
+    getWishList();
   }
 
   Future<void> selectedItem(String? selectedId) async {
@@ -39,14 +39,14 @@ class WishlistViewerController
   Future<void> addWishlist(Wishlist wishlist) async {
     state = const AsyncLoading();
     await wishlistServices.saveWishlist(wishlist);
-    updateWishList();
+    getWishList();
   }
 
   Future<void> deleteWishlist(String id) async {
     state = const AsyncLoading();
     print("id $id");
     await wishlistServices.deleteWishlist(id);
-    updateWishList();
+    getWishList();
   }
 
   Future<void> addCardToWishlistById(String id, String cardName) async {
@@ -55,7 +55,7 @@ class WishlistViewerController
     print(currentWishlist.cards.length);
     currentWishlist.cards.add(cardName);
     await wishlistServices.updateWishlist(currentWishlist);
-    updateWishList();
+    getWishList();
   }
 
   Future<void> removeCardToWishlistById(String id, String cardName) async {
@@ -63,14 +63,20 @@ class WishlistViewerController
     Wishlist currentWishlist = await getWishlistById(id);
     currentWishlist.cards.remove(cardName);
     await wishlistServices.updateWishlist(currentWishlist);
-    updateWishList();
+    getWishList();
   }
 
-  Future<void> updateWishList() async {
+  Future<void> getWishList() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
       return await wishlistServices.getAllWishlists();
     });
+  }
+
+  Future<void> updateWishlist(Wishlist wishlist) async {
+    state = const AsyncLoading();
+    wishlistServices.updateWishlist(wishlist);
+    getWishList();
   }
 
   Future<Wishlist> getWishlistById(String id) async {
