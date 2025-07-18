@@ -18,10 +18,6 @@ class ShareCardsPage extends ConsumerStatefulWidget {
 class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<List<ShareCards>> state = ref.watch(
-      shareCardsControllerProvider,
-    );
-    List<ShareCards> shareCardsList = state.value ?? [];
 
     return Scaffold(
       appBar: AppBar(
