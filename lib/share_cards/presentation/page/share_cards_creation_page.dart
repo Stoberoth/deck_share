@@ -8,14 +8,17 @@ class ShareCardsCreationPage extends ConsumerStatefulWidget {
   const ShareCardsCreationPage({super.key});
 
   @override
-  ConsumerState<ShareCardsCreationPage> createState() => _ShareCardsCreationPageState();
+  ConsumerState<ShareCardsCreationPage> createState() =>
+      _ShareCardsCreationPageState();
 }
 
-class _ShareCardsCreationPageState extends ConsumerState<ShareCardsCreationPage> {
+class _ShareCardsCreationPageState
+    extends ConsumerState<ShareCardsCreationPage> {
   late TextEditingController lenderController;
   late TextEditingController applicantController;
   late TextEditingController lendCardName;
   List<String> lendCards = [];
+  late bool isChecked;
 
   @override
   void initState() {
@@ -23,6 +26,8 @@ class _ShareCardsCreationPageState extends ConsumerState<ShareCardsCreationPage>
     lenderController = TextEditingController();
     applicantController = TextEditingController();
     lendCardName = TextEditingController();
+    isChecked = true;
+    lenderController.text = "Me";
   }
 
   @override
@@ -46,22 +51,46 @@ class _ShareCardsCreationPageState extends ConsumerState<ShareCardsCreationPage>
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(title: Text("Create a Share Cards")),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TextField(
-                controller: lenderController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Name of the lender",
-                  icon: Icon(Icons.text_fields),
-                ),
+              Row(
+                children: [
+                  Expanded( child: TextField(
+                    controller: lenderController,
+                    enabled: !isChecked,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: "Name of the lender",
+                      icon: Icon(Icons.text_fields),
+                    ),
+                  ),),
+                  Checkbox(
+                    value: isChecked,
+                    checkColor: Colors.black,
+                    onChanged: (newValue) {
+                      setState(() {
+                        isChecked = newValue!;
+                        if (isChecked!){
+                          lenderController.text = "Me";
+                          applicantController.clear();
+                        }
+                        else {
+                          lenderController.clear();
+                          applicantController.text = "Me";
+                        }
+                      });
+                    },
+                  ),
+                ],
               ),
               TextField(
                 controller: applicantController,
+                enabled: isChecked,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: "Name of the applicant",
@@ -79,9 +108,7 @@ class _ShareCardsCreationPageState extends ConsumerState<ShareCardsCreationPage>
               TextButton(
                 onPressed: () {
                   addLendCards(lendCardName.text);
-                  setState(() {
-                    
-                  });
+                  setState(() {});
                 },
                 child: Text("Add Lend Card to the list"),
               ),
