@@ -27,8 +27,13 @@ class ScryfallServices {
 
    Future<List<MtgCard>> getCardsOfSelectedSets(MtgSet mtgset) async
    {
-      CardIdentifier setIdentifier = CardIdentifierSetName(mtgset.code, mtgset.name);
       final list = await scryfallApiClient.searchCards("e:${mtgset.code}");
+      return list.data.isNotEmpty ? list.data : [];
+   }
+
+   Future<List<MtgCard>> getCardsWithName(String nameCards) async
+   {
+      final list = await scryfallApiClient.searchCards(nameCards);
       return list.data.isNotEmpty ? list.data : [];
    }
 }

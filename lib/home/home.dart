@@ -12,7 +12,7 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-  final List<Widget> _listOfPages = [HomeWishlistPage(), ShareCardsPage(), ScryfallCardPicker()];
+  final List<Widget> _listOfPages = [HomeWishlistPage(), ShareCardsPage()];
 
   int currentPageIndex = 0;
   @override
@@ -25,10 +25,6 @@ class _HomeState extends ConsumerState<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.handshake),
             label: 'ShareCards',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Card Picker',
           ),
         ],
         currentIndex: currentPageIndex,

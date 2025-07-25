@@ -1,8 +1,10 @@
+import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scryfall_api/scryfall_api.dart';
 
 class ShareCardsCreationPage extends ConsumerStatefulWidget {
   const ShareCardsCreationPage({super.key});
@@ -17,8 +19,9 @@ class _ShareCardsCreationPageState
   late TextEditingController lenderController;
   late TextEditingController applicantController;
   late TextEditingController lendCardName;
-  List<String> lendCards = [];
   late bool isChecked;
+
+  List<MtgCard> pickCards = [];
 
   @override
   void initState() {
@@ -38,16 +41,6 @@ class _ShareCardsCreationPageState
     super.dispose();
   }
 
-  void addLendCards(String cardName) {
-    if (cardName.isEmpty) {
-      return;
-    } else {
-      setState(() {
-        lendCards.add(cardName);
-        lendCardName.clear();
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,20 +99,20 @@ class _ShareCardsCreationPageState
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  addLendCards(lendCardName.text);
+                onPressed: () async {
+                  pickCards = await Navigator.push(context, MaterialPageRoute(builder: (context)=> ScryfallCardPicker()));
                   setState(() {});
                 },
                 child: Text("Add Lend Card to the list"),
               ),
-              if (lendCards.isNotEmpty)
+              pickCards.isNotEmpty ?
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: lendCards.length,
+                  itemCount: pickCards.length,
                   itemBuilder: (context, index) {
-                    return ListTile(title: Text(lendCards[index]));
+                    return ListTile(title: Text(pickCards[index].name));
                   },
-                ),
+                ) : Placeholder(),
             ],
           ),
         ),
@@ -131,7 +124,7 @@ class _ShareCardsCreationPageState
             id: UniqueKey().hashCode.toString(),
             lender: lenderController.text,
             applicant: applicantController.text,
-            lendingCards: lendCards,
+            lendingCards: pickCards,
           );
 
           Navigator.pop(context, shareCards);

@@ -24,8 +24,7 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
     List<ShareCards> shareCardsList = state.value ?? [];
     return state.isLoading
         ? const CircularProgressIndicator()
-        : ListView.builder(
-            shrinkWrap: true,
+        : Expanded(child: ListView.builder(
             itemCount: shareCardsList.length,
             itemBuilder: (context, index) {
               return ListTile(
@@ -81,6 +80,6 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
                 },
               );
             },
-          );
+          )); 
   }
 }

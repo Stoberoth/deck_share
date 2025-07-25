@@ -16,12 +16,15 @@ class ScryfallCardPicker extends ConsumerStatefulWidget {
 
 class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
   MtgSet? selected_set;
+  List<MtgCard> pickCards = [];
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final AsyncValue state = ref.read(scryfallControllerProvider);
 
     List<MtgCard> listOfCards = state.value ?? [];
+
     return Scaffold(
       appBar: AppBar(title: Text("Scryfall card picker")),
       body: SafeArea(
@@ -33,6 +36,20 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
             }
             return Column(
               children: [
+                TextField(
+                  controller: searchController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: "Search name card",
+                    icon: Icon(Icons.search),
+                  ),
+                  onSubmitted: (value) async {
+                    await ref
+                        .read(scryfallControllerProvider.notifier)
+                        .getCardsWithName(value);
+                    setState(() {});
+                  },
+                ),
                 Row(
                   children: [
                     Text("Sets"),
@@ -48,7 +65,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                           setState(() {
                             selected_set = value!;
                           });
-                          if(selected_set != null){
+                          if (selected_set != null) {
                             await ref
                                 .read(scryfallControllerProvider.notifier)
                                 .getCardsOfSelectedSets(selected_set!);
@@ -72,15 +89,40 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Card(
+                                // Correction du type pour correspondre à Color?
+                                color:
+                                    pickCards
+                                        .where(
+                                          (element) =>
+                                              element.id ==
+                                              listOfCards[index].id,
+                                        )
+                                        .isNotEmpty
+                                    ? Colors.amber
+                                    : Colors.white,
                                 child: InkWell(
-                                  onTap: () {print(listOfCards[index].name);},
+                                  onTap: () {
+                                    if (!pickCards.contains(
+                                      listOfCards[index],
+                                    )) {
+                                      setState(() {
+                                        pickCards.add(listOfCards[index]);
+                                      });
+
+                                      print(pickCards.length);
+                                    }
+                                  },
                                   child: Center(
-                                    child: listOfCards[index].imageUris != null ? Image(
-                                      image: Image.network(
-                                        listOfCards[index].imageUris!.normal
-                                            .toString(),
-                                      ).image,
-                                    ): Placeholder(),
+                                    child: listOfCards[index].imageUris != null
+                                        ? Image(
+                                            image: Image.network(
+                                              listOfCards[index]
+                                                  .imageUris!
+                                                  .normal
+                                                  .toString(),
+                                            ).image,
+                                          )
+                                        : Placeholder(),
                                   ),
                                 ),
                               ),
@@ -92,6 +134,12 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context, pickCards);
+        },
+        
       ),
     );
   }

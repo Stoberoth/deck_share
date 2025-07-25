@@ -39,4 +39,12 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
     List<MtgCard> list = await scryfallServices.getCardsOfSelectedSets(setName);
     state = AsyncValue.data(list.isNotEmpty ? list : []);
   }
+
+  Future<void> getCardsWithName(String name) async
+  {
+    state = AsyncValue.loading();
+    List<MtgCard> list = await scryfallServices.getCardsWithName(name);
+    print(list.length);
+    state = AsyncValue.data(list.isNotEmpty ? list : []);
+  }
 }

@@ -1,8 +1,10 @@
+import 'package:scryfall_api/scryfall_api.dart';
+
 class ShareCards {
   String? id;
   final String lender;
   final String applicant;
-  final List<String> lendingCards;
+  final List<MtgCard> lendingCards;
 
   ShareCards({
     this.id,
@@ -12,13 +14,17 @@ class ShareCards {
   });
 
   factory ShareCards.fromJson(Map<String, dynamic> json) {
+    print("print : ${json["lendingCards"]}");
     return ShareCards(
       id: json["id"],
       lender: json["lender"],
       applicant: json["applicant"],
-      lendingCards: List<String>.from(json['lendingCards']),
+      lendingCards: (json['lendingCards'] as List)
+        .map((item) => MtgCard.fromJson(item as Map<String, dynamic>))
+        .toList(),
     );
   }
+
 
   Map<String, dynamic> toJson()
   {
@@ -26,7 +32,7 @@ class ShareCards {
       'id': id,
       'lender': lender,
       'applicant': applicant,
-      'lendingCards': lendingCards,
+      'lendingCards': lendingCards.map((card) => card.toJson()).toList(),
     };
   }
 }

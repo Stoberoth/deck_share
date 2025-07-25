@@ -37,7 +37,6 @@ class ShareCardLocalRepository implements ShareCardRepository {
       file.create();
       file.writeAsString(jsonEncode({"wishlist": [], "shareCards": []}));
     }
-
     final json = await file.readAsString();
     final content = jsonDecode(json)["shareCards"];
     if (content == null) {
@@ -52,7 +51,6 @@ class ShareCardLocalRepository implements ShareCardRepository {
   Future<ShareCards> getShareCardsById(String id) async{
     final dir = await getApplicationDocumentsDirectory();
     final file = File("${dir.path}/wishlist.json");
-
     final json = await file.readAsString();
     final content = jsonDecode(json)["shareCards"];
     return ShareCards.fromJson(content.where((element) => element["id"] == id).first);

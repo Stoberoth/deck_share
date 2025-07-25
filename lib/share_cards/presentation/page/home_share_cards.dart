@@ -25,9 +25,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
         backgroundColor: Colors.lightBlue,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
           child: Column(children: [ShareCardsListWidget()]) ,
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(onPressed: () async {

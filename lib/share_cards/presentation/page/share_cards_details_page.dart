@@ -11,7 +11,6 @@ class ShareCardsDetailsPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Details Panel")),
       body: SafeArea(
-        child: SingleChildScrollView(
           child: FutureBuilder(
             future: ref
                 .read(shareCardsControllerProvider.notifier)
@@ -19,21 +18,23 @@ class ShareCardsDetailsPage extends ConsumerWidget {
                   ref.read(shareCardsControllerProvider.notifier).selectedItem,
                 ),
             builder: (context, snapshot) {
-              if(!snapshot.hasData)
-              {
+              if (!snapshot.hasData) {
                 return CircularProgressIndicator();
               }
               return Column(
                 children: [
+                  SizedBox(height: 50,),
                   Row(
                     children: [Text("Lender : "), Text(snapshot.data!.lender)],
                   ),
+                  SizedBox(height: 15,),
                   Row(
                     children: [
                       Text("Applicant : "),
                       Text(snapshot.data!.applicant),
                     ],
                   ),
+                  SizedBox(height: 25,),
                   Center(
                     child: Text(
                       "List of Cards :",
@@ -43,18 +44,27 @@ class ShareCardsDetailsPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  ListView.builder(
+                  SizedBox(height: 50,),
+                  Expanded(child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data!.lendingCards.length,
                     itemBuilder: (context, index) {
-                      return Text(snapshot.data!.lendingCards[index]);
+                      return Padding(padding: const EdgeInsets.all(8.0), child: ListTile(
+                        leading: Image(
+                          image: Image.network(
+                            snapshot.data!.lendingCards[index].imageUris!.normal
+                                .toString(),
+                          ).image,
+                        ),
+                        title: Text(snapshot.data!.lendingCards[index].name),
+                      ),); 
                     },
-                  ),
+                  ),)
+                  
                 ],
               );
             },
           ),
-        ),
       ),
     );
   }
