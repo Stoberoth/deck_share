@@ -97,7 +97,8 @@ class _ShareCardsCreationPageState
                   pickCards = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ScryfallCardPicker(),
+                      builder: (context) =>
+                          ScryfallCardPicker(pickCards: pickCards),
                     ),
                   );
                   setState(() {});
@@ -109,7 +110,12 @@ class _ShareCardsCreationPageState
                       shrinkWrap: true,
                       itemCount: pickCards.length,
                       itemBuilder: (context, index) {
-                        return ListTile(title: Text(pickCards[index].name));
+                        return ListTile(
+                          title: Text(pickCards[index].name),
+                          onLongPress: () => setState(() {
+                            pickCards.removeAt(index);
+                          }),
+                        );
                       },
                     )
                   : Container(),

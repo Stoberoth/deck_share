@@ -9,7 +9,8 @@ import 'package:scryfall_api/scryfall_api.dart';
 /// A page the will show all the cards we want to search and permit to pick them to add them to a wishlist or a share list
 
 class ScryfallCardPicker extends ConsumerStatefulWidget {
-  const ScryfallCardPicker({super.key});
+  List<MtgCard> pickCards = [];
+  ScryfallCardPicker({super.key, required this.pickCards});
 
   @override
   ConsumerState<ScryfallCardPicker> createState() => _ScryfallCardPickerState();
@@ -17,16 +18,15 @@ class ScryfallCardPicker extends ConsumerStatefulWidget {
 
 class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
   MtgSet? selected_set;
-  List<MtgCard> pickCards = [];
+  
   TextEditingController searchController = TextEditingController();
   TextEditingController searchOracleController = TextEditingController();
   TextEditingController setSearchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final AsyncValue state = ref.read(scryfallControllerProvider);
+    final AsyncValue listOfCards = ref.watch(scryfallControllerProvider);
 
-    List<MtgCard> listOfCards = state.value ?? [];
     return Scaffold(
       appBar: AppBar(title: Text("Scryfall card picker")),
       body: SafeArea(
@@ -55,9 +55,8 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setCode: selected_set?.code,
                             oracleText: searchOracleController.text,
                           );
-                      setState(() {
-                        
-                      });
+                          //setState(() {});
+                      
                     },
                   ),
                   SizedBox(height: 10),
@@ -76,9 +75,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setCode: selected_set?.code,
                             oracleText: searchOracleController.text,
                           );
-                      setState(() {
-                        
-                      });
+                      
                     },
                   ),
                   SizedBox(height: 10),
@@ -106,7 +103,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                     setCode: selected_set?.code,
                                     oracleText: searchOracleController.text,
                                   );
-                              setState(() {});
+                              
                           },
                         ),
                       ),
@@ -132,12 +129,12 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setCode: selected_set?.code,
                             oracleText: searchOracleController.text,
                           );
-                      setState(() {});
+                      //setState(() {});
                     },
                     child: Text("Search"),
                   ),
                   SizedBox(height: 10),
-                  state.isLoading
+                  listOfCards.isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : Expanded(
                           child: GridView(
@@ -145,7 +142,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                 ),
-                            children: List.generate(listOfCards.length, (
+                            children: List.generate(listOfCards.value.length, (
                               index,
                             ) {
                               return Padding(
@@ -153,26 +150,26 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                 child: Card(
                                   // Correction du type pour correspondre à Color?
                                   color:
-                                      pickCards
+                                      widget.pickCards
                                           .where(
                                             (element) =>
                                                 element.id ==
-                                                listOfCards[index].id,
+                                                listOfCards.value[index].id,
                                           )
                                           .isNotEmpty
                                       ? Colors.amber
                                       : Colors.white,
                                   child: InkWell(
                                     onTap: () {
-                                      if (!pickCards.contains(
-                                        listOfCards[index],
+                                      if (!widget.pickCards.contains(
+                                        listOfCards.value[index],
                                       )) {
                                         setState(() {
-                                          pickCards.add(listOfCards[index]);
+                                          widget.pickCards.add(listOfCards.value[index]);
                                         });
                                       } else {
                                         setState(() {
-                                          pickCards.remove(listOfCards[index]);
+                                          widget.pickCards.remove(listOfCards.value[index]);
                                         });
                                       }
                                     },
@@ -181,17 +178,17 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                         context: context,
                                         builder: (context) {
                                           return CardDetails_widget(
-                                            card: listOfCards[index],
+                                            card: listOfCards.value[index],
                                           );
                                         },
                                       );
                                     },
                                     child: Center(
                                       child:
-                                          listOfCards[index].imageUris != null
+                                          listOfCards.value[index].imageUris != null
                                           ? Image(
                                               image: Image.network(
-                                                listOfCards[index]
+                                                listOfCards.value[index]
                                                     .imageUris!
                                                     .normal
                                                     .toString(),
@@ -213,7 +210,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (pickCards.isEmpty) {
+          if (widget.pickCards.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("Select at least one card"),
@@ -222,7 +219,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
               ),
             );
           } else {
-            Navigator.pop(context, pickCards);
+            Navigator.pop(context, widget.pickCards);
           }
         },
         child: Icon(Icons.add),
