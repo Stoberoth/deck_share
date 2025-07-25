@@ -18,14 +18,16 @@ class ScryfallCardPicker extends ConsumerStatefulWidget {
 
 class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
   MtgSet? selected_set;
-  
+
   TextEditingController searchController = TextEditingController();
   TextEditingController searchOracleController = TextEditingController();
   TextEditingController setSearchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final AsyncValue listOfCards = ref.watch(scryfallControllerProvider);
+    final AsyncValue<List<MtgCard>> listOfCards = ref.watch(
+      scryfallControllerProvider,
+    );
 
     return Scaffold(
       appBar: AppBar(title: Text("Scryfall card picker")),
@@ -55,8 +57,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setCode: selected_set?.code,
                             oracleText: searchOracleController.text,
                           );
-                          //setState(() {});
-                      
+                      //setState(() {});
                     },
                   ),
                   SizedBox(height: 10),
@@ -75,7 +76,6 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setCode: selected_set?.code,
                             oracleText: searchOracleController.text,
                           );
-                      
                     },
                   ),
                   SizedBox(height: 10),
@@ -96,14 +96,13 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setState(() {
                               selected_set = value!;
                             });
-                              await ref
-                                  .read(scryfallControllerProvider.notifier)
-                                  .searchCards(
-                                    cardName: searchController.text,
-                                    setCode: selected_set?.code,
-                                    oracleText: searchOracleController.text,
-                                  );
-                              
+                            await ref
+                                .read(scryfallControllerProvider.notifier)
+                                .searchCards(
+                                  cardName: searchController.text,
+                                  setCode: selected_set?.code,
+                                  oracleText: searchOracleController.text,
+                                );
                           },
                         ),
                       ),
@@ -142,7 +141,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                 ),
-                            children: List.generate(listOfCards.value.length, (
+                            children: List.generate(listOfCards.value!.length, (
                               index,
                             ) {
                               return Padding(
@@ -154,7 +153,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                           .where(
                                             (element) =>
                                                 element.id ==
-                                                listOfCards.value[index].id,
+                                                listOfCards.value![index].id,
                                           )
                                           .isNotEmpty
                                       ? Colors.amber
@@ -162,14 +161,18 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                   child: InkWell(
                                     onTap: () {
                                       if (!widget.pickCards.contains(
-                                        listOfCards.value[index],
+                                        listOfCards.value![index],
                                       )) {
                                         setState(() {
-                                          widget.pickCards.add(listOfCards.value[index]);
+                                          widget.pickCards.add(
+                                            listOfCards.value![index],
+                                          );
                                         });
                                       } else {
                                         setState(() {
-                                          widget.pickCards.remove(listOfCards.value[index]);
+                                          widget.pickCards.remove(
+                                            listOfCards.value![index],
+                                          );
                                         });
                                       }
                                     },
@@ -178,17 +181,33 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                         context: context,
                                         builder: (context) {
                                           return CardDetails_widget(
-                                            card: listOfCards.value[index],
+                                            card: listOfCards.value![index],
                                           );
                                         },
                                       );
                                     },
                                     child: Center(
                                       child:
-                                          listOfCards.value[index].imageUris != null
+                                          listOfCards.value![index].imageUris !=
+                                              null
                                           ? Image(
                                               image: Image.network(
-                                                listOfCards.value[index]
+                                                listOfCards
+                                                    .value![index]
+                                                    .imageUris!
+                                                    .normal
+                                                    .toString(),
+                                              ).image,
+                                            )
+                                          : listOfCards
+                                                    .value![index]
+                                                    .cardFaces !=
+                                                null
+                                          ? Image(
+                                              image: Image.network(
+                                                listOfCards
+                                                    .value![index]
+                                                    .cardFaces![0]
                                                     .imageUris!
                                                     .normal
                                                     .toString(),
