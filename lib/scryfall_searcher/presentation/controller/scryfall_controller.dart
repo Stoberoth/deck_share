@@ -24,7 +24,7 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
 
   Future<List<MtgSetEntry>> getAllSets() async {
     final list = await scryfallServices.getAllSets();
-    if(list.isEmpty) return [];
+    if (list.isEmpty) return [];
     final List<MtgSetEntry> entries = UnmodifiableListView<MtgSetEntry>(
       list.map(
         (MtgSet mtgSet) => MtgSetEntry(value: mtgSet, label: mtgSet.name),
@@ -33,18 +33,30 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
     return entries;
   }
 
-  Future<void> getCardsOfSelectedSets(MtgSet setName) async
-  {
+  Future<void> getCardsOfSelectedSets(MtgSet setName) async {
     state = AsyncValue.loading();
     List<MtgCard> list = await scryfallServices.getCardsOfSelectedSets(setName);
     state = AsyncValue.data(list.isNotEmpty ? list : []);
   }
 
-  Future<void> getCardsWithName(String name) async
-  {
+  Future<void> getCardsWithName(String name) async {
     state = AsyncValue.loading();
     List<MtgCard> list = await scryfallServices.getCardsWithName(name);
     print(list.length);
+    state = AsyncValue.data(list.isNotEmpty ? list : []);
+  }
+
+  Future<void> searchCards({
+    required cardName,
+    required setCode,
+    required oracleText,
+  }) async {
+    state = AsyncValue.loading();
+    List<MtgCard> list = await scryfallServices.searchCards(
+      cardName,
+      setCode,
+      oracleText,
+    );
     state = AsyncValue.data(list.isNotEmpty ? list : []);
   }
 }

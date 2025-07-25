@@ -1,6 +1,5 @@
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,10 +40,8 @@ class _ShareCardsCreationPageState
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(title: Text("Create a Share Cards")),
       body: SafeArea(
@@ -53,26 +50,27 @@ class _ShareCardsCreationPageState
             children: [
               Row(
                 children: [
-                  Expanded( child: TextField(
-                    controller: lenderController,
-                    enabled: !isChecked,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Name of the lender",
-                      icon: Icon(Icons.text_fields),
+                  Expanded(
+                    child: TextField(
+                      controller: lenderController,
+                      enabled: !isChecked,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        labelText: "Name of the lender",
+                        icon: Icon(Icons.text_fields),
+                      ),
                     ),
-                  ),),
+                  ),
                   Checkbox(
                     value: isChecked,
                     checkColor: Colors.black,
                     onChanged: (newValue) {
                       setState(() {
                         isChecked = newValue!;
-                        if (isChecked!){
+                        if (isChecked!) {
                           lenderController.text = "Me";
                           applicantController.clear();
-                        }
-                        else {
+                        } else {
                           lenderController.clear();
                           applicantController.text = "Me";
                         }
@@ -87,32 +85,34 @@ class _ShareCardsCreationPageState
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: "Name of the applicant",
+                  fillColor: Colors.lightBlue,
+                  focusColor: Colors.lightBlue,
+                  hoverColor: Colors.lightBlue,
                   icon: Icon(Icons.text_fields),
                 ),
               ),
-              TextField(
-                controller: lendCardName,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Name of lend Card",
-                  icon: Icon(Icons.text_fields),
-                ),
-              ),
-              TextButton(
+              SizedBox(height: 10),
+              ElevatedButton(
                 onPressed: () async {
-                  pickCards = await Navigator.push(context, MaterialPageRoute(builder: (context)=> ScryfallCardPicker()));
+                  pickCards = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScryfallCardPicker(),
+                    ),
+                  );
                   setState(() {});
                 },
                 child: Text("Add Lend Card to the list"),
               ),
-              pickCards.isNotEmpty ?
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: pickCards.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(title: Text(pickCards[index].name));
-                  },
-                ) : Placeholder(),
+              pickCards.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: pickCards.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(title: Text(pickCards[index].name));
+                      },
+                    )
+                  : Container(),
             ],
           ),
         ),

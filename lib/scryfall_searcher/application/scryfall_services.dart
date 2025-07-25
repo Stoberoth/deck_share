@@ -16,8 +16,24 @@ class ScryfallServices {
   ScryfallServices({required this.scryfallApiClient});
 
   // will get access to all the settings of the user to search cards by sets, CCM and other stuff
-  Future<void> searchCards() async {
-    final set = await scryfallApiClient.getSetById("afr");
+  Future<List<MtgCard>> searchCards(String? cardName, String? setCode, String? oracleText) async {
+    String searchQuery = "";
+    if(cardName != null)
+    {
+      searchQuery += cardName;
+    }
+    if(setCode != null)
+    {
+      searchQuery += searchQuery.isNotEmpty ? " e:$setCode" : "e:$setCode";
+    }
+
+    if(oracleText != null)
+    {
+      searchQuery += searchQuery.isNotEmpty ? " o:$oracleText" : "o:$oracleText";
+    }
+    print(searchQuery);
+    final list = await scryfallApiClient.searchCards(searchQuery);
+    return list.data.isNotEmpty ? list.data : [];
   }
 
   Future<List<MtgSet>> getAllSets() async {

@@ -14,7 +14,6 @@ class ShareCards {
   });
 
   factory ShareCards.fromJson(Map<String, dynamic> json) {
-    print("print : ${json["lendingCards"]}");
     return ShareCards(
       id: json["id"],
       lender: json["lender"],
