@@ -17,7 +17,7 @@ class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: _listOfPages[currentPageIndex]),
+      body: _listOfPages[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'WishList'),
