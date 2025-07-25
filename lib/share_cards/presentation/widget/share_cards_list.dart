@@ -25,22 +25,60 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
     return state.isLoading
         ? const CircularProgressIndicator()
         : ListView.builder(
-          shrinkWrap: true,
+            shrinkWrap: true,
             itemCount: shareCardsList.length,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Text("Day of the lending"),
                 title: Text("Cards lend by ${shareCardsList[index].lender}"),
-                subtitle: Text("${shareCardsList[index].lendingCards.length} are lend"),
+                subtitle: Text(
+                  "${shareCardsList[index].lendingCards.length} are lend",
+                ),
                 trailing: Text(shareCardsList[index].applicant),
                 onTap: () async {
                   print("onTap");
-                  await ref.read(shareCardsControllerProvider.notifier).selectItem(shareCardsList[index].id!);
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ShareCardsDetailsPage()));
+                  await ref
+                      .read(shareCardsControllerProvider.notifier)
+                      .selectItem(shareCardsList[index].id!);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShareCardsDetailsPage(),
+                    ),
+                  );
                 },
-                onLongPress: () => ref
-                    .read(shareCardsControllerProvider.notifier)
-                    .deleteShareCards(shareCardsList[index].id!),
+                onLongPress: () async {
+                  bool result = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Delete"),
+                        content: Text(
+                          "Are you sure you want to delete this list ?",
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
+                            child: Text("Validate"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            child: Text("Cancel"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  result
+                      ? await ref
+                            .read(shareCardsControllerProvider.notifier)
+                            .deleteShareCards(shareCardsList[index].id!)
+                      : null;
+                },
               );
             },
           );
