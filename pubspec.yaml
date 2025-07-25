@@ -53,6 +53,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   path_provider: ^2.1.5
 
+  # Scryfall API
+  scryfall_api : ^2.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
