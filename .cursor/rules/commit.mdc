@@ -1,7 +1,7 @@
 ---
 description: rules for commit
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 All commit messages must start with a type (feat, fix, chore, docs, refactor, test, style), followed by a short description in English.
 
