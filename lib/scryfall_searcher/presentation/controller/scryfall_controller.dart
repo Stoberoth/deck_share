@@ -46,6 +46,12 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
     state = AsyncValue.data(list.isNotEmpty ? list : []);
   }
 
+  Future<List<Ruling>> getRulingById(String id) async
+  {
+    List<Ruling> rules = await scryfallServices.getRulingById(id);
+    return rules.isNotEmpty ? rules : [];
+  }
+
   Future<void> searchCards({
     required cardName,
     required setCode,

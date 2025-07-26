@@ -51,5 +51,12 @@ class ScryfallServices {
    {
       final list = await scryfallApiClient.searchCards(nameCards);
       return list.data.isNotEmpty ? list.data : [];
+      
    }
+  Future<List<Ruling>> getRulingById(String id) async
+  {
+    final list = await scryfallApiClient.getRulingsById(id);
+    return list.data.isNotEmpty ? list.data : [];
+  }
+
 }
