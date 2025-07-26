@@ -9,7 +9,7 @@ class ShareCardsDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text("Details Panel")),
+      appBar: AppBar(title: Text("Share cards details")),
       body: SafeArea(
         child: FutureBuilder(
           future: ref
@@ -23,16 +23,47 @@ class ShareCardsDetailsPage extends ConsumerWidget {
             }
             return Column(
               children: [
-                SizedBox(height: 50),
-                Row(children: [Text("Lender : "), Text(snapshot.data!.lender)]),
-                SizedBox(height: 15),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Applicant : "),
-                    Text(snapshot.data!.applicant),
+                    Text(
+                      "Lender : ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      snapshot.data!.lender,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 20.0,
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(height: 25),
+
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Applicant : ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      snapshot.data!.applicant,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30,),
                 Center(
                   child: Text(
                     "List of Cards :",
@@ -42,7 +73,7 @@ class ShareCardsDetailsPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 20),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
