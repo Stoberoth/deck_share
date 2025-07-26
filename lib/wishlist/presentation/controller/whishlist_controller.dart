@@ -4,6 +4,7 @@
 import 'package:deck_share/wishlist/application/wishlist_services.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scryfall_api/scryfall_api.dart';
 
 final selectedWishlist = StateProvider<String>((ref) {
   return "";
@@ -49,19 +50,19 @@ class WishlistViewerController
     getWishList();
   }
 
-  Future<void> addCardToWishlistById(String id, String cardName) async {
+  Future<void> addCardToWishlistById(String id, MtgCard card) async {
     state = const AsyncLoading();
     Wishlist currentWishlist = await getWishlistById(id);
     print(currentWishlist.cards.length);
-    currentWishlist.cards.add(cardName);
+    currentWishlist.cards.add(card);
     await wishlistServices.updateWishlist(currentWishlist);
     getWishList();
   }
 
-  Future<void> removeCardToWishlistById(String id, String cardName) async {
+  Future<void> removeCardToWishlistById(String id, MtgCard card) async {
     state = const AsyncLoading();
     Wishlist currentWishlist = await getWishlistById(id);
-    currentWishlist.cards.remove(cardName);
+    currentWishlist.cards.remove(card);
     await wishlistServices.updateWishlist(currentWishlist);
     getWishList();
   }

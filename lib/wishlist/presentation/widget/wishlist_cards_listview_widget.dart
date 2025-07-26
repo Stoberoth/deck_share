@@ -1,8 +1,11 @@
+import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
+import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
 import 'package:deck_share/wishlist/data/wishlist_local_repository.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scryfall_api/scryfall_api.dart';
 
 class CardListViewWidget extends ConsumerStatefulWidget {
   const CardListViewWidget({super.key});
@@ -13,6 +16,7 @@ class CardListViewWidget extends ConsumerStatefulWidget {
 
 class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
   late String _selectedIndex;
+  List<MtgCard> pick_cards = [];
 
   @override
   void initState() {
@@ -26,23 +30,24 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
   @override
   Widget build(BuildContext context) {
     late Wishlist currentWishlist;
-    return FutureBuilder(
-      future: ref
-          .read(wishlistViewerControllerProvider.notifier)
-          .getWishlistById(_selectedIndex),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return CircularProgressIndicator();
-        } else {
-          currentWishlist = snapshot.data!;
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: currentWishlist.cards.length,
-            itemBuilder: (context, index) {
-              return Dismissible(
-                key: ValueKey(index),
-                background: Container(color: Colors.red),
-                onDismissed: (direction) async{
+    //return Scaffold(
+      return FutureBuilder(
+        future: ref
+            .read(wishlistViewerControllerProvider.notifier)
+            .getWishlistById(_selectedIndex),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          } else {
+            currentWishlist = snapshot.data!;
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: currentWishlist.cards.length,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                  key: ValueKey(index),
+                  background: Container(color: Colors.red),
+                  onDismissed: (direction) async {
                     await ref
                         .read(wishlistViewerControllerProvider.notifier)
                         .removeCardToWishlistById(
@@ -50,72 +55,62 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                           currentWishlist.cards[index],
                         );
                     setState(() {});
-                },
-                child: ListTile(
-                  title: Text(currentWishlist.cards[index]),
-                  leading: Icon(Icons.card_giftcard),
-                  onTap: () async {
-                    String new_card_name = await showDialog(
-                      context: context,
-                      builder: (context) {
-                        TextEditingController cardNameController =
-                            TextEditingController();
-                        return AlertDialog(
-                          title: Text("Change card name"),
-                          content: SingleChildScrollView(
-                            child: TextField(
-                              controller: cardNameController,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                labelText: "Name of the card",
-                                icon: Icon(Icons.text_fields),
-                              ),
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context, cardNameController.text);
-                              },
-                              child: Text("Validate"),
-                            ),
-                            TextButton(
-                              onPressed: ()
-                              {
-                                Navigator.pop(context, currentWishlist.cards[index]);
-                              },
-                              child: Text("Cancel"),
-                            )
-                          ],
-                          
-                        );
-                      },
-                    );
-                    Wishlist new_wishlist = Wishlist(
-                      id: currentWishlist.id,
-                      name: currentWishlist.name,
-                      cards: [
-                        for (int i = 0; i < currentWishlist.cards.length; i++)
-                          if (i == index)
-                            new_card_name
-                          else
-                            currentWishlist.cards[i],
-                      ],
-                    );
-                    await ref
-                        .read(wishlistViewerControllerProvider.notifier)
-                        .updateWishlist(new_wishlist);
-                    await ref
-                        .read(wishlistViewerControllerProvider.notifier)
-                        .getWishList();
-                    setState(() {});
                   },
-                ),
-              );
-            },
-          );
-        }
-      },
+                  child: ListTile(
+                    tileColor:
+                        pick_cards
+                            .where(
+                              (element) =>
+                                  element.id == currentWishlist.cards[index].id,
+                            )
+                            .isNotEmpty
+                        ? Colors.amber
+                        : Colors.white,
+                    title: Text(currentWishlist.cards[index].name),
+                    subtitle: Text(currentWishlist.cards[index].typeLine),
+                    leading: currentWishlist.cards[index].cardFaces == null
+                        ? Image(
+                            image: Image.network(
+                              currentWishlist.cards[index].imageUris!.normal
+                                  .toString(),
+                            ).image,
+                          )
+                        : Image(
+                            image: Image.network(
+                              currentWishlist
+                                  .cards[index]
+                                  .cardFaces![0]
+                                  .imageUris!
+                                  .normal
+                                  .toString(),
+                            ).image,
+                          ),
+                    onTap: () {
+                      if (pick_cards
+                          .where(
+                            (element) =>
+                                element.id == currentWishlist.cards[index].id,
+                          )
+                          .isEmpty) {
+                        setState(() {
+                          pick_cards.add(currentWishlist.cards[index]);
+                        });
+                      } else {
+                        setState(() {
+                          pick_cards.removeWhere(
+                            (element) =>
+                                element.id == currentWishlist.cards[index].id,
+                          );
+                        });
+                      }
+                    },
+                  ),
+                );
+              },
+            );
+          }
+        },
+      
     );
   }
 }

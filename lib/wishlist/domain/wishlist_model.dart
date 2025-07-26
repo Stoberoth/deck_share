@@ -1,19 +1,19 @@
+import 'package:scryfall_api/scryfall_api.dart';
+
 class Wishlist {
   String? id = "";
   final String name;
-  final List<String> cards;
+  final List<MtgCard> cards;
 
-  Wishlist({
-    this.id,
-    required this.name,
-    required this.cards,
-  });
+  Wishlist({this.id, required this.name, required this.cards});
 
   factory Wishlist.fromJson(Map<String, dynamic> json) {
     return Wishlist(
       id: json['id'],
       name: json['name'],
-      cards: List<String>.from(json['cards']),
+      cards: (json["cards"] as List)
+          .map((item) => MtgCard.fromJson(item as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -21,7 +21,7 @@ class Wishlist {
     return {
       'id': id,
       'name': name,
-      'cards': cards,
+      'cards': cards.map((card) => card.toJson()).toList(),
     };
   }
 }

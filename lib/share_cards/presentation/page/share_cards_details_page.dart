@@ -85,7 +85,6 @@ class ShareCardsDetailsPage extends ConsumerWidget {
                           elevation: 10,
                           shadowColor: Colors.black45,
                           child: ListTile(
-                            hoverColor: Colors.lightBlue,
                             leading: Image(
                               image: Image.network(
                                 snapshot

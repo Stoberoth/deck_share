@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
 class ShareCardsCreationPage extends ConsumerStatefulWidget {
-  const ShareCardsCreationPage({super.key});
+  ShareCardsCreationPage({super.key, required pick_cards});
+
+  List<MtgCard> pickCards = [];
 
   @override
   ConsumerState<ShareCardsCreationPage> createState() =>
@@ -19,8 +21,6 @@ class _ShareCardsCreationPageState
   late TextEditingController applicantController;
   late TextEditingController lendCardName;
   late bool isChecked;
-
-  List<MtgCard> pickCards = [];
 
   @override
   void initState() {
@@ -94,26 +94,26 @@ class _ShareCardsCreationPageState
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () async {
-                  pickCards = await Navigator.push(
+                  widget.pickCards = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ScryfallCardPicker(pickCards: pickCards),
+                          ScryfallCardPicker(pickCards: widget.pickCards),
                     ),
                   );
                   setState(() {});
                 },
                 child: Text("Add Lend Card to the list"),
               ),
-              pickCards.isNotEmpty
+              widget.pickCards.isNotEmpty
                   ? ListView.builder(
                       shrinkWrap: true,
-                      itemCount: pickCards.length,
+                      itemCount: widget.pickCards.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(pickCards[index].name),
+                          title: Text(widget.pickCards[index].name),
                           onLongPress: () => setState(() {
-                            pickCards.removeAt(index);
+                            widget.pickCards.removeAt(index);
                           }),
                         );
                       },
@@ -130,7 +130,7 @@ class _ShareCardsCreationPageState
             id: UniqueKey().hashCode.toString(),
             lender: lenderController.text,
             applicant: applicantController.text,
-            lendingCards: pickCards,
+            lendingCards: widget.pickCards,
           );
 
           Navigator.pop(context, shareCards);
