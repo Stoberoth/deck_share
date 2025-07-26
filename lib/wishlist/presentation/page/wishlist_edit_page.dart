@@ -6,6 +6,7 @@ import 'package:deck_share/wishlist/presentation/widget/wishlist_listview_widget
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// TODO add possibility to create a share card list with the pick cards of this page
 class WishlistEditPage extends ConsumerStatefulWidget {
   const WishlistEditPage({super.key});
 
@@ -37,10 +38,6 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                await ref
-                    .read(wishlistViewerControllerProvider.notifier)
-                    .addCardToWishlistById(w.id!, controller.text);
-                setState(() {});
                 Navigator.pop(context);
               },
               child: Text("Validate"),
@@ -57,18 +54,7 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
         .watch(wishlistViewerControllerProvider.notifier)
         .selected;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Edit Wishlist"),
-        actions: [
-          TextButton(
-            onPressed: () {
-              showAddCardDialog();
-              setState(() {});
-            },
-            child: Icon(Icons.add),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: Text("Edit Wishlist")),
       body: FutureBuilder(
         future: ref
             .watch(wishlistViewerControllerProvider.notifier)
@@ -78,9 +64,11 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
             return CircularProgressIndicator();
           }
           w = snapshot.data!;
-          return SingleChildScrollView(child: Column(
-            children: [Text("Wishlist ${w.name}"), CardListViewWidget()],
-          ),); 
+          return SingleChildScrollView(
+            child: Column(
+              children: [Text("Wishlist ${w.name}"), CardListViewWidget()],
+            ),
+          );
         },
       ),
     );

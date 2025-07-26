@@ -1,8 +1,10 @@
 // This page will be used to create a new wishlist
 
+import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:scryfall_api/scryfall_api.dart';
 
 class WishlistCreationPage extends StatefulWidget {
   const WishlistCreationPage({super.key});
@@ -12,7 +14,7 @@ class WishlistCreationPage extends StatefulWidget {
 }
 
 class _WishlistCreationPageState extends State<WishlistCreationPage> {
-  List<String> cards = [];
+  List<MtgCard> pick_cards = [];
   late TextEditingController nameController;
   late TextEditingController cardController;
 
@@ -22,15 +24,6 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
     super.initState();
     nameController = TextEditingController();
     cardController = TextEditingController();
-  }
-
-  void addCard(String card) {
-    if (card.isEmpty) {
-      return;
-    }
-    setState(() {
-      cards.add(card);
-    });
   }
 
   @override
@@ -45,7 +38,7 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                 Wishlist(
                   id: UniqueKey().hashCode.toString(),
                   name: nameController.text,
-                  cards: cards,
+                  cards: pick_cards,
                 ),
               );
             },
@@ -79,18 +72,46 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  addCard(cardController.text);
+                onPressed: () async {
+                  pick_cards = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ScryfallCardPicker(pickCards: pick_cards),
+                    ),
+                  );
+                  setState(() {});
                 },
                 child: Text("Add card"),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ListTile(title: Text(cards[index]));
-                },
-                itemCount: cards.length,
-              ),
+              pick_cards.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: pick_cards[index].cardFaces != null
+                              ? Image(
+                                  image: Image.network(
+                                    pick_cards[index]
+                                        .cardFaces![0]
+                                        .imageUris!
+                                        .normal
+                                        .toString(),
+                                  ).image,
+                                )
+                              : Image(
+                                  image: Image.network(
+                                    pick_cards[index].imageUris!.normal
+                                        .toString(),
+                                  ).image,
+                                ),
+                          title: Text(pick_cards[index].name),
+                          subtitle: Text(pick_cards[index].typeLine),
+                        );
+                      },
+                      itemCount: pick_cards.length,
+                    )
+                  : Container(),
             ],
           ),
         ),
