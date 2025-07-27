@@ -50,13 +50,21 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                       icon: Icon(Icons.search),
                     ),
                     onSubmitted: (value) async {
-                      await ref
-                          .read(scryfallControllerProvider.notifier)
-                          .searchCards(
-                            cardName: searchController.text,
-                            setCode: selected_set?.code,
-                            oracleText: searchOracleController.text,
-                          );
+                      try {
+                        await ref
+                            .read(scryfallControllerProvider.notifier)
+                            .searchCards(
+                              cardName: searchController.text,
+                              setCode: selected_set?.code,
+                              oracleText: searchOracleController.text,
+                            );
+                      } on ScryfallException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Erreur Scryfall : ${e.details}"),
+                          ),
+                        );
+                      }
                       //setState(() {});
                     },
                   ),
@@ -69,13 +77,21 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                       icon: Icon(Icons.search),
                     ),
                     onSubmitted: (value) async {
-                      await ref
-                          .read(scryfallControllerProvider.notifier)
-                          .searchCards(
-                            cardName: searchController.text,
-                            setCode: selected_set?.code,
-                            oracleText: searchOracleController.text,
-                          );
+                      try {
+                        await ref
+                            .read(scryfallControllerProvider.notifier)
+                            .searchCards(
+                              cardName: searchController.text,
+                              setCode: selected_set?.code,
+                              oracleText: searchOracleController.text,
+                            );
+                      } on ScryfallException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Erreur Scryfall : ${e.details}"),
+                          ),
+                        );
+                      }
                     },
                   ),
                   SizedBox(height: 10),
@@ -96,13 +112,23 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setState(() {
                               selected_set = value!;
                             });
-                            await ref
-                                .read(scryfallControllerProvider.notifier)
-                                .searchCards(
-                                  cardName: searchController.text,
-                                  setCode: selected_set?.code,
-                                  oracleText: searchOracleController.text,
-                                );
+                            try {
+                              await ref
+                                  .read(scryfallControllerProvider.notifier)
+                                  .searchCards(
+                                    cardName: searchController.text,
+                                    setCode: selected_set?.code,
+                                    oracleText: searchOracleController.text,
+                                  );
+                            } on ScryfallException catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    "Erreur Scryfall : ${e.details}",
+                                  ),
+                                ),
+                              );
+                            }
                           },
                         ),
                       ),
@@ -121,13 +147,21 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                   SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () async {
-                      await ref
-                          .read(scryfallControllerProvider.notifier)
-                          .searchCards(
-                            cardName: searchController.text,
-                            setCode: selected_set?.code,
-                            oracleText: searchOracleController.text,
-                          );
+                      try {
+                        await ref
+                            .read(scryfallControllerProvider.notifier)
+                            .searchCards(
+                              cardName: searchController.text,
+                              setCode: selected_set?.code,
+                              oracleText: searchOracleController.text,
+                            );
+                      } on ScryfallException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Erreur Scryfall : ${e.details}"),
+                          ),
+                        );
+                      }
                       //setState(() {});
                     },
                     child: Text("Search"),

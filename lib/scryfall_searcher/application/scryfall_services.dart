@@ -16,47 +16,75 @@ class ScryfallServices {
   ScryfallServices({required this.scryfallApiClient});
 
   // will get access to all the settings of the user to search cards by sets, CCM and other stuff
-  Future<List<MtgCard>> searchCards(String? cardName, String? setCode, String? oracleText) async {
+  Future<List<MtgCard>> searchCards(
+    String? cardName,
+    String? setCode,
+    String? oracleText,
+  ) async {
     String searchQuery = "";
-    if(cardName != null)
-    {
+    if (cardName!.isNotEmpty) {
       searchQuery += cardName;
     }
-    if(setCode != null)
-    {
+    if (setCode != null) {
       searchQuery += searchQuery.isNotEmpty ? " e:$setCode" : "e:$setCode";
     }
 
-    if(oracleText != null)
-    {
-      searchQuery += searchQuery.isNotEmpty ? " o:$oracleText" : "o:$oracleText";
+    if (oracleText!.isNotEmpty) {
+      searchQuery += searchQuery.isNotEmpty
+          ? " o:$oracleText"
+          : "o:$oracleText";
     }
-    print(searchQuery);
-    final list = await scryfallApiClient.searchCards(searchQuery);
-    return list.data.isNotEmpty ? list.data : [];
+    PaginableList<MtgCard> list;
+    try {
+      list = await scryfallApiClient.searchCards(searchQuery);
+      return list.data.isNotEmpty ? list.data : [];
+    } on ScryfallException catch (e) {
+      rethrow;
+    }
+    return [];
   }
 
   Future<List<MtgSet>> getAllSets() async {
-    PaginableList<MtgSet> allSets = await scryfallApiClient.getAllSets();
-    return allSets.data;
+    try {
+      PaginableList<MtgSet> allSets = await scryfallApiClient.getAllSets();
+      return allSets.data;
+    } on ScryfallException catch (e) {
+      print("Erreur Scryfall : ${e.details}");
+    }
+    return [];
   }
 
-   Future<List<MtgCard>> getCardsOfSelectedSets(MtgSet mtgset) async
-   {
+  Future<List<MtgCard>> getCardsOfSelectedSets(MtgSet mtgset) async {
+    try {
       final list = await scryfallApiClient.searchCards("e:${mtgset.code}");
       return list.data.isNotEmpty ? list.data : [];
-   }
-
-   Future<List<MtgCard>> getCardsWithName(String nameCards) async
-   {
-      final list = await scryfallApiClient.searchCards(nameCards);
-      return list.data.isNotEmpty ? list.data : [];
-      
-   }
-  Future<List<Ruling>> getRulingById(String id) async
-  {
-    final list = await scryfallApiClient.getRulingsById(id);
-    return list.data.isNotEmpty ? list.data : [];
+    } on ScryfallException catch (e) {
+      print("Erreur Scryfall ${e.details}");
+    }
+    return [];
   }
 
+  Future<List<MtgCard>> getCardsWithName(String nameCards) async {
+    try{
+    final list = await scryfallApiClient.searchCards(nameCards);
+    return list.data.isNotEmpty ? list.data : [];
+    }
+    on ScryfallException catch(e)
+    {
+      print("Erreur Scryfall ${e.details}");
+    }
+    return [];
+  }
+
+  Future<List<Ruling>> getRulingById(String id) async {
+    try{
+      final list = await scryfallApiClient.getRulingsById(id);
+      return list.data.isNotEmpty ? list.data : [];
+    }
+    on ScryfallException catch(e)
+    {
+      print("Erreur Scryfall ${e.details}");
+    }
+    return [];
+  }
 }
