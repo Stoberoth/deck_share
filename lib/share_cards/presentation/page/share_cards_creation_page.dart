@@ -6,8 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
 class ShareCardsCreationPage extends ConsumerStatefulWidget {
-  ShareCardsCreationPage({super.key, required this.pickCards});
+  ShareCardsCreationPage({
+    super.key,
+    required this.pickCards,
+    required this.amILender,
+  });
 
+  bool amILender = true;
   List<MtgCard> pickCards = [];
 
   @override
@@ -30,6 +35,14 @@ class _ShareCardsCreationPageState
     lendCardName = TextEditingController();
     isChecked = true;
     lenderController.text = "Me";
+    isChecked = widget.amILender;
+    if (isChecked) {
+      lenderController.text = "Me";
+      applicantController.clear();
+    } else {
+      lenderController.clear();
+      applicantController.text = "Me";
+    }
   }
 
   @override

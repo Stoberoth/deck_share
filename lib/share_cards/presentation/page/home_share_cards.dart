@@ -18,27 +18,30 @@ class ShareCardsPage extends ConsumerStatefulWidget {
 class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Deck Share : Share Cards'),
         backgroundColor: Colors.lightBlue,
       ),
-      body: SafeArea(
-          child: Column(children: [ShareCardsListWidget()]) ,
-      ),
+      body: SafeArea(child: Column(children: [ShareCardsListWidget()])),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-              ShareCards sc = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShareCardsCreationPage(pickCards: [],),
-                ),
-              );
-              await ref
-                  .read(shareCardsControllerProvider.notifier)
-                  .addShareCards(sc);
-            }, child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          ShareCards? sc = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  ShareCardsCreationPage(pickCards: [], amILender: true),
+            ),
+          );
+          if (sc != null) {
+            await ref
+                .read(shareCardsControllerProvider.notifier)
+                .addShareCards(sc);
+          }
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

@@ -176,7 +176,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ShareCardsCreationPage(pickCards: pick_cards),
+                              ShareCardsCreationPage(pickCards: pick_cards, amILender: false,),
                         ),
                       );
                       await ref
