@@ -43,6 +43,38 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
     });
   }
 
+  String? IsInShareList(String id) {
+    List<ShareCards>? allShareCards = ref
+        .watch(shareCardsControllerProvider)
+        .value;
+    if (allShareCards == null) {
+      return null;
+    }
+    for (ShareCards c in allShareCards!) {
+      if (c.lendingCards.where((element) => element.id == id).isNotEmpty && c.applicant == "Me") {
+        return c.lender.isNotEmpty ? c.lender : "";
+      }
+    }
+    return null;
+  }
+
+  bool alreadyShare() {
+    List<ShareCards>? allShareCards = ref
+        .watch(shareCardsControllerProvider)
+        .value;
+    if (allShareCards == null) {
+      return false;
+    }
+    for (ShareCards s in allShareCards) {
+      for (MtgCard c in pick_cards) {
+        if (s.lendingCards.where((element) => element.id == c.id).isNotEmpty && s.applicant == "Me") {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     //return Scaffold(
@@ -96,6 +128,9 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                                 .toString(),
                           ).image,
                         ),
+                  trailing: Text(
+                    IsInShareList(currentWishlist!.cards[index].id) ?? "",
+                  ),
                   onTap: () {
                     if (pick_cards
                         .where(
@@ -128,7 +163,15 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (pick_cards.isNotEmpty) {
+                    if (alreadyShare()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Some selected cards seems to be already shared with you",
+                          ),
+                        ),
+                      );
+                    } else if (pick_cards.isNotEmpty) {
                       ShareCards sc = await Navigator.push(
                         context,
                         MaterialPageRoute(
