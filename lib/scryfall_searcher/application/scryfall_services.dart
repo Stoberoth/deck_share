@@ -34,6 +34,8 @@ class ScryfallServices {
           ? " o:$oracleText"
           : "o:$oracleText";
     }
+    searchQuery = searchQuery + " lang:any";
+    print(searchQuery);
     PaginableList<MtgCard> list;
     try {
       list = await scryfallApiClient.searchCards(searchQuery);

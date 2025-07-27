@@ -182,6 +182,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       await ref
                           .read(shareCardsControllerProvider.notifier)
                           .addShareCards(sc);
+                      pick_cards.clear();
                     }
                   },
                   child: Text("Add to a share list selected cards"),
