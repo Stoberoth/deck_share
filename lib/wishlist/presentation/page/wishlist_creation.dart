@@ -16,14 +16,12 @@ class WishlistCreationPage extends StatefulWidget {
 class _WishlistCreationPageState extends State<WishlistCreationPage> {
   List<MtgCard> pick_cards = [];
   late TextEditingController nameController;
-  late TextEditingController cardController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     nameController = TextEditingController();
-    cardController = TextEditingController();
   }
 
   @override
@@ -61,15 +59,7 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
               ),
             ),
             // add cards to the wishlist and show the list of cards
-            TextField(
-              controller: cardController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: "Name of the card",
-                hintText: "Name of the card",
-                icon: Icon(Icons.text_fields),
-              ),
-            ),
+            
             ElevatedButton(
               onPressed: () async {
                 pick_cards = await Navigator.push(
