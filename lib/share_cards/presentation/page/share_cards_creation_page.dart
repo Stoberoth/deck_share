@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
 class ShareCardsCreationPage extends ConsumerStatefulWidget {
-  ShareCardsCreationPage({super.key, required pick_cards});
+  ShareCardsCreationPage({super.key, required this.pickCards});
 
   List<MtgCard> pickCards = [];
 
@@ -67,7 +67,7 @@ class _ShareCardsCreationPageState
                     onChanged: (newValue) {
                       setState(() {
                         isChecked = newValue!;
-                        if (isChecked!) {
+                        if (isChecked) {
                           lenderController.text = "Me";
                           applicantController.clear();
                         } else {

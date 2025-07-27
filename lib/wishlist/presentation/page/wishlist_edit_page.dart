@@ -8,8 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // TODO add possibility to create a share card list with the pick cards of this page
 class WishlistEditPage extends ConsumerStatefulWidget {
-  const WishlistEditPage({super.key});
-
+  WishlistEditPage({super.key, required this.wishlist});
+  Wishlist wishlist;
   @override
   ConsumerState<WishlistEditPage> createState() => _WishlistEditPageState();
 }
@@ -18,7 +18,6 @@ class WishlistEditPage extends ConsumerStatefulWidget {
 class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
   //TODO: add function to add cards in the list
 
-  late Wishlist w;
 
   Future<Future> showAddCardDialog() async {
     TextEditingController controller = TextEditingController();
@@ -50,27 +49,10 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    String? _selectedIndex = ref
-        .watch(wishlistViewerControllerProvider.notifier)
-        .selected;
     return Scaffold(
-      appBar: AppBar(title: Text("Edit Wishlist")),
-      body: FutureBuilder(
-        future: ref
-            .watch(wishlistViewerControllerProvider.notifier)
-            .getWishlistById(_selectedIndex!),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return CircularProgressIndicator();
-          }
-          w = snapshot.data!;
-          return SingleChildScrollView(
-            child: Column(
-              children: [Text("Wishlist ${w.name}"), CardListViewWidget()],
-            ),
-          );
-        },
-      ),
+      appBar: AppBar(title: Text("Edit Wishlist ${widget.wishlist.name}")),
+      body: 
+           CardListViewWidget(wishlist: widget.wishlist,),
     );
   }
 }

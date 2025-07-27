@@ -47,73 +47,70 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // need to add field to complete whishlist informations
-              // add text controller to the text field
-              TextField(
-                controller: nameController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Name of the wishlist",
-                  hintText: "Name of the deck's wishlist",
-                  icon: Icon(Icons.text_fields),
-                ),
+        child: Column(
+          children: [
+            // need to add field to complete whishlist informations
+            // add text controller to the text field
+            TextField(
+              controller: nameController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: "Name of the wishlist",
+                hintText: "Name of the deck's wishlist",
+                icon: Icon(Icons.text_fields),
               ),
-              // add cards to the wishlist and show the list of cards
-              TextField(
-                controller: cardController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Name of the card",
-                  hintText: "Name of the card",
-                  icon: Icon(Icons.text_fields),
-                ),
+            ),
+            // add cards to the wishlist and show the list of cards
+            TextField(
+              controller: cardController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: "Name of the card",
+                hintText: "Name of the card",
+                icon: Icon(Icons.text_fields),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  pick_cards = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ScryfallCardPicker(pickCards: pick_cards),
-                    ),
-                  );
-                  setState(() {});
-                },
-                child: Text("Add card"),
-              ),
-              pick_cards.isNotEmpty
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: pick_cards[index].cardFaces != null
-                              ? Image(
-                                  image: Image.network(
-                                    pick_cards[index]
-                                        .cardFaces![0]
-                                        .imageUris!
-                                        .normal
-                                        .toString(),
-                                  ).image,
-                                )
-                              : Image(
-                                  image: Image.network(
-                                    pick_cards[index].imageUris!.normal
-                                        .toString(),
-                                  ).image,
-                                ),
-                          title: Text(pick_cards[index].name),
-                          subtitle: Text(pick_cards[index].typeLine),
-                        );
-                      },
-                      itemCount: pick_cards.length,
-                    )
-                  : Container(),
-            ],
-          ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                pick_cards = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ScryfallCardPicker(pickCards: pick_cards),
+                  ),
+                );
+                setState(() {});
+              },
+              child: Text("Add card"),
+            ),
+            pick_cards.isNotEmpty
+                ? Expanded(child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: pick_cards[index].cardFaces != null
+                            ? Image(
+                                image: Image.network(
+                                  pick_cards[index]
+                                      .cardFaces![0]
+                                      .imageUris!
+                                      .normal
+                                      .toString(),
+                                ).image,
+                              )
+                            : Image(
+                                image: Image.network(
+                                  pick_cards[index].imageUris!.normal
+                                      .toString(),
+                                ).image,
+                              ),
+                        title: Text(pick_cards[index].name),
+                        subtitle: Text(pick_cards[index].typeLine),
+                      );
+                    },
+                    itemCount: pick_cards.length,
+                  )) 
+                : Container(),
+          ],
         ),
       ),
     );

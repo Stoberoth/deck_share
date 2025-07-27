@@ -72,7 +72,7 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => WishlistEditPage(),
+                          builder: (context) => WishlistEditPage(wishlist: wishlists[index],),
                         ),
                       );
                     },

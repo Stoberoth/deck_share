@@ -32,7 +32,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               ShareCards sc = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ShareCardsCreationPage(pick_cards: [],),
+                  builder: (context) => ShareCardsCreationPage(pickCards: [],),
                 ),
               );
               await ref
