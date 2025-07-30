@@ -2,6 +2,9 @@ import 'dart:collection';
 
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
+import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/base_text_field.dart';
+import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
@@ -23,6 +26,22 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
   TextEditingController searchOracleController = TextEditingController();
   TextEditingController setSearchController = TextEditingController();
 
+  void onSearch() async {
+    try {
+      await ref
+          .read(scryfallControllerProvider.notifier)
+          .searchCards(
+            cardName: searchController.text,
+            setCode: selected_set?.code,
+            oracleText: searchOracleController.text,
+          );
+    } on ScryfallException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Erreur Scryfall : ${e.details}")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<MtgCard>> listOfCards = ref.watch(
@@ -30,7 +49,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text("Scryfall card picker")),
+      appBar: BaseAppBar(title: "Scryfall card picker"),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(8.0),
@@ -42,58 +61,20 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
               }
               return Column(
                 children: [
-                  TextField(
+                  BaseTextField(
                     controller: searchController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Search card by name",
-                      icon: Icon(Icons.search),
-                    ),
-                    onSubmitted: (value) async {
-                      try {
-                        await ref
-                            .read(scryfallControllerProvider.notifier)
-                            .searchCards(
-                              cardName: searchController.text,
-                              setCode: selected_set?.code,
-                              oracleText: searchOracleController.text,
-                            );
-                      } on ScryfallException catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Erreur Scryfall : ${e.details}"),
-                          ),
-                        );
-                      }
-                      //setState(() {});
-                    },
+                    hintText: "Search Card by name",
+                    icon: Icon(Icons.search),
+                    onSubmitted: (value) => onSearch(),
                   ),
                   SizedBox(height: 10),
-                  TextField(
+                  BaseTextField(
                     controller: searchOracleController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Search card by oracle text",
-                      icon: Icon(Icons.search),
-                    ),
-                    onSubmitted: (value) async {
-                      try {
-                        await ref
-                            .read(scryfallControllerProvider.notifier)
-                            .searchCards(
-                              cardName: searchController.text,
-                              setCode: selected_set?.code,
-                              oracleText: searchOracleController.text,
-                            );
-                      } on ScryfallException catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Erreur Scryfall : ${e.details}"),
-                          ),
-                        );
-                      }
-                    },
+                    hintText: "Search card by oracle text",
+                    icon: Icon(Icons.search),
+                    onSubmitted: (value) => onSearch(),
                   ),
+
                   SizedBox(height: 10),
                   Row(
                     children: [
@@ -112,60 +93,30 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setState(() {
                               selected_set = value!;
                             });
-                            try {
-                              await ref
-                                  .read(scryfallControllerProvider.notifier)
-                                  .searchCards(
-                                    cardName: searchController.text,
-                                    setCode: selected_set?.code,
-                                    oracleText: searchOracleController.text,
-                                  );
-                            } on ScryfallException catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Erreur Scryfall : ${e.details}",
-                                  ),
-                                ),
-                              );
-                            }
+                            onSearch();
                           },
                         ),
                       ),
                       SizedBox(width: 20),
-                      ElevatedButton(
+                      BaseButton(
+                        label: "Clear",
                         onPressed: () {
                           setState(() {
                             selected_set = null;
                             setSearchController.clear();
                           });
                         },
-                        child: Text("Clear"),
                       ),
                     ],
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
+                  BaseButton(
+                    label: "Search",
                     onPressed: () async {
-                      try {
-                        await ref
-                            .read(scryfallControllerProvider.notifier)
-                            .searchCards(
-                              cardName: searchController.text,
-                              setCode: selected_set?.code,
-                              oracleText: searchOracleController.text,
-                            );
-                      } on ScryfallException catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Erreur Scryfall : ${e.details}"),
-                          ),
-                        );
-                      }
-                      //setState(() {});
+                      onSearch();
                     },
-                    child: Text("Search"),
                   ),
+
                   SizedBox(height: 10),
                   listOfCards.isLoading
                       ? const Center(child: CircularProgressIndicator())

@@ -65,6 +65,7 @@ class WishlistViewerController
     Wishlist currentWishlist = await getWishlistById(id);
     currentWishlist.cards.removeWhere((element) => element.id == card.id);
     await wishlistServices.updateWishlist(currentWishlist);
+    print("done");
     getWishList();
   }
 

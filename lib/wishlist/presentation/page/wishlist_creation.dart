@@ -1,6 +1,8 @@
 // This page will be used to create a new wishlist
 
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
+import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/base_icon_button.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,8 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
+          BaseIconButton(
+            icon: Icon(Icons.save),
             onPressed: () {
               Navigator.pop(
                 context,
@@ -40,7 +43,6 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                 ),
               );
             },
-            icon: Icon(Icons.save),
           ),
         ],
       ),
@@ -58,9 +60,8 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                 icon: Icon(Icons.text_fields),
               ),
             ),
-            // add cards to the wishlist and show the list of cards
-            
-            ElevatedButton(
+            BaseButton(
+              label: "Add card",
               onPressed: () async {
                 pick_cards = await Navigator.push(
                   context,
@@ -71,34 +72,37 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                 );
                 setState(() {});
               },
-              child: Text("Add card"),
             ),
+
+            // add cards to the wishlist and show the list of cards
             pick_cards.isNotEmpty
-                ? Expanded(child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: pick_cards[index].cardFaces != null
-                            ? Image(
-                                image: Image.network(
-                                  pick_cards[index]
-                                      .cardFaces![0]
-                                      .imageUris!
-                                      .normal
-                                      .toString(),
-                                ).image,
-                              )
-                            : Image(
-                                image: Image.network(
-                                  pick_cards[index].imageUris!.normal
-                                      .toString(),
-                                ).image,
-                              ),
-                        title: Text(pick_cards[index].name),
-                        subtitle: Text(pick_cards[index].typeLine),
-                      );
-                    },
-                    itemCount: pick_cards.length,
-                  )) 
+                ? Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: pick_cards[index].cardFaces != null
+                              ? Image(
+                                  image: Image.network(
+                                    pick_cards[index]
+                                        .cardFaces![0]
+                                        .imageUris!
+                                        .normal
+                                        .toString(),
+                                  ).image,
+                                )
+                              : Image(
+                                  image: Image.network(
+                                    pick_cards[index].imageUris!.normal
+                                        .toString(),
+                                  ).image,
+                                ),
+                          title: Text(pick_cards[index].name),
+                          subtitle: Text(pick_cards[index].typeLine),
+                        );
+                      },
+                      itemCount: pick_cards.length,
+                    ),
+                  )
                 : Container(),
           ],
         ),

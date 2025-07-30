@@ -1,8 +1,6 @@
-import 'package:deck_share/wishlist/data/wishlist_local_repository.dart';
+import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
-import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/widget/wishlist_cards_listview_widget.dart';
-import 'package:deck_share/wishlist/presentation/widget/wishlist_listview_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,8 +14,6 @@ class WishlistEditPage extends ConsumerStatefulWidget {
 
 // able to edit the selected wishlist so we need to appear the name of the wishlist and change the cards in it (remove or add)
 class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
-  //TODO: add function to add cards in the list
-
 
   Future<Future> showAddCardDialog() async {
     TextEditingController controller = TextEditingController();
@@ -50,9 +46,8 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Edit Wishlist ${widget.wishlist.name}")),
-      body: 
-           CardListViewWidget(wishlist: widget.wishlist,),
+      appBar: BaseAppBar(title: "Edit Wishlist ${widget.wishlist.name}"),
+      body: CardListViewWidget(wishlist: widget.wishlist,),
     );
   }
 }

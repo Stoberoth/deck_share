@@ -4,6 +4,8 @@ import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
 import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
+import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/base_dismissible.dart';
 import 'package:deck_share/wishlist/data/wishlist_local_repository.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
@@ -51,7 +53,8 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
       return null;
     }
     for (ShareCards c in allShareCards!) {
-      if (c.lendingCards.where((element) => element.id == id).isNotEmpty && c.applicant == "Me") {
+      if (c.lendingCards.where((element) => element.id == id).isNotEmpty &&
+          c.applicant == "Me") {
         return c.lender.isNotEmpty ? c.lender : "";
       }
     }
@@ -67,7 +70,8 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
     }
     for (ShareCards s in allShareCards) {
       for (MtgCard c in pick_cards) {
-        if (s.lendingCards.where((element) => element.id == c.id).isNotEmpty && s.applicant == "Me") {
+        if (s.lendingCards.where((element) => element.id == c.id).isNotEmpty &&
+            s.applicant == "Me") {
           return true;
         }
       }
@@ -87,9 +91,8 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
           child: ListView.builder(
             itemCount: currentWishlist!.cards.length,
             itemBuilder: (context, index) {
-              return Dismissible(
-                key: ValueKey(currentWishlist!.cards[index].id),
-                background: Container(color: Colors.red),
+              return BaseDismissible(
+                dismissibleKey: ValueKey(currentWishlist!.cards[index].id),
                 onDismissed: (direction) async {
                   final card = currentWishlist!.cards[index];
                   await ref
@@ -161,7 +164,8 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: BaseButton(
+                  label: "Add to a share list selected cards",
                   onPressed: () async {
                     if (alreadyShare()) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -175,8 +179,10 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       ShareCards sc = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              ShareCardsCreationPage(pickCards: pick_cards, amILender: false,),
+                          builder: (context) => ShareCardsCreationPage(
+                            pickCards: pick_cards,
+                            amILender: false,
+                          ),
                         ),
                       );
                       await ref
@@ -185,12 +191,12 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       pick_cards.clear();
                     }
                   },
-                  child: Text("Add to a share list selected cards"),
                 ),
               ),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: BaseButton(
+                  label: "Add new cards to wishlist",
                   onPressed: () async {
                     List<MtgCard> card = await Navigator.push(
                       context,
@@ -217,7 +223,6 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       currentWishlist = updated_wishlist;
                     });
                   },
-                  child: Text("Add new cards to wishlist"),
                 ),
               ),
             ],

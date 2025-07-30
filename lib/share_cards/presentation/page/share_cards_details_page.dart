@@ -1,5 +1,6 @@
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +10,7 @@ class ShareCardsDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text("Share cards details")),
+      appBar: BaseAppBar(title: "Share cards details"),
       body: SafeArea(
         child: FutureBuilder(
           future: ref

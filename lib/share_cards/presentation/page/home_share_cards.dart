@@ -2,6 +2,7 @@ import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
 import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
+import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,9 +20,8 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Deck Share : Share Cards'),
-        backgroundColor: Colors.lightBlue,
+      appBar: BaseAppBar(
+        title:'Deck Share : Share Cards',
       ),
       body: SafeArea(child: Column(children: [ShareCardsListWidget()])),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

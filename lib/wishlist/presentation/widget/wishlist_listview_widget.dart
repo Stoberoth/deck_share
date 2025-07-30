@@ -38,7 +38,8 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                   key: ValueKey(index),
                   background: Container(color: Colors.red),
                   onDismissed: (direction) {
-                    if (direction == DismissDirection.endToStart || direction == DismissDirection.startToEnd) {
+                    if (direction == DismissDirection.endToStart ||
+                        direction == DismissDirection.startToEnd) {
                       ref
                           .read(wishlistViewerControllerProvider.notifier)
                           .deleteWishlist(wishlists[index].id!);
@@ -72,7 +73,8 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => WishlistEditPage(wishlist: wishlists[index],),
+                          builder: (context) =>
+                              WishlistEditPage(wishlist: wishlists[index]),
                         ),
                       );
                     },
