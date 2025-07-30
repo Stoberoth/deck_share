@@ -123,6 +123,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                         ),
                   title: Text(currentWishlist!.cards[index].name),
                   subtitle: Text(currentWishlist!.cards[index].typeLine),
+                  trailing: Text(IsInShareList(currentWishlist!.cards[index].id) != null ? IsInShareList(currentWishlist!.cards[index].id)! : ""),
                   tileColor:
                       pick_cards
                           .where(

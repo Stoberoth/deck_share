@@ -4,6 +4,8 @@ import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_details_page.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/base_dismissible.dart';
+import 'package:deck_share/ui/atom/base_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,57 +31,35 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
             child: ListView.builder(
               itemCount: shareCardsList.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Text("Day of the lending"),
-                  title: Text("Cards lend by ${shareCardsList[index].lender}"),
-                  subtitle: Text(
-                    "${shareCardsList[index].lendingCards.length} are lend",
-                  ),
-                  trailing: Text(shareCardsList[index].applicant),
-                  onTap: () async {
-                    print("onTap");
+                return BaseDismissible(
+                  dismissibleKey: ValueKey(shareCardsList[index].id),
+                  onDismissed: (direction) async {
                     await ref
                         .read(shareCardsControllerProvider.notifier)
-                        .selectItem(shareCardsList[index].id!);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ShareCardsDetailsPage(),
-                      ),
-                    );
+                        .deleteShareCards(shareCardsList[index].id!);
                   },
-                  onLongPress: () async {
-                    bool result = await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text("Delete"),
-                          content: Text(
-                            "Are you sure you want to delete this list ?",
-                          ),
-                          actions: [
-                            BaseButton(
-                              label: "Validate",
-                              onPressed: () {
-                                Navigator.pop(context, true);
-                              },
-                            ),
-                            BaseButton(
-                              label: "Cancel",
-                              onPressed: () {
-                                Navigator.pop(context, false);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    result
-                        ? await ref
-                              .read(shareCardsControllerProvider.notifier)
-                              .deleteShareCards(shareCardsList[index].id!)
-                        : null;
-                  },
+                  child: BaseListTile(
+                    leading: Text("Day of the lending"),
+                    title: Text(
+                      "Cards lend by ${shareCardsList[index].lender}",
+                    ),
+                    subtitle: Text(
+                      "${shareCardsList[index].lendingCards.length} are lend",
+                    ),
+                    trailing: Text(shareCardsList[index].applicant),
+                    onTap: () async {
+                      print("onTap");
+                      await ref
+                          .read(shareCardsControllerProvider.notifier)
+                          .selectItem(shareCardsList[index].id!);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShareCardsDetailsPage(),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),

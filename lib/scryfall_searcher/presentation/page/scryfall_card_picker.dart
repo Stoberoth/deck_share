@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/base_floating_action_button.dart';
 import 'package:deck_share/ui/atom/base_text_field.dart';
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:deck_share/ui/templates/base_template.dart';
@@ -213,8 +214,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: BaseFloatingActionButton(child: Icon(Icons.add), onPressed: () {
           if (widget.pickCards.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -226,9 +226,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
           } else {
             Navigator.pop(context, widget.pickCards);
           }
-        },
-        child: Icon(Icons.add),
-      ),
+        },)
     );
   }
 }

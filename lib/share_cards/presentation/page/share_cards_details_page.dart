@@ -91,14 +91,22 @@ class _ShareCardsDetailsPageState extends ConsumerState<ShareCardsDetailsPage> {
                 itemCount: currentShareCards!.lendingCards.length,
                 itemBuilder: (context, index) {
                   return BaseDismissible(
-                    dismissibleKey: ValueKey(currentShareCards!.id),
+                    dismissibleKey: ValueKey(
+                      currentShareCards!.lendingCards[index].id,
+                    ),
                     onDismissed: (direction) async {
-                      
                       setState(() {
                         currentShareCards!.lendingCards.removeAt(index);
                       });
-                      ShareCards update_shareCards = ShareCards(lender: currentShareCards!.lender, applicant: currentShareCards!.applicant, lendingCards: currentShareCards!.lendingCards, id: currentShareCards!.id);
-                      await ref.read(shareCardsControllerProvider.notifier).addShareCards(update_shareCards);
+                      ShareCards update_shareCards = ShareCards(
+                        lender: currentShareCards!.lender,
+                        applicant: currentShareCards!.applicant,
+                        lendingCards: currentShareCards!.lendingCards,
+                        id: currentShareCards!.id,
+                      );
+                      await ref
+                          .read(shareCardsControllerProvider.notifier)
+                          .addShareCards(update_shareCards);
                     },
                     child: BaseListTile(
                       leading: Image(

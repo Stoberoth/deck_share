@@ -3,8 +3,10 @@ import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_wi
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_dismissible.dart';
+import 'package:deck_share/ui/atom/base_floating_action_button.dart';
 import 'package:deck_share/ui/atom/base_list_tile.dart';
 import 'package:deck_share/ui/atom/base_text_field.dart';
+import 'package:deck_share/ui/molecules/card_list_view.dart';
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:deck_share/ui/templates/base_template.dart';
 import 'package:flutter/material.dart';
@@ -119,39 +121,7 @@ class _ShareCardsCreationPageState
               ),
 
               widget.pickCards.isNotEmpty
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: widget.pickCards.length,
-                      itemBuilder: (context, index) {
-                        return BaseDismissible(
-                          dismissibleKey: ValueKey(widget.pickCards[index].id),
-                          onDismissed: (direction) => setState(() {
-                            widget.pickCards.removeAt(index);
-                          }),
-                          child: BaseListTile(
-                            leading: widget.pickCards[index].imageUris != null ? Image(
-                              image: Image.network(
-                                widget.pickCards[index].imageUris!.normal
-                                    .toString(),
-                              ).image ,
-                            ) : Container(),
-                            title: Text(widget.pickCards[index].name),
-                            subtitle: Text(widget.pickCards[index].typeLine),
-                            onTap: () 
-                              async {
-                              await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return CardDetails_widget(
-                                    card: widget.pickCards[index],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    )
+                  ? CardListView(allCards: widget.pickCards, shrinkWrap: true,)
                   : Container(),
             ],
           ),

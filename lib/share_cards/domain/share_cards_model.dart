@@ -13,6 +13,8 @@ class ShareCards {
     required this.lendingCards,
   });
 
+  get lengingCards => lendingCards;
+
   factory ShareCards.fromJson(Map<String, dynamic> json) {
     return ShareCards(
       id: json["id"],
