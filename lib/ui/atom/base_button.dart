@@ -7,15 +7,16 @@ class BaseButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  BaseButton({super.key, required this.label, required this.onPressed});
+  const BaseButton({super.key, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        elevation: 5.0,
+        backgroundColor: Colors.lightGreen,
+       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
       child: Text(label),
     );

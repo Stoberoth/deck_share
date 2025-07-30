@@ -1,4 +1,5 @@
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
+import 'package:deck_share/ui/templates/base_template.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/page/wishlist_creation.dart';
@@ -11,8 +12,8 @@ class HomeWishlistPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: BaseAppBar(title: 'DeckShare : Wishlist'),
+    return BaseTemplate(
+      baseAppBar: BaseAppBar(title: 'DeckShare : Wishlist'),
       body: WishListWidget(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

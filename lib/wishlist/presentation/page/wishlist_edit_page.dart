@@ -1,4 +1,5 @@
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
+import 'package:deck_share/ui/templates/base_template.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/widget/wishlist_cards_listview_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,8 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: BaseAppBar(title: "Edit Wishlist ${widget.wishlist.name}"),
+    return BaseTemplate(
+      baseAppBar: BaseAppBar(title: "Edit Wishlist ${widget.wishlist.name}"),
       body: CardListViewWidget(wishlist: widget.wishlist,),
     );
   }

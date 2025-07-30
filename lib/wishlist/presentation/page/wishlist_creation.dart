@@ -3,6 +3,7 @@
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_icon_button.dart';
+import 'package:deck_share/ui/templates/base_template.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,8 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return BaseTemplate(
+      baseAppBar: AppBar(
         actions: [
           BaseIconButton(
             icon: Icon(Icons.save),

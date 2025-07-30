@@ -46,6 +46,7 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     });
   }
 
+
   Future<ShareCards> getShareCardsbyId(String id) async {
     return await shareCardsServices.getShareCardsById(id);
   }

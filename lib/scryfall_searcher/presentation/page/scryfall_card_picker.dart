@@ -5,6 +5,7 @@ import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_wi
 import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_text_field.dart';
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
+import 'package:deck_share/ui/templates/base_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
@@ -48,8 +49,8 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
       scryfallControllerProvider,
     );
 
-    return Scaffold(
-      appBar: BaseAppBar(title: "Scryfall card picker"),
+    return BaseTemplate(
+      baseAppBar: BaseAppBar(title: "Scryfall card picker"),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(8.0),
@@ -81,7 +82,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                       Text("Sets"),
                       SizedBox(width: 50),
                       SizedBox(
-                        width: 200,
+                        width: 180,
                         child: DropdownMenu(
                           textStyle: TextStyle(fontSize: 20),
                           controller: setSearchController,
@@ -98,7 +99,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                         ),
                       ),
                       SizedBox(width: 20),
-                      BaseButton(
+                      Flexible(child: BaseButton(
                         label: "Clear",
                         onPressed: () {
                           setState(() {
@@ -106,7 +107,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                             setSearchController.clear();
                           });
                         },
-                      ),
+                      ),) 
                     ],
                   ),
                   SizedBox(height: 10),
@@ -141,7 +142,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                                 listOfCards.value![index].id,
                                           )
                                           .isNotEmpty
-                                      ? Colors.amber
+                                      ? Colors.grey
                                       : Colors.white,
                                   child: InkWell(
                                     onTap: () {

@@ -5,7 +5,10 @@ class BaseListTile extends StatelessWidget {
   final Widget title;
   final Widget? subtitle;
   final Widget? trailing;
+  final Color? selectedColor;
+  final Color? tileColor;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const BaseListTile({
     super.key,
@@ -13,7 +16,10 @@ class BaseListTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.trailing,
-    this.onTap
+    this.selectedColor,
+    this.tileColor,
+    this.onTap,
+    this.onLongPress
   });
 
   @override
@@ -29,7 +35,10 @@ class BaseListTile extends StatelessWidget {
           title: title,
           subtitle: subtitle,
           trailing: trailing,
+          selectedColor: selectedColor,
+          tileColor: tileColor,
           onTap: onTap,
+          onLongPress: onLongPress,
         ),
       ),
     );

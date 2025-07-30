@@ -1,3 +1,5 @@
+import 'package:deck_share/ui/atom/base_dismissible.dart';
+import 'package:deck_share/ui/atom/base_list_tile.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/page/wishlist_edit_page.dart';
@@ -34,9 +36,8 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
               itemCount: wishlists.length,
               itemBuilder: (context, index) {
                 // need to rewrite this to change the text to have another presentation
-                return Dismissible(
-                  key: ValueKey(index),
-                  background: Container(color: Colors.red),
+                return BaseDismissible(
+                  dismissibleKey: ValueKey(index),
                   onDismissed: (direction) {
                     if (direction == DismissDirection.endToStart ||
                         direction == DismissDirection.startToEnd) {
@@ -45,25 +46,19 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                           .deleteWishlist(wishlists[index].id!);
                     }
                   },
-                  child: ListTile(
+                  child: BaseListTile(
+                    leading: Icon(Icons.card_giftcard),
                     title: Text('Wishlist ${wishlists[index].name}'),
                     subtitle: Text(
                       'Number of cards: ${wishlists[index].cards.length}',
                     ),
-                    leading: Icon(Icons.card_giftcard),
-                    trailing: Icon(Icons.arrow_forward),
-                    selectedColor: Colors.amber,
-                    selected: _selectedIndex == wishlists[index].id,
-                    onTap: () {
-                      ref
+                    onTap: () async {
+                      await ref
                           .read(wishlistViewerControllerProvider.notifier)
                           .selectedItem(wishlists[index].id);
                       setState(() {
                         _selectedIndex = wishlists[index].id;
                       });
-                    },
-                    onLongPress: () async {
-                      // see what's inside
                       await ref
                           .read(wishlistViewerControllerProvider.notifier)
                           .selectedItem(wishlists[index].id);

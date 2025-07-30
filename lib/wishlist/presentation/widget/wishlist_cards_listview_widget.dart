@@ -6,6 +6,7 @@ import 'package:deck_share/share_cards/presentation/page/share_cards_creation_pa
 import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_dismissible.dart';
+import 'package:deck_share/ui/atom/base_list_tile.dart';
 import 'package:deck_share/wishlist/data/wishlist_local_repository.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
@@ -102,7 +103,56 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                     currentWishlist!.cards.removeAt(index);
                   });
                 },
-                child: ListTile(
+                child: BaseListTile(
+                  leading: currentWishlist!.cards[index].cardFaces == null
+                      ? Image(
+                          image: Image.network(
+                            currentWishlist!.cards[index].imageUris!.normal
+                                .toString(),
+                          ).image,
+                        )
+                      : Image(
+                          image: Image.network(
+                            currentWishlist!
+                                .cards[index]
+                                .cardFaces![0]
+                                .imageUris!
+                                .normal
+                                .toString(),
+                          ).image,
+                        ),
+                  title: Text(currentWishlist!.cards[index].name),
+                  subtitle: Text(currentWishlist!.cards[index].typeLine),
+                  tileColor:
+                      pick_cards
+                          .where(
+                            (element) =>
+                                element.id == currentWishlist!.cards[index].id,
+                          )
+                          .isNotEmpty
+                      ? Colors.amber
+                      : Colors.white,
+                  onTap: () {
+                    if (pick_cards
+                        .where(
+                          (element) =>
+                              element.id == currentWishlist!.cards[index].id,
+                        )
+                        .isEmpty) {
+                      setState(() {
+                        pick_cards.add(currentWishlist!.cards[index]);
+                      });
+                    } else {
+                      setState(() {
+                        pick_cards.removeWhere(
+                          (element) =>
+                              element.id == currentWishlist!.cards[index].id,
+                        );
+                      });
+                    }
+                  },
+                ),
+                /*ListTile(
                   tileColor:
                       pick_cards
                           .where(
@@ -153,7 +203,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       });
                     }
                   },
-                ),
+                ),*/
               );
             },
           ),
