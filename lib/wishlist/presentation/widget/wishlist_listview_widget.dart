@@ -18,7 +18,6 @@ class WishListWidget extends ConsumerStatefulWidget {
 }
 
 class _WishListWidgetState extends ConsumerState<WishListWidget> {
-
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<Wishlist>> state = ref.watch(
@@ -55,20 +54,20 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                       await ref
                           .read(wishlistViewerControllerProvider.notifier)
                           .selectedItem(wishlists[index].id);
-                      setState(() {
-                      });
+                      setState(() {});
                       await ref
                           .read(wishlistViewerControllerProvider.notifier)
                           .selectedItem(wishlists[index].id);
-                      setState(() {
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              WishlistEditPage(wishlist: wishlists[index]),
-                        ),
-                      );
+                      setState(() {});
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                WishlistEditPage(wishlist: wishlists[index]),
+                          ),
+                        );
+                      }
                     },
                   ),
                 );

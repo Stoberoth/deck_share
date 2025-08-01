@@ -52,9 +52,9 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
   }
 
   Future<void> searchCards({
-    required cardName,
-    required setCode,
-    required oracleText,
+    required String cardName,
+    required String? setCode,
+    required String oracleText,
   }) async {
     state = AsyncValue.loading();
     try {

@@ -21,7 +21,7 @@ class CardListViewWidget extends ConsumerStatefulWidget {
 
 class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
   late String _selectedIndex;
-  List<MtgCard> pick_cards = [];
+  List<MtgCard> pickCards = [];
   Wishlist? currentWishlist;
 
   @override
@@ -42,14 +42,14 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
     });
   }
 
-  String? IsInShareList(String id) {
+  String? _isInShareList(String id) {
     List<ShareCards>? allShareCards = ref
         .watch(shareCardsControllerProvider)
         .value;
     if (allShareCards == null) {
       return null;
     }
-    for (ShareCards c in allShareCards!) {
+    for (ShareCards c in allShareCards) {
       if (c.lendingCards.where((element) => element.id == id).isNotEmpty &&
           c.applicant == "Me") {
         return c.lender.isNotEmpty ? c.lender : "";
@@ -66,7 +66,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
       return false;
     }
     for (ShareCards s in allShareCards) {
-      for (MtgCard c in pick_cards) {
+      for (MtgCard c in pickCards) {
         if (s.lendingCards.where((element) => element.id == c.id).isNotEmpty &&
             s.applicant == "Me") {
           return true;
@@ -119,9 +119,9 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                         ),
                   title: Text(currentWishlist!.cards[index].name),
                   subtitle: Text(currentWishlist!.cards[index].typeLine),
-                  trailing: Text(IsInShareList(currentWishlist!.cards[index].id) != null ? IsInShareList(currentWishlist!.cards[index].id)! : ""),
+                  trailing: Text(_isInShareList(currentWishlist!.cards[index].id) != null ? _isInShareList(currentWishlist!.cards[index].id)! : ""),
                   tileColor:
-                      pick_cards
+                      pickCards
                           .where(
                             (element) =>
                                 element.id == currentWishlist!.cards[index].id,
@@ -130,18 +130,18 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       ? Colors.amber
                       : Colors.white,
                   onTap: () {
-                    if (pick_cards
+                    if (pickCards
                         .where(
                           (element) =>
                               element.id == currentWishlist!.cards[index].id,
                         )
                         .isEmpty) {
                       setState(() {
-                        pick_cards.add(currentWishlist!.cards[index]);
+                        pickCards.add(currentWishlist!.cards[index]);
                       });
                     } else {
                       setState(() {
-                        pick_cards.removeWhere(
+                        pickCards.removeWhere(
                           (element) =>
                               element.id == currentWishlist!.cards[index].id,
                         );
@@ -149,58 +149,6 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                     }
                   },
                 ),
-                /*ListTile(
-                  tileColor:
-                      pick_cards
-                          .where(
-                            (element) =>
-                                element.id == currentWishlist!.cards[index].id,
-                          )
-                          .isNotEmpty
-                      ? Colors.amber
-                      : Colors.white,
-                  title: Text(currentWishlist!.cards[index].name),
-                  subtitle: Text(currentWishlist!.cards[index].typeLine),
-                  leading: currentWishlist!.cards[index].cardFaces == null
-                      ? Image(
-                          image: Image.network(
-                            currentWishlist!.cards[index].imageUris!.normal
-                                .toString(),
-                          ).image,
-                        )
-                      : Image(
-                          image: Image.network(
-                            currentWishlist!
-                                .cards[index]
-                                .cardFaces![0]
-                                .imageUris!
-                                .normal
-                                .toString(),
-                          ).image,
-                        ),
-                  trailing: Text(
-                    IsInShareList(currentWishlist!.cards[index].id) ?? "",
-                  ),
-                  onTap: () {
-                    if (pick_cards
-                        .where(
-                          (element) =>
-                              element.id == currentWishlist!.cards[index].id,
-                        )
-                        .isEmpty) {
-                      setState(() {
-                        pick_cards.add(currentWishlist!.cards[index]);
-                      });
-                    } else {
-                      setState(() {
-                        pick_cards.removeWhere(
-                          (element) =>
-                              element.id == currentWishlist!.cards[index].id,
-                        );
-                      });
-                    }
-                  },
-                ),*/
               );
             },
           ),
@@ -222,12 +170,12 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                           ),
                         ),
                       );
-                    } else if (pick_cards.isNotEmpty) {
+                    } else if (pickCards.isNotEmpty) {
                       ShareCards sc = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ShareCardsCreationPage(
-                            pickCards: pick_cards,
+                            pickCards: pickCards,
                             amILender: false,
                           ),
                         ),
@@ -235,7 +183,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       await ref
                           .read(shareCardsControllerProvider.notifier)
                           .addShareCards(sc);
-                      pick_cards.clear();
+                      pickCards.clear();
                     }
                   },
                 ),
@@ -255,19 +203,19 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                         },
                       ),
                     );
-                    Wishlist updated_wishlist = Wishlist(
+                    Wishlist updatedWishlist = Wishlist(
                       name: currentWishlist!.name,
                       cards: card,
                       id: currentWishlist!.id,
                     );
                     await ref
                         .read(wishlistViewerControllerProvider.notifier)
-                        .updateWishlist(updated_wishlist);
+                        .updateWishlist(updatedWishlist);
                     await ref
                         .read(wishlistViewerControllerProvider.notifier)
                         .getWishList();
                     setState(() {
-                      currentWishlist = updated_wishlist;
+                      currentWishlist = updatedWishlist;
                     });
                   },
                 ),

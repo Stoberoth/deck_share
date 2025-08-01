@@ -98,7 +98,7 @@ class _ShareCardsDetailsPageState extends ConsumerState<ShareCardsDetailsPage> {
                       setState(() {
                         currentShareCards!.lendingCards.removeAt(index);
                       });
-                      ShareCards update_shareCards = ShareCards(
+                      ShareCards updateSharecards = ShareCards(
                         lender: currentShareCards!.lender,
                         applicant: currentShareCards!.applicant,
                         lendingCards: currentShareCards!.lendingCards,
@@ -106,18 +106,30 @@ class _ShareCardsDetailsPageState extends ConsumerState<ShareCardsDetailsPage> {
                       );
                       await ref
                           .read(shareCardsControllerProvider.notifier)
-                          .addShareCards(update_shareCards);
+                          .addShareCards(updateSharecards);
                     },
                     child: BaseListTile(
-                      leading: Image(
-                        image: Image.network(
-                          currentShareCards!
-                              .lendingCards[index]
-                              .imageUris!
-                              .normal
-                              .toString(),
-                        ).image,
-                      ),
+                      leading:
+                          currentShareCards!.lendingCards[index].imageUris !=
+                              null
+                          ? Image(
+                              image: Image.network(
+                                currentShareCards!
+                                    .lendingCards[index]
+                                    .imageUris!
+                                    .normal
+                                    .toString(),
+                              ).image,
+                            )
+                          :  Image(
+                              image: Image.network(
+                                currentShareCards!
+                                    .lendingCards[index]
+                                    .cardFaces![0]
+                                    .imageUris!
+                                    .normal
+                                    .toString(),
+                              ).image,),
                       title: Text(currentShareCards!.lendingCards[index].name),
                       subtitle: Text(
                         currentShareCards!.lendingCards[index].typeLine,
@@ -126,7 +138,7 @@ class _ShareCardsDetailsPageState extends ConsumerState<ShareCardsDetailsPage> {
                         await showDialog(
                           context: context,
                           builder: (context) {
-                            return CardDetails_widget(
+                            return CardDetailsWidget(
                               card: currentShareCards!.lendingCards[index],
                             );
                           },

@@ -1,4 +1,3 @@
-///
 /// will interact directly with the scryfall API to return search information
 
 // final request will be a searchCards with a frankenstein query to get all the cards from a specific set and other information
@@ -35,15 +34,13 @@ class ScryfallServices {
           : "o:$oracleText";
     }
     searchQuery = searchQuery + " lang:any";
-    print(searchQuery);
     PaginableList<MtgCard> list;
     try {
       list = await scryfallApiClient.searchCards(searchQuery);
       return list.data.isNotEmpty ? list.data : [];
-    } on ScryfallException catch (e) {
+    } on ScryfallException {
       rethrow;
     }
-    return [];
   }
 
   Future<List<MtgSet>> getAllSets() async {

@@ -3,6 +3,7 @@ import 'package:deck_share/share_cards/presentation/controller/share_cards_contr
 import 'package:deck_share/share_cards/presentation/page/share_cards_details_page.dart';
 import 'package:deck_share/ui/atom/base_dismissible.dart';
 import 'package:deck_share/ui/atom/base_list_tile.dart';
+import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,22 +37,43 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
                         .deleteShareCards(shareCardsList[index].id!);
                   },
                   child: BaseListTile(
-                    //leading: Text("Day of the lending"),
+                    leading: shareCardsList[index].lendingDate != null
+                        ? Column(
+                            children: [
+                              Text(
+                                "${DateFormatter.formatDateDayOfWeek(shareCardsList[index].lendingDate!)} ${DateFormatter.formatDateDay(shareCardsList[index].lendingDate!)}",
+                              ),
+                              Text(
+                                DateFormatter.formatDateMounth(
+                                  shareCardsList[index].lendingDate!,
+                                ),
+                              ),
+                              Text(
+                                DateFormatter.formatDateYear(
+                                  shareCardsList[index].lendingDate!,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text("null"),
                     title: Text(
                       "${shareCardsList[index].lendingCards.length} cards lend by ${shareCardsList[index].lender}",
                     ),
-                    trailing: Text("Applicant : ${shareCardsList[index].applicant}"),
+                    trailing: Text(
+                      "Applicant : ${shareCardsList[index].applicant}",
+                    ),
                     onTap: () async {
-                      print("onTap");
                       await ref
                           .read(shareCardsControllerProvider.notifier)
                           .selectItem(shareCardsList[index].id!);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ShareCardsDetailsPage(),
-                        ),
-                      );
+                      if(context.mounted){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShareCardsDetailsPage(),
+                          ),
+                        );
+                      }
                     },
                   ),
                 );

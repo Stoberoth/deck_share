@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
-class Ruling_widget extends ConsumerWidget {
-  final String card_id;
+class RulingWidget extends ConsumerWidget {
+  final String cardId;
 
-  const Ruling_widget({super.key, required this.card_id});
+  const RulingWidget({super.key, required this.cardId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
       future: ref
           .read(scryfallControllerProvider.notifier)
-          .getRulingById(card_id),
+          .getRulingById(cardId),
       builder: (context, snapshot) {
 
         if (!snapshot.hasData || snapshot.data!.isEmpty) return Container();
@@ -46,17 +46,17 @@ class Ruling_widget extends ConsumerWidget {
   }
 }
 
-class CardDetails_widget extends StatefulWidget {
-  const CardDetails_widget({super.key, required this.card});
+class CardDetailsWidget extends StatefulWidget {
+  const CardDetailsWidget({super.key, required this.card});
 
   final MtgCard card;
 
   @override
-  State<CardDetails_widget> createState() => _CardDetails_widgetState();
+  State<CardDetailsWidget> createState() => _CardDetailsWidgetState();
 }
 
-class _CardDetails_widgetState extends State<CardDetails_widget> {
-  int current_face = 0;
+class _CardDetailsWidgetState extends State<CardDetailsWidget> {
+  int currentFace = 0;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -74,8 +74,8 @@ class _CardDetails_widgetState extends State<CardDetails_widget> {
                         widget.card.layout == Layout.battle ||
                         widget.card.layout == Layout.transform ||
                         (widget.card.layout == Layout.saga)) {
-                      current_face++;
-                      current_face %= 2;
+                      currentFace++;
+                      currentFace %= 2;
                     }
                   });
                 },
@@ -85,7 +85,7 @@ class _CardDetails_widgetState extends State<CardDetails_widget> {
                           widget.card.imageUris!.normal.toString(),
                         ).image
                       : Image.network(
-                          widget.card.cardFaces![current_face].imageUris!.normal
+                          widget.card.cardFaces![currentFace].imageUris!.normal
                               .toString(),
                         ).image,
                 ),
@@ -130,7 +130,7 @@ class _CardDetails_widgetState extends State<CardDetails_widget> {
                       ],
                     ),
               SizedBox(height: 10),
-              Ruling_widget(card_id: widget.card.id),
+              RulingWidget(cardId: widget.card.id),
             ],
           ),
         ),

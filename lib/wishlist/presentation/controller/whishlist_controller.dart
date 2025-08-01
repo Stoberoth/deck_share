@@ -34,7 +34,7 @@ class WishlistViewerController
 
   Future<void> selectedItem(String? selectedId) async {
     Wishlist w = await wishlistServices.getWishlistById(selectedId!);
-    this.selected = w.id;
+    selected = w.id;
   }
 
   Future<void> addWishlist(Wishlist wishlist) async {

@@ -5,6 +5,7 @@ import 'package:deck_share/ui/atom/base_text_field.dart';
 import 'package:deck_share/ui/molecules/card_list_view.dart';
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:deck_share/ui/templates/base_template.dart';
+import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,7 @@ class _ShareCardsCreationPageState
   late TextEditingController lenderController;
   late TextEditingController applicantController;
   late TextEditingController lendCardName;
+  late DateTime lendingDate; 
   late bool isChecked;
 
   @override
@@ -40,6 +42,7 @@ class _ShareCardsCreationPageState
     lendCardName = TextEditingController();
     isChecked = true;
     lenderController.text = "Me";
+    lendingDate = DateTime.now();
     isChecked = widget.amILender;
     if (isChecked) {
       lenderController.text = "Me";
@@ -56,6 +59,20 @@ class _ShareCardsCreationPageState
     applicantController.dispose();
     lendCardName.dispose();
     super.dispose();
+  }
+
+  void _selectLendingDate() async {
+    DateTime? newDate = await showDatePicker(
+      context: context,
+      initialDate: lendingDate,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2026),
+    );
+    if (newDate != null) {
+      setState(() {
+        lendingDate = newDate;
+      });
+    }
   }
 
   @override
@@ -100,7 +117,13 @@ class _ShareCardsCreationPageState
                 icon: Icon(Icons.text_fields),
                 enabled: isChecked,
               ),
-
+              SizedBox(height: 10,),
+              Text("Lending Date : ${DateFormatter.formatDateDayMounthYear(lendingDate)}"),
+              SizedBox(height: 10,),
+              BaseButton(
+                label: "Select Lending Date",
+                onPressed: _selectLendingDate,
+              ),
               SizedBox(height: 10),
               BaseButton(
                 label: "Add Lend Card to the list",
@@ -117,7 +140,10 @@ class _ShareCardsCreationPageState
               ),
 
               widget.pickCards.isNotEmpty
-                  ? CardListView(allCards: widget.pickCards, shrinkWrap: true,)
+                  ? CardListView(
+                      allCards: widget.pickCards, 
+                      shrinkWrap: true, // Hauteur maximale pour éviter les problèmes de layout
+                    )
                   : Container(),
             ],
           ),
@@ -132,6 +158,7 @@ class _ShareCardsCreationPageState
             lender: lenderController.text,
             applicant: applicantController.text,
             lendingCards: widget.pickCards,
+            lendingDate: lendingDate,
           );
 
           Navigator.pop(context, shareCards);

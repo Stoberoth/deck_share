@@ -25,10 +25,11 @@ class BaseListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Card(
         elevation: 10,
         shadowColor: Colors.black45,
+        margin: EdgeInsets.all(1.0),
         child: ListTile(
           leading: leading,
           title: title,

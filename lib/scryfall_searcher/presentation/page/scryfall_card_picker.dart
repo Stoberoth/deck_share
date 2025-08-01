@@ -10,6 +10,7 @@ import 'package:scryfall_api/scryfall_api.dart';
 
 /// A page the will show all the cards we want to search and permit to pick them to add them to a wishlist or a share list
 
+// ignore: must_be_immutable
 class ScryfallCardPicker extends ConsumerStatefulWidget {
   List<MtgCard> pickCards = [];
   ScryfallCardPicker({super.key, required this.pickCards});
@@ -19,7 +20,7 @@ class ScryfallCardPicker extends ConsumerStatefulWidget {
 }
 
 class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
-  MtgSet? selected_set;
+  MtgSet? selectedSet;
 
   TextEditingController searchController = TextEditingController();
   TextEditingController searchOracleController = TextEditingController();
@@ -31,7 +32,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
           .read(scryfallControllerProvider.notifier)
           .searchCards(
             cardName: searchController.text,
-            setCode: selected_set?.code,
+            setCode: selectedSet?.code,
             oracleText: searchOracleController.text,
           );
     } on ScryfallException catch (e) {
@@ -98,7 +99,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                           menuHeight: 200,
                           onSelected: (value) async {
                             setState(() {
-                              selected_set = value!;
+                              selectedSet = value!;
                             });
                             onSearch();
                           },
@@ -109,7 +110,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                         label: "Clear",
                         onPressed: () {
                           setState(() {
-                            selected_set = null;
+                            selectedSet = null;
                             setSearchController.clear();
                           });
                         },
@@ -172,7 +173,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                       await showDialog(
                                         context: context,
                                         builder: (context) {
-                                          return CardDetails_widget(
+                                          return CardDetailsWidget(
                                             card: listOfCards.value![index],
                                           );
                                         },
