@@ -1,10 +1,6 @@
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
-import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
-import 'package:deck_share/ui/atom/base_dismissible.dart';
-import 'package:deck_share/ui/atom/base_floating_action_button.dart';
-import 'package:deck_share/ui/atom/base_list_tile.dart';
 import 'package:deck_share/ui/atom/base_text_field.dart';
 import 'package:deck_share/ui/molecules/card_list_view.dart';
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
@@ -17,12 +13,12 @@ import 'package:scryfall_api/scryfall_api.dart';
 class ShareCardsCreationPage extends ConsumerStatefulWidget {
   ShareCardsCreationPage({
     super.key,
-    required this.pickCards,
-    required this.amILender,
+    this.pickCards = const [],
+    this.amILender = true,
   });
 
-  bool amILender = true;
-  List<MtgCard> pickCards = [];
+  final bool amILender;
+  List<MtgCard> pickCards;
 
   @override
   ConsumerState<ShareCardsCreationPage> createState() =>

@@ -1,13 +1,10 @@
-import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
-import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_dismissible.dart';
 import 'package:deck_share/ui/atom/base_list_tile.dart';
-import 'package:deck_share/wishlist/data/wishlist_local_repository.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
 class CardListViewWidget extends ConsumerStatefulWidget {
-  CardListViewWidget({super.key, required this.wishlist});
-  Wishlist wishlist;
+  const CardListViewWidget({super.key, required this.wishlist});
+  final Wishlist wishlist;
 
   @override
   ConsumerState<CardListViewWidget> createState() => _CardListViewWidgetState();
@@ -29,7 +26,6 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _selectedIndex = ref
         .read(wishlistViewerControllerProvider.notifier)

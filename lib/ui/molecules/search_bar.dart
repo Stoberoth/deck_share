@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../atom/base_button.dart';
+import '../atom/base_text_field.dart';
 
 
 // Base Search bar for the application
@@ -20,9 +21,9 @@ class SearchBar extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: TextField(
+          child: BaseTextField( 
             controller: controller,
-            decoration: const InputDecoration(hintText: "Search for ..."),
+            hintText: "Search for ...",
           ),
         ),
         const SizedBox(width: 8),

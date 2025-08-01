@@ -57,16 +57,14 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
     required oracleText,
   }) async {
     state = AsyncValue.loading();
-    try{
-    List<MtgCard> list = await scryfallServices.searchCards(
-      cardName,
-      setCode,
-      oracleText,
-    );
-    state = AsyncValue.data(list.isNotEmpty ? list : []);
-    }
-    on ScryfallException catch(e)
-    {
+    try {
+      List<MtgCard> list = await scryfallServices.searchCards(
+        cardName,
+        setCode,
+        oracleText,
+      );
+      state = AsyncValue.data(list.isNotEmpty ? list : []);
+    } on ScryfallException {
       rethrow;
     }
   }

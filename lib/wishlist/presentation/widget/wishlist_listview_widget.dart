@@ -18,7 +18,6 @@ class WishListWidget extends ConsumerStatefulWidget {
 }
 
 class _WishListWidgetState extends ConsumerState<WishListWidget> {
-  String? _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
     );
     //ref.read(wishlistViewerControllerProvider.notifier).getAllWishlists();
     List<Wishlist> wishlists = state.value ?? [];
-    return Container(
+    return SizedBox(
       height: 500,
       child: state.isLoading
           ? const CircularProgressIndicator()
@@ -57,13 +56,11 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                           .read(wishlistViewerControllerProvider.notifier)
                           .selectedItem(wishlists[index].id);
                       setState(() {
-                        _selectedIndex = wishlists[index].id;
                       });
                       await ref
                           .read(wishlistViewerControllerProvider.notifier)
                           .selectedItem(wishlists[index].id);
                       setState(() {
-                        _selectedIndex = wishlists[index].id;
                       });
                       Navigator.push(
                         context,

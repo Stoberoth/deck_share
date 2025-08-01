@@ -5,7 +5,6 @@
 import 'package:deck_share/wishlist/data/wishlist_repository.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -108,7 +107,6 @@ class WishlistLocalRepository implements WishlistRepository {
     if (!file.existsSync()) {
       return;
     }
-    final json = await file.readAsString();
     //final wishlists = jsonDecode(json);
     //await deleteWishlist(wishlist.id!);
     await saveWishlist(wishlist);

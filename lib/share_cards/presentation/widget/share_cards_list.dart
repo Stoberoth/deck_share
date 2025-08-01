@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_details_page.dart';
-import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_dismissible.dart';
 import 'package:deck_share/ui/atom/base_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -39,14 +36,11 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
                         .deleteShareCards(shareCardsList[index].id!);
                   },
                   child: BaseListTile(
-                    leading: Text("Day of the lending"),
+                    //leading: Text("Day of the lending"),
                     title: Text(
-                      "Cards lend by ${shareCardsList[index].lender}",
+                      "${shareCardsList[index].lendingCards.length} cards lend by ${shareCardsList[index].lender}",
                     ),
-                    subtitle: Text(
-                      "${shareCardsList[index].lendingCards.length} are lend",
-                    ),
-                    trailing: Text(shareCardsList[index].applicant),
+                    trailing: Text("Applicant : ${shareCardsList[index].applicant}"),
                     onTap: () async {
                       print("onTap");
                       await ref

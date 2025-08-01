@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
-  final Icon icon;
+  final Icon? icon;
   final ValueChanged? onSubmitted;
   final bool? enabled;
 
@@ -11,7 +11,7 @@ class BaseTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
-    required this.icon,
+    this.icon,
     this.onSubmitted,
     this.enabled
   });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BaseListTile extends StatelessWidget {
-  final Widget leading;
+  final Widget? leading;
   final Widget title;
   final Widget? subtitle;
   final Widget? trailing;
@@ -12,19 +12,18 @@ class BaseListTile extends StatelessWidget {
 
   const BaseListTile({
     super.key,
-    required this.leading,
+    this.leading,
     required this.title,
     this.subtitle,
     this.trailing,
     this.selectedColor,
     this.tileColor,
     this.onTap,
-    this.onLongPress
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(

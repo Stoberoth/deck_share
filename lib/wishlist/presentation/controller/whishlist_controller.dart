@@ -3,7 +3,6 @@
 
 import 'package:deck_share/wishlist/application/wishlist_services.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
@@ -46,7 +45,6 @@ class WishlistViewerController
 
   Future<void> deleteWishlist(String id) async {
     state = const AsyncLoading();
-    print("id $id");
     await wishlistServices.deleteWishlist(id);
     getWishList();
   }
@@ -54,7 +52,6 @@ class WishlistViewerController
   Future<void> addCardToWishlistById(String id, MtgCard card) async {
     state = const AsyncLoading();
     Wishlist currentWishlist = await getWishlistById(id);
-    print(currentWishlist.cards.length);
     currentWishlist.cards.add(card);
     await wishlistServices.updateWishlist(currentWishlist);
     getWishList();
@@ -65,7 +62,6 @@ class WishlistViewerController
     Wishlist currentWishlist = await getWishlistById(id);
     currentWishlist.cards.removeWhere((element) => element.id == card.id);
     await wishlistServices.updateWishlist(currentWishlist);
-    print("done");
     getWishList();
   }
 

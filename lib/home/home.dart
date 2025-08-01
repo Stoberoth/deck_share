@@ -1,4 +1,5 @@
 import 'package:deck_share/share_cards/presentation/page/home_share_cards.dart';
+import 'package:deck_share/ui/templates/home_template.dart';
 import 'package:deck_share/wishlist/presentation/page/home_wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ class _HomeState extends ConsumerState<Home> {
   int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return HomeTemplate(
       body: _listOfPages[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -33,5 +34,6 @@ class _HomeState extends ConsumerState<Home> {
         });},
       ),
     );
+    
   }
 }
