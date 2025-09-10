@@ -19,6 +19,7 @@ class ScryfallServices {
     String? cardName,
     String? setCode,
     String? oracleText,
+    Map<String, String>? optionsText,
   ) async {
     String searchQuery = "";
     if (cardName!.isNotEmpty) {
@@ -33,7 +34,10 @@ class ScryfallServices {
           ? " o:$oracleText"
           : "o:$oracleText";
     }
-    searchQuery = searchQuery + " lang:any";
+    searchQuery = "$searchQuery game:paper not:digital f:timeless";
+    for (String key in optionsText!.keys) {
+      searchQuery += " $key${optionsText[key]} ";
+    }
     PaginableList<MtgCard> list;
     try {
       list = await scryfallApiClient.searchCards(searchQuery);

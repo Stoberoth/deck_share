@@ -1,4 +1,5 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
+import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
 import 'package:deck_share/ui/atom/base_text_field.dart';
@@ -22,6 +23,8 @@ class ScryfallCardPicker extends ConsumerStatefulWidget {
 class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
   MtgSet? selectedSet;
 
+  Map<String, String> optionText = {};
+
   TextEditingController searchController = TextEditingController();
   TextEditingController searchOracleController = TextEditingController();
   TextEditingController setSearchController = TextEditingController();
@@ -34,6 +37,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
             cardName: searchController.text,
             setCode: selectedSet?.code,
             oracleText: searchOracleController.text,
+            optionsText: optionText,
           );
     } on ScryfallException catch (e) {
       ScaffoldMessenger.of(
@@ -57,7 +61,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
     );
 
     return BaseTemplate(
-      baseAppBar: BaseAppBar(title: "Scryfall card picker"),
+      baseAppBar: BaseAppBar(title: "Search for cards"),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(8.0),
@@ -83,7 +87,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                     onSubmitted: (value) => onSearch(),
                   ),
 
-                  SizedBox(height: 10),
+                  /*SizedBox(height: 10),
                   Row(
                     children: [
                       Text("Sets"),
@@ -116,13 +120,32 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                         },
                       ),) 
                     ],
-                  ),
+                  ),*/
                   SizedBox(height: 10),
-                  BaseButton(
-                    label: "Search",
-                    onPressed: () async {
-                      onSearch();
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BaseButton(
+                        label: "Search",
+                        onPressed: () async {
+                          onSearch();
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      BaseButton(
+                        label: "Add search options",
+                        onPressed: () async {
+                            // show a dialog to add some option to the search
+                            optionText = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return ScryfallOptionDialog(optionsText: optionText);
+                              },
+                            );
+                            onSearch();
+                        },
+                      ),
+                    ],
                   ),
 
                   SizedBox(height: 10),
@@ -220,7 +243,9 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
           ),
         ),
       ),
-      floatingActionButton: BaseButton(label: "Validate ${widget.pickCards.length} Selected Cards", onPressed: () {
+      floatingActionButton: BaseButton(
+        label: "Validate ${widget.pickCards.length} Selected Cards",
+        onPressed: () {
           if (widget.pickCards.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -232,8 +257,9 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
           } else {
             Navigator.pop(context, widget.pickCards);
           }
-        },),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

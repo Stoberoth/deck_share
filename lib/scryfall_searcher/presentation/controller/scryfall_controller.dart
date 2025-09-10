@@ -55,6 +55,7 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
     required String cardName,
     required String? setCode,
     required String oracleText,
+    Map<String, String>? optionsText,
   }) async {
     state = AsyncValue.loading();
     try {
@@ -62,6 +63,7 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
         cardName,
         setCode,
         oracleText,
+        optionsText,
       );
       state = AsyncValue.data(list.isNotEmpty ? list : []);
     } on ScryfallException {
