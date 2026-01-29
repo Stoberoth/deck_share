@@ -60,7 +60,7 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
                       "${shareCardsList[index].lendingCards.length} cards lend by ${shareCardsList[index].lender}",
                     ),
                     trailing: Text(
-                      "Applicant : ${shareCardsList[index].applicant}",
+                      "Applicant : ${shareCardsList[index].applicant} title : ${shareCardsList[index].title}",
                     ),
                     onTap: () async {
                       await ref

@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final selectedItemProvider = StateProvider((ref) => "");
 
 final shareCardsControllerProvider =
-    StateNotifierProvider<ShareCardsController, AsyncValue<List<ShareCards>>>((ref) {
+    StateNotifierProvider<ShareCardsController, AsyncValue<List<ShareCards>>>((
+      ref,
+    ) {
       return ShareCardsController(
         shareCardsServices: ref.read(shareCardsServiceProvider),
-        selectedItem: ref.read(selectedItemProvider)
+        selectedItem: ref.read(selectedItemProvider),
       );
     });
 
@@ -16,11 +18,12 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   final ShareCardsServices shareCardsServices;
   String selectedItem;
 
-  ShareCardsController({required this.shareCardsServices, required this.selectedItem})
-    : super(const AsyncValue.data([]))
-    {
-      getAllShareCards();
-    }
+  ShareCardsController({
+    required this.shareCardsServices,
+    required this.selectedItem,
+  }) : super(const AsyncValue.data([])) {
+    getAllShareCards();
+  }
 
   Future<void> addShareCards(ShareCards shareCards) async {
     state = const AsyncLoading();
@@ -28,8 +31,7 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     getAllShareCards();
   }
 
-  Future<void> selectItem(String id) async
-  {
+  Future<void> selectItem(String id) async {
     selectedItem = id;
   }
 
@@ -39,6 +41,14 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     getAllShareCards();
   }
 
+  Future<void> markAsReturned(String id) async {
+    await shareCardsServices.markAsReturned(id);
+  }
+
+  Future<void> extendLoan(String id, DateTime newReturnDate) async {
+    await shareCardsServices.extendLoan(id, newReturnDate);
+  }
+
   Future<void> getAllShareCards() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
@@ -46,6 +56,26 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     });
   }
 
+  Future<void> getByStatus(ShareCardsStatus status) async {
+    state = AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      return shareCardsServices.getByStatus(status);
+    });
+  }
+
+  Future<void> getLentCards() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      return shareCardsServices.getLentCards();
+    });
+  }
+
+  Future<void> getBorrowedCards() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      return shareCardsServices.getBorrowedCards();
+    });
+  }
 
   Future<ShareCards> getShareCardsbyId(String id) async {
     return await shareCardsServices.getShareCardsById(id);

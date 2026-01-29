@@ -14,9 +14,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      title: Text(title, style: TextStyle(color: Colors.white, ),),
       actions: actions,
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       //actions: [BaseButton(label: "Log out", onPressed: () {})],
     );
   }

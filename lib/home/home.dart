@@ -12,14 +12,14 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-  final List<Widget> _listOfPages = [HomeWishlistPage(), ShareCardsPage()];
+  final List<Widget> _listOfPages = [/*HomeWishlistPage(),*/ ShareCardsPage()];
 
   int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return HomeTemplate(
       body: _listOfPages[currentPageIndex],
-      bottomNavigationBar: BottomNavigationBar(
+      /*bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'WishList'),
           BottomNavigationBarItem(
@@ -30,9 +30,10 @@ class _HomeState extends ConsumerState<Home> {
         currentIndex: currentPageIndex,
         selectedItemColor: Colors.amber[800],
         onTap: (index) {setState(() {
-          currentPageIndex = index;
+          //currentPageIndex = index;
+          currentPageIndex = 0;
         });},
-      ),
+      ),*/
     );
     
   }
