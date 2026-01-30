@@ -1,8 +1,9 @@
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
-import 'package:deck_share/ui/atom/base_dismissible.dart';
-import 'package:deck_share/ui/atom/base_list_tile.dart';
+import 'package:deck_share/ui/atom/base_text.dart';
+import 'package:deck_share/ui/molecules/base_dismissible.dart';
+import 'package:deck_share/ui/molecules/base_list_tile.dart';
 import 'package:deck_share/ui/organisms/base_app_bar.dart';
 import 'package:deck_share/ui/templates/base_template.dart';
 import 'package:flutter/material.dart';
@@ -52,13 +53,11 @@ class _ShareCardsDetailsPageState extends ConsumerState<ShareCardsDetailsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                BaseText(data:
                   "Lender : ",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                Text(
+                BaseText(data:
                   currentShareCards!.lender,
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 20.0),
                 ),
               ],
             ),
@@ -67,21 +66,18 @@ class _ShareCardsDetailsPageState extends ConsumerState<ShareCardsDetailsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                BaseText(data:
                   "Applicant : ",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                Text(
+                BaseText(data:
                   currentShareCards!.applicant,
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 20.0),
                 ),
               ],
             ),
             SizedBox(height: 30),
             Center(
-              child: Text(
+              child: BaseText(data:
                 "List of Cards :",
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(height: 20),

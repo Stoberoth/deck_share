@@ -31,7 +31,7 @@ class AppColors {
   /// Couleur d'accent claire - Violet clair
   /// Usage : Hover states, bordures actives, icônes secondaires,
   ///         texte sur fond foncé quand primary est trop vif
-  static const primaryLight = Color.fromARGB(255, 124, 114, 149);
+  static const primaryLight = Color.fromARGB(255, 77, 56, 116);
 
   // ============================================
   // STATUTS (Feedback utilisateur)

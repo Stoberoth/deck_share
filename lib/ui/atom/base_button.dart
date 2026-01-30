@@ -1,3 +1,4 @@
+import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
 // Base button for all the application
@@ -15,7 +16,7 @@ class BaseButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: AppColors.primary,
        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
       child: Text(label),

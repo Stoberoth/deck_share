@@ -1,5 +1,5 @@
-import 'package:deck_share/ui/atom/base_dismissible.dart';
-import 'package:deck_share/ui/atom/base_list_tile.dart';
+import 'package:deck_share/ui/molecules/base_dismissible.dart';
+import 'package:deck_share/ui/molecules/base_list_tile.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/page/wishlist_edit_page.dart';

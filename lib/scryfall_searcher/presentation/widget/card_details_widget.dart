@@ -1,4 +1,6 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
+import 'package:deck_share/ui/atom/base_text.dart';
+import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
@@ -22,7 +24,7 @@ class RulingWidget extends ConsumerWidget {
               (ruling) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(ruling.comment),
+                  BaseText(data: ruling.comment),
                   Divider(color: Colors.black),
                 ],
               ),
@@ -60,6 +62,7 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppColors.primary,
       content: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -95,38 +98,41 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
               widget.card.cardFaces != null
                   ? Column(
                       children: [
-                        Text(
+                        BaseText( data: 
                           widget.card.cardFaces![0].name,
-                          style: TextStyle(
+                          fontSize: 10,
+                          /*style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),*/
                         ),
                         SizedBox(height: 10),
-                        Text(widget.card.cardFaces![0].oracleText!),
+                        BaseText(data: widget.card.cardFaces![0].oracleText!),
                         SizedBox(height: 10),
-                        Text(
+                        BaseText(data:
                           widget.card.cardFaces![1].name,
-                          style: TextStyle(
+                          fontSize: 20,
+                          /*style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),*/
                         ),
                         SizedBox(height: 10),
-                        Text(widget.card.cardFaces![1].oracleText!),
+                        BaseText(data:widget.card.cardFaces![1].oracleText!),
                       ],
                     )
                   : Column(
                       children: [
-                        Text(
+                        BaseText(data:
                           widget.card.name,
-                          style: TextStyle(
+                          fontSize: 20,
+                          /*style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),*/
                         ),
                         SizedBox(height: 10),
-                        Text(widget.card.oracleText!),
+                        BaseText(data:widget.card.oracleText!),
                       ],
                     ),
               SizedBox(height: 10),

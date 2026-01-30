@@ -1,5 +1,6 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/base_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
@@ -35,12 +36,12 @@ class ScryfallOptionDialog extends ConsumerWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return AlertDialog(
-          title: Text("Add search options"),
+          title: BaseText(data: "Add search options"),
           content: Column(
             children: [
               Row(
                 children: [
-                  Text("Sets"),
+                  BaseText(data: "Sets"),
                   SizedBox(width: 10),
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
@@ -60,7 +61,7 @@ class ScryfallOptionDialog extends ConsumerWidget {
               SizedBox(height: 10),
               Row(
                 children: [
-                  Text("Rarity"),
+                  BaseText(data: "Rarity"),
                   SizedBox(width: 10),
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
@@ -78,7 +79,7 @@ class ScryfallOptionDialog extends ConsumerWidget {
               SizedBox(height: 10),
               Row(
                 children: [
-                  Text("Type"),
+                  BaseText(data: "Type"),
                   SizedBox(width: 10),
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),

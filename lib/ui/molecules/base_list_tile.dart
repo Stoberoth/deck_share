@@ -36,7 +36,7 @@ class BaseListTile extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: borderRadius),
         clipBehavior: Clip.antiAlias,
         child: ListTile(
-          shape: RoundedRectangleBorder(borderRadius: borderRadius),
+          shape: RoundedRectangleBorder(borderRadius: borderRadius, side: BorderSide(color: Theme.of(context).primaryColorLight)),
           leading: leading,
           title: title,
           textColor: AppColors.textPrimary,
