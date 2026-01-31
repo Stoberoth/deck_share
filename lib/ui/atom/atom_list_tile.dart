@@ -25,21 +25,11 @@ class BaseListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = BorderRadius.circular(15.0);
-    
     return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Card(
-        /*elevation: 10,
-        shadowColor: Colors.black45,
-        margin: EdgeInsets.all(1.0),*/
-        shape: RoundedRectangleBorder(borderRadius: borderRadius),
-        clipBehavior: Clip.antiAlias,
+      padding: const EdgeInsets.all(3.0),
         child: ListTile(
-          shape: RoundedRectangleBorder(borderRadius: borderRadius, side: BorderSide(color: Theme.of(context).primaryColorLight)),
           leading: leading,
           title: title,
-          textColor: AppColors.textPrimary,
           subtitle: subtitle,
           trailing: trailing,
           selectedColor: selectedColor,
@@ -47,7 +37,6 @@ class BaseListTile extends StatelessWidget {
           onTap: onTap,
           onLongPress: onLongPress,
         ),
-      ),
     );
   }
 }

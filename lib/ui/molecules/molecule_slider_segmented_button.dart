@@ -1,4 +1,4 @@
-import 'package:deck_share/ui/atom/base_text.dart';
+import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -47,7 +47,10 @@ class _BaseSliderSegmentedButtonState
             children: [
               Expanded(
                 child: GestureDetector(
-                  child: Center(child: BaseText(data: "Prêtés", fontSize: 15)),
+                  child: Center(
+                    heightFactor: 1.2,
+                    child: BaseText(data: "Prêtés", fontSize: 15),
+                  ),
                   onTap: () {
                     setState(() {
                       widget.selectionindex = 0;

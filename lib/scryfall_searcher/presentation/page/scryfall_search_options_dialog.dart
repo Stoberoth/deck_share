@@ -1,6 +1,6 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
-import 'package:deck_share/ui/atom/base_button.dart';
-import 'package:deck_share/ui/atom/base_text.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';

@@ -1,10 +1,10 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
-import 'package:deck_share/ui/atom/base_button.dart';
-import 'package:deck_share/ui/atom/base_text_field.dart';
-import 'package:deck_share/ui/organisms/base_app_bar.dart';
-import 'package:deck_share/ui/templates/base_template.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/ui/atom/atom_text_field.dart';
+import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';

@@ -3,18 +3,15 @@ import 'dart:io';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
-import 'package:deck_share/share_cards/presentation/widget/share_cards_list.dart';
-import 'package:deck_share/ui/atom/base_card.dart';
-import 'package:deck_share/ui/atom/base_floating_action_button.dart';
-import 'package:deck_share/ui/atom/base_image.dart';
-import 'package:deck_share/ui/atom/base_text.dart';
-import 'package:deck_share/ui/molecules/base_list_tile.dart';
-import 'package:deck_share/ui/molecules/base_shadow_image.dart';
-import 'package:deck_share/ui/molecules/base_slider_segmented_button.dart';
-import 'package:deck_share/ui/organisms/base_app_bar.dart';
-import 'package:deck_share/ui/templates/base_template.dart';
+import 'package:deck_share/ui/atom/atom_card.dart';
+import 'package:deck_share/ui/atom/atom_floating_action_button.dart';
+import 'package:deck_share/ui/atom/atom_image.dart';
+import 'package:deck_share/ui/atom/atom_text.dart';
+import 'package:deck_share/ui/molecules/molecule_slider_segmented_button.dart';
+import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/organisms/organism_loan_card.dart';
+import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/utils/app_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,7 +35,6 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
       body: SafeArea(
         child: Column(
           children: [
-           
             Row(
               children: [
                 /*2 container avec icons de prêt et icon de d'emprunt*/
@@ -54,13 +50,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(
-                          data: "Prêts actifs : 4",
-                          /*style: TextStyle(
-                            fontSize: 18,
-                            color: AppColors.textPrimary,
-                          ),*/
-                        ),
+                        BaseText(data: "Prêts actifs : 4"),
                         SizedBox(height: 15),
                       ],
                     ),
@@ -87,43 +77,23 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               ],
             ),
             SizedBox(height: 10),
-             BaseSliderSegmentedButton(),
+            BaseSliderSegmentedButton(),
             /*ShareCardsListWidget()*/
+
             Row(
               children: [
                 Expanded(
-                  child: BaseListTile(
-                    leading: BaseShadowImage(
-                      image: BaseImage(
-                        url:
-                            "https://assets.moxfield.net/cards/card-7RMxd-normal.webp?269928852",
-                      ),
-                      color: Colors.green,
+                  child: BaseLoanCard(
+                    leadingImage: BaseImage(
+                      url:
+                          "https://assets.moxfield.net/cards/card-7RMxd-normal.webp?269928852",
                     ),
-                    title: BaseText(
-                      data: "The wandering minstrel test v2 de la mort qui tue",
+                    loanTitle: BaseText(
+                      data: "The wandering minstrel",
+                      fontSize: 15,
                     ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          size: 10,
-                          color: AppColors.success,
-                          shadows: [
-                            Shadow(color: AppColors.success, blurRadius: 5),
-                            Shadow(color: AppColors.success, blurRadius: 10),
-                            Shadow(color: AppColors.success, blurRadius: 20),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.textPrimary,
-                        ),
-                      ],
-                    ),
-                    subtitle: BaseText(data: "sub"),
+                    loanSubtitle: BaseText(data: "sub"),
+                    status: ShareCardsStatus.active,
                   ),
                 ),
               ],

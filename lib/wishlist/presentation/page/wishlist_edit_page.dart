@@ -1,6 +1,6 @@
-import 'package:deck_share/ui/atom/base_text_field.dart';
-import 'package:deck_share/ui/organisms/base_app_bar.dart';
-import 'package:deck_share/ui/templates/base_template.dart';
+import 'package:deck_share/ui/atom/atom_text_field.dart';
+import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/widget/wishlist_cards_listview_widget.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:deck_share/share_cards/presentation/page/home_share_cards.dart';
-import 'package:deck_share/ui/templates/home_template.dart';
+import 'package:deck_share/ui/templates/template_home.dart';
 import 'package:deck_share/wishlist/presentation/page/home_wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

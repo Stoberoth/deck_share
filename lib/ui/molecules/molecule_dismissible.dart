@@ -1,4 +1,4 @@
-import 'package:deck_share/ui/atom/base_button.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:flutter/material.dart';
 
 class BaseDismissible extends StatelessWidget {

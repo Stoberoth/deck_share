@@ -1,13 +1,13 @@
 // This page will be used to create a new wishlist
 
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
-import 'package:deck_share/ui/atom/base_button.dart';
-import 'package:deck_share/ui/molecules/base_dismissible.dart';
-import 'package:deck_share/ui/atom/base_icon_button.dart';
-import 'package:deck_share/ui/molecules/base_list_tile.dart';
-import 'package:deck_share/ui/atom/base_text_field.dart';
-import 'package:deck_share/ui/organisms/base_app_bar.dart';
-import 'package:deck_share/ui/templates/base_template.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
+import 'package:deck_share/ui/atom/atom_icon_button.dart';
+import 'package:deck_share/ui/atom/atom_list_tile.dart';
+import 'package:deck_share/ui/atom/atom_text_field.dart';
+import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:flutter/material.dart';
 import 'package:scryfall_api/scryfall_api.dart';

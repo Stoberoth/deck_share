@@ -2,9 +2,9 @@ import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_pic
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
-import 'package:deck_share/ui/atom/base_button.dart';
-import 'package:deck_share/ui/molecules/base_dismissible.dart';
-import 'package:deck_share/ui/molecules/base_list_tile.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
+import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
 import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
 import 'package:flutter/material.dart';

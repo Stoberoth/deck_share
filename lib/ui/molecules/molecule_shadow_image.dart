@@ -1,4 +1,4 @@
-import 'package:deck_share/ui/atom/base_image.dart';
+import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:flutter/material.dart';
 
 class BaseShadowImage extends StatelessWidget {

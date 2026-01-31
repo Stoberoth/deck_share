@@ -1,7 +1,7 @@
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
-import 'package:deck_share/ui/atom/base_image.dart';
-import 'package:deck_share/ui/molecules/base_dismissible.dart';
-import 'package:deck_share/ui/molecules/base_list_tile.dart';
+import 'package:deck_share/ui/atom/atom_image.dart';
+import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
+import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
