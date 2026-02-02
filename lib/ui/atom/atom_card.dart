@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 
 class BaseCard extends StatelessWidget {
   final Widget? child;
-  const BaseCard({super.key, this.child});
+  final Color? color;
+  const BaseCard({super.key, this.child, this.color = AppColors.surface});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      clipBehavior: Clip.hardEdge,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
         side: BorderSide(color: AppColors.primaryLight),
       ),
-      color: Theme.of(context).colorScheme.secondary,
+      color: color,
       child: child,
     );
   }

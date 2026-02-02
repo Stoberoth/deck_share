@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class BaseLoanCard extends StatelessWidget {
   final BaseImage leadingImage;
   final BaseText loanTitle;
-  final BaseText loanSubtitle;
+  final Widget loanSubtitle;
   final ShareCardsStatus status;
 
   const BaseLoanCard({

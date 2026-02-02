@@ -1,3 +1,4 @@
+import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
 // Template the determine the structure of the page without content ont the structure (generic layout)
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 class BaseTemplate extends StatelessWidget {
   final Widget baseAppBar;
   final Widget body;
+  final Color backgroundColor;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
@@ -12,6 +14,7 @@ class BaseTemplate extends StatelessWidget {
     super.key,
     required this.baseAppBar,
     required this.body,
+    this.backgroundColor = AppColors.surface,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
   });
@@ -23,6 +26,7 @@ class BaseTemplate extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
         child: baseAppBar,
       ),
+      backgroundColor: backgroundColor,
       body: Padding(padding: const EdgeInsets.all(16.0), child: body),
       //backgroundColor: Colors.orange,
       floatingActionButton: floatingActionButton,

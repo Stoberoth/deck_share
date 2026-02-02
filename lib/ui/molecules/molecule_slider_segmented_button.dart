@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+
+// TODO passer par un controller
+final indexProvider = StateProvider<int>((ref) => 0);
+
 
 class BaseSliderSegmentedButton extends ConsumerStatefulWidget {
   BaseSliderSegmentedButton({super.key});
@@ -29,7 +36,7 @@ class _BaseSliderSegmentedButtonState
         children: [
           AnimatedAlign(
             curve: Curves.easeInOut,
-            alignment: widget.selectionindex == 0
+            alignment: ref.watch(indexProvider) == 0
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             duration: Duration(milliseconds: 200),
@@ -52,9 +59,7 @@ class _BaseSliderSegmentedButtonState
                     child: BaseText(data: "Prêtés", fontSize: 15),
                   ),
                   onTap: () {
-                    setState(() {
-                      widget.selectionindex = 0;
-                    });
+                    ref.read(indexProvider.notifier).state = 0;
                   },
                 ),
               ),
@@ -64,9 +69,7 @@ class _BaseSliderSegmentedButtonState
                     child: BaseText(data: "Empruntés", fontSize: 15),
                   ),
                   onTap: () {
-                    setState(() {
-                      widget.selectionindex = 1;
-                    });
+                    ref.read(indexProvider.notifier).state = 1;
                   },
                 ),
               ),

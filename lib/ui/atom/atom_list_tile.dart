@@ -18,7 +18,7 @@ class BaseListTile extends StatelessWidget {
     this.subtitle,
     this.trailing,
     this.selectedColor,
-    this.tileColor,
+    this.tileColor = AppColors.surface,
     this.onTap,
     this.onLongPress,
   });
@@ -33,7 +33,7 @@ class BaseListTile extends StatelessWidget {
           subtitle: subtitle,
           trailing: trailing,
           selectedColor: selectedColor,
-          tileColor: Theme.of(context).colorScheme.secondary,
+          tileColor: tileColor,
           onTap: onTap,
           onLongPress: onLongPress,
         ),
