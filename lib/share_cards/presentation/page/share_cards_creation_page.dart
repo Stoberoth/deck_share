@@ -133,7 +133,7 @@ class _ShareCardsCreationPageState
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ScryfallCardPicker(pickCards: widget.pickCards),
+                          ScryfallCardPicker(),
                     ),
                   );
                   setState(() {});

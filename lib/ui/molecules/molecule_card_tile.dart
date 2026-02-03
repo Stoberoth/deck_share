@@ -8,7 +8,9 @@ import 'package:scryfall_api/scryfall_api.dart';
 
 class BaseCardTile extends StatelessWidget {
   final MtgCard? card;
-  const BaseCardTile({super.key, this.card});
+  final VoidCallback? onPressed;
+
+  const BaseCardTile({super.key, this.card, this.onPressed});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -16,9 +18,9 @@ class BaseCardTile extends StatelessWidget {
       color: AppColors.textDisabled,
       child: BaseListTile(
         title: BaseText(data: card!.name.toString(), fontSize: 20),
-        leading: BaseImage(url: card!.imageUris!.artCrop.toString()),
+        leading: BaseImage(url: card!.imageUris != null ? card!.imageUris!.normal.toString() : ""),
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: onPressed,
           icon: Icon(Icons.close, color: AppColors.textPrimary),
         ),
         tileColor: AppColors.textDisabled,

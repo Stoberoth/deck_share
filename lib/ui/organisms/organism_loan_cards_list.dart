@@ -1,26 +1,30 @@
+import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_card_tile.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
-class BaseLoanCardList extends StatefulWidget {
-  final List<MtgCard>? pickCardList;
+final pickcards = StateProvider<List<MtgCard>>(
+  (ref) => List<MtgCard>.empty(growable: true),
+);
 
-  const BaseLoanCardList({super.key, this.pickCardList});
+class BaseLoanCardList extends ConsumerStatefulWidget {
+  List<MtgCard>? pickCardList;
+
+  BaseLoanCardList({super.key, this.pickCardList = const []});
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
+  ConsumerState<ConsumerStatefulWidget> createState() {
     return _BaseLoanCardListState();
   }
 }
 
-class _BaseLoanCardListState extends State<BaseLoanCardList> {
+class _BaseLoanCardListState extends ConsumerState<BaseLoanCardList> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -29,17 +33,28 @@ class _BaseLoanCardListState extends State<BaseLoanCardList> {
           constraints: BoxConstraints(maxHeight: 300),
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: widget.pickCardList?.length,
+            itemCount: ref.watch(pickcards).length,
             itemBuilder: (context, index) {
-              return BaseCardTile(card: widget.pickCardList?[index]);
+              return BaseCardTile(
+                card: ref.watch(pickcards)[index],
+                onPressed: () {
+                  setState(() {
+                    ref.read(pickcards.notifier).state.removeAt(index);
+                  });
+                },
+              );
             },
           ),
         ),
         BaseButton(
           label: "Ajouter des cartes",
           buttonColor: AppColors.surface,
-          onPressed: () {
-            /* TODO : ajouts des cartes par scryfall card picker*/
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ScryfallCardPicker()),
+            );
+            setState(() {});
           },
         ),
       ],

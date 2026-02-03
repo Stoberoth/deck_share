@@ -73,7 +73,7 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        ScryfallCardPicker(pickCards: pick_cards),
+                        ScryfallCardPicker(),
                   ),
                 );
                 setState(() {});

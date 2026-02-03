@@ -34,6 +34,9 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
   List<ShareCards> liste = [ShareCards(lender: "Lend", applicant: "Me", lendingCards: [], title: "test", status: ShareCardsStatus.active),ShareCards(lender: "Me", applicant: "app", lendingCards: [], title: "test begi", status: ShareCardsStatus.active),ShareCards(lender: "Lend1", applicant: "Me", lendingCards: [], title: "test2", status: ShareCardsStatus.overdue)];
   @override
   Widget build(BuildContext context) {
+    final AsyncValue<List<ShareCards>> state = ref.watch(shareCardsControllerProvider);
+    
+    List<ShareCards> loanList = state.value ?? [];
     return BaseTemplate(
       baseAppBar: BaseAppBar(title: 'Mes Prêts'),
       body: SafeArea(
@@ -83,7 +86,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
             SizedBox(height: 10),
             BaseSliderSegmentedButton(),
             SizedBox(height: 10),
-            LoanList(loanList: liste, filter: ref.watch(indexProvider) == 1 ? LoanListFilter.borrow: LoanListFilter.lent),
+            LoanList(loanList: loanList , filter: ref.watch(indexProvider) == 1 ? LoanListFilter.borrow: LoanListFilter.lent),
 
           ],
         ),
@@ -110,11 +113,3 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
     );
   }
 }
-
-Widget buildSegment(String text) => Container(
-  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(20), // Arrondi personnalisé
-  ),
-  child: BaseText(data: text),
-);

@@ -4,6 +4,7 @@ import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_wi
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,8 +14,7 @@ import 'package:scryfall_api/scryfall_api.dart';
 
 // ignore: must_be_immutable
 class ScryfallCardPicker extends ConsumerStatefulWidget {
-  List<MtgCard> pickCards = [];
-  ScryfallCardPicker({super.key, required this.pickCards});
+  ScryfallCardPicker({super.key});
 
   @override
   ConsumerState<ScryfallCardPicker> createState() => _ScryfallCardPickerState();
@@ -135,14 +135,16 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                       BaseButton(
                         label: "Add search options",
                         onPressed: () async {
-                            // show a dialog to add some option to the search
-                            optionText = await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return ScryfallOptionDialog(optionsText: optionText);
-                              },
-                            );
-                            onSearch();
+                          // show a dialog to add some option to the search
+                          optionText = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ScryfallOptionDialog(
+                                optionsText: optionText,
+                              );
+                            },
+                          );
+                          onSearch();
                         },
                       ),
                     ],
@@ -165,30 +167,32 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                 child: Card(
                                   // Correction du type pour correspondre à Color?
                                   color:
-                                      widget.pickCards
-                                          .where(
+                                  ref.watch(pickcards).where(
                                             (element) =>
                                                 element.id ==
                                                 listOfCards.value![index].id,
                                           )
                                           .isNotEmpty
+                                          
                                       ? Colors.grey
                                       : Colors.white,
                                   child: InkWell(
                                     onTap: () {
-                                      if (!widget.pickCards.contains(
+                                      if (!ref.watch(pickcards).contains(
                                         listOfCards.value![index],
                                       )) {
                                         setState(() {
-                                          widget.pickCards.add(
-                                            listOfCards.value![index],
-                                          );
+                                          ref
+                                              .read(pickcards.notifier)
+                                              .state
+                                              .add(listOfCards.value![index]);
                                         });
                                       } else {
                                         setState(() {
-                                          widget.pickCards.remove(
-                                            listOfCards.value![index],
-                                          );
+                                          ref
+                                              .read(pickcards.notifier)
+                                              .state
+                                              .remove(listOfCards.value![index]);
                                         });
                                       }
                                     },
@@ -244,9 +248,9 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
         ),
       ),
       floatingActionButton: BaseButton(
-        label: "Validate ${widget.pickCards.length} Selected Cards",
+        label: "Validate ${ref.watch(pickcards).length} Selected Cards",
         onPressed: () {
-          if (widget.pickCards.isEmpty) {
+          if (ref.watch(pickcards).isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text("Select at least one card"),
@@ -255,7 +259,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
               ),
             );
           } else {
-            Navigator.pop(context, widget.pickCards);
+            Navigator.pop(context);
           }
         },
       ),

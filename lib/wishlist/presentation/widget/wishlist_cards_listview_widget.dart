@@ -198,7 +198,6 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                       MaterialPageRoute(
                         builder: (context) {
                           return ScryfallCardPicker(
-                            pickCards: currentWishlist!.cards,
                           );
                         },
                       ),
