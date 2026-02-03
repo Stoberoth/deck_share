@@ -38,7 +38,7 @@ class ShareCardLocalRepository implements ShareCardRepository {
       file.writeAsString(jsonEncode({"wishlist": [], "shareCards": []}));
     }
     final json = await file.readAsString();
-    final content = jsonDecode(json)["shareCards"];
+    final content = json != '' ? jsonDecode(json)["shareCards"] : null;
     if (content == null) {
       return [];
     }

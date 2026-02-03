@@ -11,6 +11,8 @@ class BaseLoanCard extends StatelessWidget {
   final BaseText loanTitle;
   final Widget loanSubtitle;
   final bool isOverdue;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const BaseLoanCard({
     super.key,
@@ -18,21 +20,22 @@ class BaseLoanCard extends StatelessWidget {
     required this.loanTitle,
     required this.loanSubtitle,
     required this.isOverdue,
+    this.onTap,
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color statusColor = (isOverdue
-        ? AppColors.success
-        : AppColors.warning);
+    Color statusColor = (isOverdue ? AppColors.warning : AppColors.success);
     return BaseCard(
       child: BaseListTile(
         leading: BaseShadowImage(image: leadingImage, color: statusColor),
         title: loanTitle,
         subtitle: loanSubtitle,
-        trailing: 
-            Icon(Icons.arrow_forward_ios, color: statusColor,),
-        ),
+        trailing: Icon(Icons.arrow_forward_ios, color: statusColor),
+        onTap: onTap,
+        onLongPress: onLongPress,
+      ),
     );
   }
 }

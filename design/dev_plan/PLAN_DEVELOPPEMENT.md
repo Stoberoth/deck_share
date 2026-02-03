@@ -22,20 +22,24 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 | Services | `lib/share_cards/application/share_cards_services.dart` | ✅ Complet |
 | Controller | `lib/share_cards/presentation/controller/share_cards_controller.dart` | ✅ Complet |
 | Page liste | `lib/share_cards/presentation/page/home_share_cards.dart` | ✅ Stats + Tabs |
-| Page création | `lib/share_cards/presentation/page/loan_creation_page.dart` | ⚠️ Partiel |
+| Page création | `lib/share_cards/presentation/page/loan_creation_page.dart` | ✅ Complet |
 | Page détail | `lib/share_cards/presentation/page/share_cards_details_page.dart` | ⚠️ Partiel |
 | Widget liste | `lib/share_cards/presentation/widget/share_cards_list.dart` | ✅ |
 | Scryfall picker | `lib/scryfall_searcher/` | ✅ Complet |
 | Composants UI | `lib/ui/` | ✅ Atoms, molecules, organisms, templates |
 | Navigation | `lib/home/home.dart` | ✅ Bottom nav avec ShareCards |
 | Thème couleurs | `lib/utils/app_color.dart` | ✅ Palette sombre violet |
+| DatePicker | `lib/ui/molecules/molecule_date_picker.dart` | ✅ Nouveau |
+| LoanSubtitle | `lib/ui/molecules/molecule_loan_subtitle.dart` | ✅ Nouveau |
+| ShadowImage | `lib/ui/molecules/molecule_shadow_image.dart` | ✅ Nouveau |
+| LoanCard | `lib/ui/organisms/organism_loan_card.dart` | ✅ Nouveau |
+| LoanList Template | `lib/ui/templates/template_loan_list.dart` | ✅ Nouveau |
 
 ### Ce qui reste à faire ❌
 
 | Élément | Description |
 |---------|-------------|
-| Page création | Ajouter DatePicker pour date de retour prévue |
-| Page détail | Badge statut, boutons actions, section notes |
+| Page détail | Titre du prêt, badge statut, boutons actions (marquer rendu, prolonger), section notes |
 | Gestion contacts | Modèle Contact + repository + services (optionnel) |
 | Intégration Wishlist | Badge "Empruntée" sur les cartes |
 
@@ -118,7 +122,7 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-## Phase 3 : Mettre à jour les Pages UI ⚠️ EN COURS
+## Phase 3 : Mettre à jour les Pages UI ⚠️ EN COURS (90% terminé)
 
 ### Étape 3.1 : Page d'accueil des prêts ✅ FAIT
 
@@ -133,7 +137,7 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-### Étape 3.2 : Page de création ⚠️ PARTIEL
+### Étape 3.2 : Page de création ✅ FAIT
 
 **Fichier** : `lib/share_cards/presentation/page/loan_creation_page.dart`
 
@@ -141,27 +145,41 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 **Modifications faites** :
 - [x] Ajouter champ "Titre du prêt"
-- [ ] **Ajouter DatePicker pour "Date de retour prévue"** ← À FAIRE
+- [x] Ajouter DatePicker pour "Date de retour prévue" (via `BaseDatePicker`)
 - [x] Ajouter champ "Notes"
 - [x] Checkbox "Je prête" / "J'emprunte"
 - [x] Champ contact (prêteur/emprunteur)
+- [x] Bouton de validation "Créer le prêt"
+
+**Composants UI créés pour cette page** :
+- `lib/ui/molecules/molecule_date_picker.dart` - Sélecteur de date avec provider Riverpod
 
 ---
 
-### Étape 3.3 : Page de détail ❌ À COMPLÉTER
+### Étape 3.3 : Page de détail ⚠️ À COMPLÉTER
 
 **Fichier** : `lib/share_cards/presentation/page/share_cards_details_page.dart`
 
 **Référence maquette** : `design/ai_design/v1/loan_detail_page.png`
 
+**État actuel** :
+- [x] Afficher lender et applicant
+- [x] Liste des cartes avec image et détails
+- [x] Suppression de carte par swipe (Dismissible)
+- [x] Long press pour voir le détail d'une carte
+
 **Modifications à faire** :
-- [ ] Afficher le titre du prêt
-- [ ] Afficher le badge de statut (En cours / Rendu / En retard)
-- [ ] Afficher la durée du prêt
-- [ ] Ajouter bouton "Marquer comme rendu"
-- [ ] Ajouter bouton "Prolonger"
-- [ ] Section notes
+- [ ] Afficher le titre du prêt (`currentShareCards.title`)
+- [ ] Afficher le badge de statut (En cours / Rendu / En retard) - Utiliser `currentShareCards.status`
+- [ ] Afficher la durée du prêt - Utiliser `BaseLoanSubtitle` ou calcul similaire
+- [ ] Ajouter bouton "Marquer comme rendu" - Appeler `markAsReturned(id)`
+- [ ] Ajouter bouton "Prolonger" - Appeler `extendLoan(id, newDate)` avec `BaseDatePicker`
+- [ ] Section notes - Afficher `currentShareCards.notes`
 - [ ] Section historique (optionnel)
+
+**Services disponibles dans le controller** :
+- `markAsReturned(String id)` - Marquer un prêt comme rendu
+- `extendLoan(String id, DateTime newReturnDate)` - Prolonger un prêt
 
 ---
 
@@ -261,8 +279,13 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 
 ### Phase 3 - UI ⚠️ En cours
 - [x] Mettre à jour `home_share_cards.dart` (stats, tabs)
-- [ ] Mettre à jour `loan_creation_page.dart` (DatePicker manquant)
-- [ ] Mettre à jour `share_cards_details_page.dart` (statut, actions, notes)
+- [x] Mettre à jour `loan_creation_page.dart` (DatePicker, titre, notes, validation) ✅
+- [x] Créer `molecule_date_picker.dart` (sélecteur de date)
+- [x] Créer `molecule_loan_subtitle.dart` (sous-titre avec infos prêt)
+- [x] Créer `molecule_shadow_image.dart` (image avec ombre colorée)
+- [x] Créer `organism_loan_card.dart` (carte de prêt stylisée)
+- [x] Créer `template_loan_list.dart` (liste avec filtres lent/borrow)
+- [ ] Mettre à jour `share_cards_details_page.dart` (titre, statut, actions, notes)
 
 ### Phase 4 - Contacts (optionnel)
 - [ ] Créer `contact_model.dart`
@@ -284,8 +307,8 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 1. ~~**Phase 1** : Corrections modèle~~ ✅ TERMINÉ
 2. ~~**Phase 2** : Services et controller~~ ✅ TERMINÉ
 3. **Phase 3** : UI pages ⚠️ EN COURS
-   - Prochaine tâche : Ajouter DatePicker dans `loan_creation_page.dart`
-   - Puis : Compléter `share_cards_details_page.dart`
+   - ~~Page création~~ ✅ TERMINÉ
+   - **Prochaine tâche** : Compléter `share_cards_details_page.dart`
 4. **Phase 5** : Intégration wishlist - À FAIRE
 5. **Phase 4** : Contacts (optionnel) - À FAIRE
 6. ~~**Phase 6** : Thème~~ ✅ TERMINÉ
@@ -312,9 +335,24 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 
 ### Prochaines étapes recommandées
 
-1. **Terminer `loan_creation_page.dart`** : Ajouter le DatePicker pour la date de retour prévue
-2. **Compléter `share_cards_details_page.dart`** : Badge statut, boutons actions, section notes
-3. **Phase 5 - Intégration Wishlist** : Créer le provider de croisement et modifier la page wishlist
+1. **Compléter `share_cards_details_page.dart`** : 
+   - Afficher le titre du prêt
+   - Ajouter le badge de statut (En cours / Rendu / En retard)
+   - Ajouter bouton "Marquer comme rendu" 
+   - Ajouter bouton "Prolonger"
+   - Afficher la section notes
+   - Afficher la durée du prêt
+2. **Phase 5 - Intégration Wishlist** : Créer le provider de croisement et modifier la page wishlist
+
+### Composants UI disponibles pour réutilisation
+
+| Composant | Fichier | Utilisation |
+|-----------|---------|-------------|
+| `BaseDatePicker` | `molecule_date_picker.dart` | Sélecteur de date avec provider |
+| `BaseLoanSubtitle` | `molecule_loan_subtitle.dart` | Affiche nb cartes, contact, durée, date retour |
+| `BaseShadowImage` | `molecule_shadow_image.dart` | Image avec ombre colorée selon statut |
+| `BaseLoanCard` | `organism_loan_card.dart` | Carte complète avec image, titre, sous-titre |
+| `LoanList` | `template_loan_list.dart` | Liste filtrée (all/lent/borrow) |
 
 ### Bonnes pratiques
 
@@ -322,5 +360,6 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 - **Utilise le code existant** comme référence (wishlist, share_cards actuel)
 - **Commit après chaque phase** avec un message clair
 - **Ne change pas tout d'un coup** - Procède par petites étapes
+- **Réutilise les composants UI** déjà créés (voir tableau ci-dessus)
 
 Bon courage pour la suite !
