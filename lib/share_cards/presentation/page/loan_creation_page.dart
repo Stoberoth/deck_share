@@ -1,25 +1,18 @@
 // enfin un bouton de validation
 
-import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
-import 'package:deck_share/ui/atom/atom_image.dart';
-import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
-import 'package:deck_share/ui/molecules/molecule_card_tile.dart';
 import 'package:deck_share/ui/molecules/molecule_date_picker.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/utils/app_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scryfall_api/scryfall_api.dart';
 
 class LoanCreationPage extends ConsumerStatefulWidget {
   const LoanCreationPage({super.key});

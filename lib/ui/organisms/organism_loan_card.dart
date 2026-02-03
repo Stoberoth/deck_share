@@ -1,4 +1,3 @@
-import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';

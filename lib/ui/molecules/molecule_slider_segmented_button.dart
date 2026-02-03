@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +10,8 @@ final indexProvider = StateProvider<int>((ref) => 0);
 
 
 class BaseSliderSegmentedButton extends ConsumerStatefulWidget {
-  BaseSliderSegmentedButton({super.key});
-  int selectionindex = 1;
+  const BaseSliderSegmentedButton({super.key});
+  final int selectionindex = 1;
   @override
   ConsumerState<BaseSliderSegmentedButton> createState() =>
       _BaseSliderSegmentedButtonState();
