@@ -8,6 +8,7 @@ class BaseListTile extends StatelessWidget {
   final Widget? trailing;
   final Color? selectedColor;
   final Color? tileColor;
+  final double padding;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
@@ -19,6 +20,7 @@ class BaseListTile extends StatelessWidget {
     this.trailing,
     this.selectedColor,
     this.tileColor = AppColors.surface,
+    this.padding = 3.0,
     this.onTap,
     this.onLongPress,
   });
@@ -26,7 +28,7 @@ class BaseListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(3.0),
+      padding: EdgeInsets.all(this.padding),
         child: ListTile(
           leading: leading,
           title: title,

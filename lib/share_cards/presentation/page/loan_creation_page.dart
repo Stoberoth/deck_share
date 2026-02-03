@@ -64,17 +64,27 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
               ],
             ),
 
-            BaseTextField(
-              controller: contactController,
-              hintText:
-                  "Entre le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
+            BaseCard(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsetsGeometry.all(10),
+                child: BaseTextField(
+                  controller: contactController,
+                  hintText:
+                      "Entrez le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
+                ),
+              ),
             ),
-
-            // TODO ajouter un bouton et un text pour le date picker
             BaseDatePicker(),
-            BaseTextField(
-              controller: noteController,
-              hintText: "Ajouter des notes",
+            BaseCard(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsetsGeometry.all(10),
+                child: BaseTextField(
+                  controller: noteController,
+                  hintText: "Ajouter des notes",
+                ),
+              ),
             ),
           ],
         ),
@@ -93,7 +103,7 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
             lendingCards: ref.watch(pickcards).toList(),
             expectedReturnDate: ref.watch(selectDate),
             lendingDate: DateTime.now(),
-            notes: noteController.text
+            notes: noteController.text,
           );
           ref.read(pickcards.notifier).state.clear();
           ref.read(shareCardsControllerProvider.notifier).addShareCards(sc);

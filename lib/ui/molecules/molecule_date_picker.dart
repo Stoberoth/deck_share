@@ -33,9 +33,13 @@ class _BaseDatePickerState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     return BaseCard(
+      color: Colors.grey,
       child: BaseListTile(
+        padding: 0.0,
         leading: Icon(Icons.calendar_today),
-        title: BaseText(data: ref.watch(selectDate).toString()),
+        title: BaseText(data: "Return Date", color: Colors.black, fontSize: 15,),
+        subtitle: BaseText(data: DateFormatter.formatDateDayMounthYear(ref.watch(selectDate))  , color: Colors.black, fontSize: 15,),
+        tileColor: Colors.white,
         onTap: selectReturnedDate,
       ),
     );
