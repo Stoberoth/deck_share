@@ -55,6 +55,18 @@ class ShareCardsServices {
     return all.where((sc) => sc.status == status).toList();
   }
 
+  Future<int> getNumberOfLent() async
+  {
+    final all = await getAllShareCards();
+    return all.where((sc) => sc.lender == "Me").toList().length;
+  }
+
+   Future<int> getNumberOfBorrow() async
+  {
+    final all = await getAllShareCards();
+    return all.where((sc) => sc.applicant == "Me").toList().length;
+  }
+
   // Obtenir les prêts que je fais (lender = "Me")
   Future<List<ShareCards>> getLentCards() async {
     final all = await getAllShareCards();

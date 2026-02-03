@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
-import 'package:deck_share/share_cards/presentation/page/share_cards_creation_page.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_floating_action_button.dart';
 import 'package:deck_share/ui/atom/atom_image.dart';
@@ -20,6 +19,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Page to create a share cards
 ///
 
+final lentNumber = StateProvider<int>((ref) => 0);
+final borrowNumber = StateProvider<int>((ref)=> 0);
 
 
 class ShareCardsPage extends ConsumerStatefulWidget {
@@ -32,13 +33,32 @@ class ShareCardsPage extends ConsumerStatefulWidget {
 class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
   int? groupValue = 0;
   List<ShareCards> liste = [ShareCards(lender: "Lend", applicant: "Me", lendingCards: [], title: "test", status: ShareCardsStatus.active),ShareCards(lender: "Me", applicant: "app", lendingCards: [], title: "test begi", status: ShareCardsStatus.active),ShareCards(lender: "Lend1", applicant: "Me", lendingCards: [], title: "test2", status: ShareCardsStatus.overdue)];
+  
+  void fetchLentNumber() async
+  {
+    int lent = await ref.read(shareCardsControllerProvider.notifier).getNumberOfLent();
+    setState(() {
+      ref.read(lentNumber.notifier).state = lent;
+    });
+  }
+
+  void fetchBorrowNumber() async
+  {
+    int borrow = await ref.read(shareCardsControllerProvider.notifier).getNumberOfBorrow();
+    setState(() {
+      ref.read(borrowNumber.notifier).state = borrow;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<ShareCards>> state = ref.watch(shareCardsControllerProvider);
-    
+    fetchLentNumber();
+    fetchBorrowNumber();
     List<ShareCards> loanList = state.value ?? [];
     return BaseTemplate(
       baseAppBar: BaseAppBar(title: 'Mes Prêts'),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -57,7 +77,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(data: "Prêts actifs : 1"),
+                        BaseText(data: "Prêts actifs : ${ref.watch(lentNumber)}"),
                         SizedBox(height: 15),
                       ],
                     ),
@@ -75,7 +95,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(data: "Emprunts actifs : 2"),
+                        BaseText(data: "Emprunts actifs : ${ref.watch(borrowNumber)}"),
                         SizedBox(height: 15),
                       ],
                     ),

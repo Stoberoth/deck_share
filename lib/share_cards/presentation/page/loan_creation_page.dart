@@ -4,11 +4,13 @@ import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_co
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
 import 'package:deck_share/ui/molecules/molecule_card_tile.dart';
+import 'package:deck_share/ui/molecules/molecule_date_picker.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
@@ -40,15 +42,6 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
       body: SafeArea(
         child: Column(
           children: [
-            // text field pour le titre du prêt
-
-            // la liste des cartes prêter ou à prêter
-
-            // menu de selection pour les contacts ou alors dans un premier temps juste entrer le nom
-
-            // Date picker pour une date de rendu
-
-            // Text field pour ajouter une note sur le prêt
             BaseTextField(
               controller: titleController,
               hintText: "Ex: Modern Burn Deck",
@@ -76,7 +69,9 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
               hintText:
                   "Entre le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
             ),
+
             // TODO ajouter un bouton et un text pour le date picker
+            BaseDatePicker(),
             BaseTextField(
               controller: noteController,
               hintText: "Ajouter des notes",
@@ -95,8 +90,12 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
             title: titleController.text,
             lender: amILender ? "Me" : contactController.text,
             applicant: !amILender ? "Me" : contactController.text,
-            lendingCards: ref.watch(pickcards),
+            lendingCards: ref.watch(pickcards).toList(),
+            expectedReturnDate: ref.watch(selectDate),
+            lendingDate: DateTime.now(),
+            notes: noteController.text
           );
+          ref.read(pickcards.notifier).state.clear();
           ref.read(shareCardsControllerProvider.notifier).addShareCards(sc);
           Navigator.pop(context);
         },

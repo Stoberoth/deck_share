@@ -11,19 +11,19 @@ class BaseLoanCard extends StatelessWidget {
   final BaseImage leadingImage;
   final BaseText loanTitle;
   final Widget loanSubtitle;
-  final ShareCardsStatus status;
+  final bool isOverdue;
 
   const BaseLoanCard({
     super.key,
     required this.leadingImage,
     required this.loanTitle,
     required this.loanSubtitle,
-    required this.status,
+    required this.isOverdue,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color statusColor = (status == ShareCardsStatus.active
+    Color statusColor = (isOverdue
         ? AppColors.success
         : AppColors.warning);
     return BaseCard(

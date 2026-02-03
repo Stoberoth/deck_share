@@ -10,74 +10,64 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 
 ## État actuel du projet
 
-### Ce qui existe déjà ✅
+### Ce qui est fait ✅
 
 | Élément | Fichier | Statut |
 |---------|---------|--------|
-| Modèle ShareCards | `.cursor/rules/share_cards_model.dart` | ⚠️ Mal placé |
+| Modèle ShareCards | `lib/share_cards/domain/share_cards_model.dart` | ✅ Bien placé |
+| Enum ShareCardsStatus | `lib/share_cards/domain/share_cards_model.dart` | ✅ |
+| Champs enrichis | `title`, `expectedReturnDate`, `returnedAt`, `status`, `notes` | ✅ |
 | Repository interface | `lib/share_cards/data/share_card_repository.dart` | ✅ |
 | Repository local | `lib/share_cards/data/share_card_local_repository.dart` | ✅ |
-| Services | `lib/share_cards/application/share_cards_services.dart` | ✅ |
-| Controller | `lib/share_cards/presentation/controller/share_cards_controller.dart` | ✅ |
-| Page liste | `lib/share_cards/presentation/page/home_share_cards.dart` | ✅ |
-| Page création | `lib/share_cards/presentation/page/share_cards_creation_page.dart` | ✅ |
-| Page détail | `lib/share_cards/presentation/page/share_cards_details_page.dart` | ✅ |
+| Services | `lib/share_cards/application/share_cards_services.dart` | ✅ Complet |
+| Controller | `lib/share_cards/presentation/controller/share_cards_controller.dart` | ✅ Complet |
+| Page liste | `lib/share_cards/presentation/page/home_share_cards.dart` | ✅ Stats + Tabs |
+| Page création | `lib/share_cards/presentation/page/loan_creation_page.dart` | ⚠️ Partiel |
+| Page détail | `lib/share_cards/presentation/page/share_cards_details_page.dart` | ⚠️ Partiel |
 | Widget liste | `lib/share_cards/presentation/widget/share_cards_list.dart` | ✅ |
 | Scryfall picker | `lib/scryfall_searcher/` | ✅ Complet |
-| Composants UI | `lib/ui/` | ✅ Atoms, molecules, etc. |
+| Composants UI | `lib/ui/` | ✅ Atoms, molecules, organisms, templates |
 | Navigation | `lib/home/home.dart` | ✅ Bottom nav avec ShareCards |
+| Thème couleurs | `lib/utils/app_color.dart` | ✅ Palette sombre violet |
 
-### Ce qui manque ❌
+### Ce qui reste à faire ❌
 
 | Élément | Description |
 |---------|-------------|
-| Placement modèle | Déplacer dans `lib/share_cards/domain/` |
-| Champs modèle | `title`, `expectedReturnDate`, `returnedAt`, `status`, `notes` |
-| Enum LoanStatus | `active`, `returned`, `overdue` |
-| Gestion contacts | Modèle Contact + repository + services |
-| UI moderne | Adapter aux maquettes (thème sombre violet) |
+| Page création | Ajouter DatePicker pour date de retour prévue |
+| Page détail | Badge statut, boutons actions, section notes |
+| Gestion contacts | Modèle Contact + repository + services (optionnel) |
 | Intégration Wishlist | Badge "Empruntée" sur les cartes |
 
 ---
 
-## Phase 1 : Corrections urgentes
+## Phase 1 : Corrections urgentes ✅ TERMINÉE
 
-### Étape 1.1 : Déplacer le modèle ⚠️ PRIORITAIRE
+### Étape 1.1 : Déplacer le modèle ✅ FAIT
 
-**Action** : Déplacer `.cursor/rules/share_cards_model.dart` vers `lib/share_cards/domain/share_cards_model.dart`
+**Action** : ~~Déplacer `.cursor/rules/share_cards_model.dart` vers `lib/share_cards/domain/share_cards_model.dart`~~
 
-```bash
-# Créer le dossier domain s'il n'existe pas
-mkdir lib/share_cards/domain
-
-# Déplacer le fichier
-move .cursor/rules/share_cards_model.dart lib/share_cards/domain/
-```
+Le modèle est maintenant dans `lib/share_cards/domain/share_cards_model.dart`
 
 ---
 
-### Étape 1.2 : Enrichir le modèle ShareCards
+### Étape 1.2 : Enrichir le modèle ShareCards ✅ FAIT
 
 **Fichier** : `lib/share_cards/domain/share_cards_model.dart`
 
-**Champs actuels** :
+**Tous les champs sont présents** :
 - `id` ✅
+- `title` ✅
+- `expectedReturnDate` ✅
+- `returnedAt` ✅
+- `status` ✅
+- `notes` ✅
 - `lender` ✅
 - `applicant` ✅
 - `lendingCards` ✅
 - `lendingDate` ✅
 
-**Champs à ajouter** :
-```dart
-// Ajouter ces champs
-final String? title;                    // Nom du prêt (ex: "Deck Burn Modern")
-final DateTime? expectedReturnDate;     // Date de retour prévue
-final DateTime? returnedAt;             // Date de retour effective (null si en cours)
-final ShareCardsStatus status;          // Statut du prêt
-final String? notes;                    // Notes optionnelles
-```
-
-**Enum à créer** (dans le même fichier ou séparé) :
+**Enum créé** ✅ :
 ```dart
 enum ShareCardsStatus {
   active,    // Prêt en cours
@@ -86,112 +76,86 @@ enum ShareCardsStatus {
 }
 ```
 
-**Getter utile à ajouter** :
-```dart
-bool get isOverdue {
-  if (status == ShareCardsStatus.returned) return false;
-  if (expectedReturnDate == null) return false;
-  return DateTime.now().isAfter(expectedReturnDate!);
-}
-```
+**Getter `isOverdue`** ✅ implémenté
 
 ---
 
-## Phase 2 : Mettre à jour les couches existantes
+## Phase 2 : Mettre à jour les couches existantes ✅ TERMINÉE
 
-### Étape 2.1 : Mettre à jour le Repository
+### Étape 2.1 : Mettre à jour le Repository ✅ FAIT
 
 **Fichier** : `lib/share_cards/data/share_card_local_repository.dart`
 
-**Vérifier** que la sérialisation gère les nouveaux champs.
+La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-### Étape 2.2 : Mettre à jour les Services
+### Étape 2.2 : Mettre à jour les Services ✅ FAIT
 
 **Fichier** : `lib/share_cards/application/share_cards_services.dart`
 
-**Ajouter ces méthodes** :
-```dart
-// Marquer un prêt comme rendu
-Future<void> markAsReturned(String id) async {
-  final shareCards = await getShareCardsById(id);
-  // Mettre à jour returnedAt et status
-  // Sauvegarder
-}
-
-// Prolonger un prêt
-Future<void> extendLoan(String id, DateTime newReturnDate) async {
-  // Mettre à jour expectedReturnDate
-}
-
-// Filtrer par statut
-Future<List<ShareCards>> getByStatus(ShareCardsStatus status) async {
-  final all = await getAllShareCards();
-  return all.where((sc) => sc.status == status).toList();
-}
-
-// Obtenir les prêts que JE fais (lender = "Me")
-Future<List<ShareCards>> getLentCards() async {
-  final all = await getAllShareCards();
-  return all.where((sc) => sc.lender == "Me").toList();
-}
-
-// Obtenir les prêts que JE reçois (applicant = "Me")
-Future<List<ShareCards>> getBorrowedCards() async {
-  final all = await getAllShareCards();
-  return all.where((sc) => sc.applicant == "Me").toList();
-}
-```
+**Méthodes implémentées** :
+- ✅ `markAsReturned(String id)` - Marquer un prêt comme rendu
+- ✅ `extendLoan(String id, DateTime newReturnDate)` - Prolonger un prêt
+- ✅ `getByStatus(ShareCardsStatus status)` - Filtrer par statut
+- ✅ `getLentCards()` - Prêts que je fais (lender = "Me")
+- ✅ `getBorrowedCards()` - Prêts que je reçois (applicant = "Me")
+- ✅ `getNumberOfLent()` - Nombre de prêts actifs
+- ✅ `getNumberOfBorrow()` - Nombre d'emprunts actifs
 
 ---
 
-### Étape 2.3 : Mettre à jour le Controller
+### Étape 2.3 : Mettre à jour le Controller ✅ FAIT
 
 **Fichier** : `lib/share_cards/presentation/controller/share_cards_controller.dart`
 
-**Ajouter** :
-- Provider pour les prêts filtrés (lent vs borrowed)
-- Méthodes pour marquer rendu, prolonger, etc.
+**Implémenté** :
+- ✅ `markAsReturned(String id)`
+- ✅ `extendLoan(String id, DateTime newReturnDate)`
+- ✅ `getByStatus(ShareCardsStatus status)`
+- ✅ `getLentCards()` / `getBorrowedCards()`
+- ✅ `getNumberOfLent()` / `getNumberOfBorrow()`
 
 ---
 
-## Phase 3 : Mettre à jour les Pages UI
+## Phase 3 : Mettre à jour les Pages UI ⚠️ EN COURS
 
-### Étape 3.1 : Page d'accueil des prêts
+### Étape 3.1 : Page d'accueil des prêts ✅ FAIT
 
 **Fichier** : `lib/share_cards/presentation/page/home_share_cards.dart`
 
 **Référence maquette** : `design/ai_design/v1/loan_list_ui_design.png`
 
-**Modifications à faire** :
-- [ ] Ajouter les cartes statistiques en haut (prêts actifs / emprunts actifs)
-- [ ] Ajouter TabBar : "Prêtés" / "Empruntés"
-- [ ] Appliquer le thème sombre violet
+**Modifications faites** :
+- [x] Ajouter les cartes statistiques en haut (prêts actifs / emprunts actifs)
+- [x] Ajouter TabBar : "Prêtés" / "Empruntés" (via `BaseSliderSegmentedButton`)
+- [x] Appliquer le thème sombre violet
 
 ---
 
-### Étape 3.2 : Page de création
+### Étape 3.2 : Page de création ⚠️ PARTIEL
 
-**Fichier** : `lib/share_cards/presentation/page/share_cards_creation_page.dart`
+**Fichier** : `lib/share_cards/presentation/page/loan_creation_page.dart`
 
 **Référence maquette** : `design/ai_design/v1/loan_creation_form.png`
 
-**Modifications à faire** :
-- [ ] Ajouter champ "Titre du prêt"
-- [ ] Ajouter DatePicker pour "Date de retour prévue"
-- [ ] Ajouter champ "Notes"
-- [ ] Améliorer le design (thème sombre violet)
+**Modifications faites** :
+- [x] Ajouter champ "Titre du prêt"
+- [ ] **Ajouter DatePicker pour "Date de retour prévue"** ← À FAIRE
+- [x] Ajouter champ "Notes"
+- [x] Checkbox "Je prête" / "J'emprunte"
+- [x] Champ contact (prêteur/emprunteur)
 
 ---
 
-### Étape 3.3 : Page de détail
+### Étape 3.3 : Page de détail ❌ À COMPLÉTER
 
 **Fichier** : `lib/share_cards/presentation/page/share_cards_details_page.dart`
 
 **Référence maquette** : `design/ai_design/v1/loan_detail_page.png`
 
 **Modifications à faire** :
+- [ ] Afficher le titre du prêt
 - [ ] Afficher le badge de statut (En cours / Rendu / En retard)
 - [ ] Afficher la durée du prêt
 - [ ] Ajouter bouton "Marquer comme rendu"
@@ -264,44 +228,41 @@ final wishlistWithLoanStatusProvider = Provider<List<WishlistCardWithStatus>>((r
 
 ---
 
-## Phase 6 : Thème et Design
+## Phase 6 : Thème et Design ✅ TERMINÉE
 
-### Étape 6.1 : Créer un thème sombre violet
+### Étape 6.1 : Créer un thème sombre violet ✅ FAIT
 
-**Fichier** : `lib/main.dart` ou `lib/ui/theme/app_theme.dart`
+**Fichier** : `lib/utils/app_color.dart`
 
-```dart
-ThemeData darkPurpleTheme = ThemeData(
-  brightness: Brightness.dark,
-  colorScheme: ColorScheme.dark(
-    primary: Colors.deepPurple,
-    secondary: Colors.purpleAccent,
-    surface: Color(0xFF1E1E2E),
-    background: Color(0xFF121218),
-  ),
-  // ...
-);
-```
+Palette complète définie :
+- **Fonds** : `background`, `surface`, `surfaceVariant`
+- **Accents** : `primary` (violet), `primaryLight`
+- **Statuts** : `success` (vert), `warning` (orange), `error` (rouge)
+- **Textes** : `textPrimary`, `textSecondary`, `textDisabled`
+
+**Fichier** : `lib/main.dart`
+
+Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 
 ---
 
 ## Checklist de développement
 
-### Phase 1 - Corrections urgentes
-- [ ] Déplacer `share_cards_model.dart` dans `lib/share_cards/domain/`
-- [ ] Ajouter les champs manquants au modèle (`title`, `expectedReturnDate`, `status`, etc.)
-- [ ] Créer l'enum `ShareCardsStatus`
-- [ ] Mettre à jour `fromJson()` et `toJson()`
+### Phase 1 - Corrections urgentes ✅
+- [x] Déplacer `share_cards_model.dart` dans `lib/share_cards/domain/`
+- [x] Ajouter les champs manquants au modèle (`title`, `expectedReturnDate`, `status`, etc.)
+- [x] Créer l'enum `ShareCardsStatus`
+- [x] Mettre à jour `fromJson()` et `toJson()`
 
-### Phase 2 - Mise à jour couches existantes
-- [ ] Mettre à jour le repository pour les nouveaux champs
-- [ ] Ajouter les méthodes services (`markAsReturned`, `extendLoan`, filtres)
-- [ ] Mettre à jour le controller
+### Phase 2 - Mise à jour couches existantes ✅
+- [x] Mettre à jour le repository pour les nouveaux champs
+- [x] Ajouter les méthodes services (`markAsReturned`, `extendLoan`, filtres)
+- [x] Mettre à jour le controller
 
-### Phase 3 - UI
-- [ ] Mettre à jour `home_share_cards.dart` (stats, tabs)
-- [ ] Mettre à jour `share_cards_creation_page.dart` (nouveaux champs)
-- [ ] Mettre à jour `share_cards_details_page.dart` (statut, actions)
+### Phase 3 - UI ⚠️ En cours
+- [x] Mettre à jour `home_share_cards.dart` (stats, tabs)
+- [ ] Mettre à jour `loan_creation_page.dart` (DatePicker manquant)
+- [ ] Mettre à jour `share_cards_details_page.dart` (statut, actions, notes)
 
 ### Phase 4 - Contacts (optionnel)
 - [ ] Créer `contact_model.dart`
@@ -312,19 +273,22 @@ ThemeData darkPurpleTheme = ThemeData(
 - [ ] Créer le provider de croisement
 - [ ] Modifier la page wishlist
 
-### Phase 6 - Design
-- [ ] Appliquer le thème sombre violet
-- [ ] Tester sur les maquettes
+### Phase 6 - Design ✅
+- [x] Appliquer le thème sombre violet (`app_color.dart`)
+- [x] Intégrer dans `main.dart`
 
 ---
 
 ## Ordre de développement recommandé
 
-1. **Jour 1** : Phase 1 (corrections modèle) - ~1h
-2. **Jour 1-2** : Phase 2 (services et controller) - ~1-2h
-3. **Jour 2-3** : Phase 3 (UI pages) - ~2-3h
-4. **Jour 4** : Phase 5 (intégration wishlist) - ~1-2h
-5. **Plus tard** : Phase 4 (contacts) et Phase 6 (thème)
+1. ~~**Phase 1** : Corrections modèle~~ ✅ TERMINÉ
+2. ~~**Phase 2** : Services et controller~~ ✅ TERMINÉ
+3. **Phase 3** : UI pages ⚠️ EN COURS
+   - Prochaine tâche : Ajouter DatePicker dans `loan_creation_page.dart`
+   - Puis : Compléter `share_cards_details_page.dart`
+4. **Phase 5** : Intégration wishlist - À FAIRE
+5. **Phase 4** : Contacts (optionnel) - À FAIRE
+6. ~~**Phase 6** : Thème~~ ✅ TERMINÉ
 
 ---
 
@@ -346,10 +310,17 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 
 ## Conseils de reprise
 
-1. **Commence par la Phase 1** - C'est la fondation
-2. **Teste après chaque modification** - Lance l'app pour vérifier
-3. **Utilise le code existant** comme référence (wishlist, share_cards actuel)
-4. **Commit après chaque phase** avec un message clair
-5. **Ne change pas tout d'un coup** - Procède par petites étapes
+### Prochaines étapes recommandées
 
-Bon courage pour la reprise !
+1. **Terminer `loan_creation_page.dart`** : Ajouter le DatePicker pour la date de retour prévue
+2. **Compléter `share_cards_details_page.dart`** : Badge statut, boutons actions, section notes
+3. **Phase 5 - Intégration Wishlist** : Créer le provider de croisement et modifier la page wishlist
+
+### Bonnes pratiques
+
+- **Teste après chaque modification** - Lance l'app pour vérifier
+- **Utilise le code existant** comme référence (wishlist, share_cards actuel)
+- **Commit après chaque phase** avec un message clair
+- **Ne change pas tout d'un coup** - Procède par petites étapes
+
+Bon courage pour la suite !

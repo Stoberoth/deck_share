@@ -37,8 +37,8 @@ class ShareCards {
     return ShareCards(
       id: json["id"],
       title: json["title"],
-      expectedReturnDate: json["expectedRetrunDate"],
-      returnedAt: json["returnedAt"],
+      expectedReturnDate: json["expectedReturnDate"] != null ? DateTime.parse(json["expectedReturnDate"] as String): null,
+      returnedAt: json["returnedAt"] != null ? DateTime.parse(json['returnedAt'] as String) : null,
       status: ShareCardsStatus.values.byName(json["status"]),
       notes: json["notes"],
       lender: json["lender"],
@@ -56,8 +56,8 @@ class ShareCards {
     return {
       'id': id,
       'title': title,
-      'expectedReturnDate': expectedReturnDate,
-      'returnedAt': returnedAt,
+      'expectedReturnDate': expectedReturnDate?.toIso8601String(),
+      'returnedAt': returnedAt?.toIso8601String(),
       'status': status.name,
       'notes': notes,
       'lender': lender,
