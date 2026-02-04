@@ -1,6 +1,5 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
-import 'package:deck_share/share_cards/presentation/page/home_share_cards.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_details_page.dart';
 import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
@@ -15,7 +14,9 @@ enum LoanListFilter {
   borrow, // see borrowed loan
 }
 
-final selectLoan = StateProvider<ShareCards>((ref) => ShareCards(lender: "", applicant: "", lendingCards: []));
+final selectLoan = StateProvider<ShareCards>(
+  (ref) => ShareCards(lender: "", applicant: "", lendingCards: []),
+);
 
 class LoanList extends ConsumerStatefulWidget {
   final List<ShareCards> loanList;
@@ -40,18 +41,19 @@ class _LoanListState extends ConsumerState<LoanList> {
       return widget.loanList;
     } else if (widget.filter == LoanListFilter.lent) {
       List<ShareCards> list = widget.loanList
-          .where((sc) => sc.lender == "Me")
+          .where((sc) => sc.lender == "Me" && sc.returnedAt == null)
           .toList();
       return list;
     } else {
-      return widget.loanList.where((sc) => sc.applicant == "Me").toList();
+      return widget.loanList
+          .where((sc) => sc.applicant == "Me" && sc.returnedAt == null)
+          .toList();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     List<ShareCards> tmp = filterLoan();
-    // TODO: implement build
     return Expanded(
       child: ListView.builder(
         itemCount: tmp.length,

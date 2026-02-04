@@ -50,10 +50,10 @@ class ScryfallOptionDialog extends ConsumerWidget {
                     requestFocusOnTap: true,
                     enableFilter: true,
                     menuHeight: 200,
-                    initialSelection: snapshot.data!.firstWhere((element) => element.value.code == optionsText["e:"]).value,
+                    //initialSelection: snapshot.data!.firstWhere((element) => element.value.code == optionsText["e:"]).value,
                     width: 200,
                     onSelected: (value) {
-                      optionsText["e:"] = (value! as MtgSet).code;
+                      optionsText["e:"] = (value!).code;
                     },
                   ),
                 ],

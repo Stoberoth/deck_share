@@ -7,6 +7,7 @@ class BaseTemplate extends StatelessWidget {
   final Widget baseAppBar;
   final Widget body;
   final Color backgroundColor;
+  final Widget? bottomNavBar;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
@@ -14,6 +15,7 @@ class BaseTemplate extends StatelessWidget {
     super.key,
     required this.baseAppBar,
     required this.body,
+    this.bottomNavBar,
     this.backgroundColor = AppColors.surface,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -28,6 +30,7 @@ class BaseTemplate extends StatelessWidget {
       ),
       backgroundColor: backgroundColor,
       body: Padding(padding: const EdgeInsets.all(16.0), child: body),
+      bottomNavigationBar: bottomNavBar,
       //backgroundColor: Colors.orange,
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,

@@ -2,10 +2,14 @@ import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_co
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/ui/atom/atom_card.dart';
+import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
+import 'package:deck_share/ui/molecules/molecule_card_tile.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
+import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
@@ -61,6 +65,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
     );
 
     return BaseTemplate(
+      backgroundColor: AppColors.background,
       baseAppBar: BaseAppBar(title: "Search for cards"),
       body: SafeArea(
         child: Padding(
@@ -73,19 +78,24 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
               }
               return Column(
                 children: [
-                  BaseTextField(
-                    controller: searchController,
-                    hintText: "Search Card by name",
-                    icon: Icon(Icons.search),
-                    onSubmitted: (value) => onSearch(),
+                  BaseCard(
+                    child: BaseListTile(
+                      trailing: IconButton(onPressed: (){onSearch();}, icon: Icon(Icons.search, color: AppColors.textPrimary,)),
+                      title: BaseTextField(
+                        controller: searchController,
+                        hintText: "Search Card by name",
+                        onSubmitted: (value) => onSearch(),
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 10),
+
+                  /* SizedBox(height: 10),
                   BaseTextField(
                     controller: searchOracleController,
                     hintText: "Search card by oracle text",
                     icon: Icon(Icons.search),
                     onSubmitted: (value) => onSearch(),
-                  ),
+                  ),*/
 
                   /*SizedBox(height: 10),
                   Row(
@@ -125,13 +135,13 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      BaseButton(
+                    /*  BaseButton(
                         label: "Search",
                         onPressed: () async {
                           onSearch();
                         },
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 10),*/
                       BaseButton(
                         label: "Add search options",
                         onPressed: () async {
@@ -167,20 +177,23 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                 child: Card(
                                   // Correction du type pour correspondre à Color?
                                   color:
-                                  ref.watch(pickcards).where(
+                                      ref
+                                          .watch(pickcards)
+                                          .where(
                                             (element) =>
                                                 element.id ==
                                                 listOfCards.value![index].id,
                                           )
                                           .isNotEmpty
-                                          
                                       ? Colors.grey
                                       : Colors.white,
                                   child: InkWell(
                                     onTap: () {
-                                      if (!ref.watch(pickcards).contains(
-                                        listOfCards.value![index],
-                                      )) {
+                                      if (!ref
+                                          .watch(pickcards)
+                                          .contains(
+                                            listOfCards.value![index],
+                                          )) {
                                         setState(() {
                                           ref
                                               .read(pickcards.notifier)
@@ -192,7 +205,9 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                                           ref
                                               .read(pickcards.notifier)
                                               .state
-                                              .remove(listOfCards.value![index]);
+                                              .remove(
+                                                listOfCards.value![index],
+                                              );
                                         });
                                       }
                                     },

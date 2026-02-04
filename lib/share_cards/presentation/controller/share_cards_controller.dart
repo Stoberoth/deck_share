@@ -43,6 +43,7 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
 
   Future<void> markAsReturned(String id) async {
     await shareCardsServices.markAsReturned(id);
+    await shareCardsServices.getAllShareCards();
   }
 
   Future<void> extendLoan(String id, DateTime newReturnDate) async {

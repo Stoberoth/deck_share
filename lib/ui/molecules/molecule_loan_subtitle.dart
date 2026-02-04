@@ -23,7 +23,7 @@ class BaseLoanSubtitle extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Row(children: [Icon(Icons.card_giftcard), BaseText(data: " " + cardNumber.toString() + " cards", fontSize: 10,), SizedBox(width: 20,), Icon(Icons.contact_phone), BaseText(data: filter == LoanListFilter.lent ? " Prêtés à : " + contact : "Prêtés par :" + contact, fontSize: 10)]),
+          Row(children: [Icon(Icons.card_giftcard), BaseText(data: " " + cardNumber.toString() + " cards", fontSize: 10,), SizedBox(width: 20,), Icon(Icons.contact_phone), Flexible(child: BaseText(data: filter == LoanListFilter.lent ? " Prêtés à : " + contact : "Prêtés par :" + contact, fontSize: 10),) ]),
           Row(children: [Icon(Icons.lock_clock), BaseText(data: "Depuis " + days.toString() + " jours", fontSize: 10),SizedBox(width: 20,), BaseText(data: "Retour prévu : " + DateFormatter.formatDateDayMounth(returnDate), fontSize: 10)]),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_card_sum.dart';
+import 'package:deck_share/ui/organisms/organism_card_sum_list.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:deck_share/utils/date_formatter.dart';
@@ -101,18 +102,6 @@ class BaseLoanSum extends ConsumerWidget {
             ),
           ),
         ),
-        SizedBox(height: 5),
-        BaseText(
-          data: "Cartes prêtées (${loanToSum.lendingCards.length})",
-          fontSize: 20,
-        ),
-        ?loanToSum.lendingCards.isNotEmpty
-            ? BaseCardSum(
-                image: loanToSum.lendingCards[0].imageUris!.artCrop.toString(),
-                cardExtension: loanToSum.lendingCards[0].set,
-                cardName: loanToSum.lendingCards[0].name,
-              )
-            : null,
       ],
     );
   }

@@ -58,13 +58,13 @@ class ShareCardsServices {
   Future<int> getNumberOfLent() async
   {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lender == "Me").toList().length;
+    return all.where((sc) => sc.lender == "Me" && sc.returnedAt == null).toList().length;
   }
 
    Future<int> getNumberOfBorrow() async
   {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicant == "Me").toList().length;
+    return all.where((sc) => sc.applicant == "Me" && sc.returnedAt == null).toList().length;
   }
 
   // Obtenir les prêts que je fais (lender = "Me")

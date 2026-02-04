@@ -32,8 +32,6 @@ class ShareCardsPage extends ConsumerStatefulWidget {
 
 class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
   int? groupValue = 0;
-  List<ShareCards> liste = [ShareCards(lender: "Lend", applicant: "Me", lendingCards: [], title: "test", status: ShareCardsStatus.active),ShareCards(lender: "Me", applicant: "app", lendingCards: [], title: "test begi", status: ShareCardsStatus.active),ShareCards(lender: "Lend1", applicant: "Me", lendingCards: [], title: "test2", status: ShareCardsStatus.overdue)];
-  
   void fetchLentNumber() async
   {
     int lent = await ref.read(shareCardsControllerProvider.notifier).getNumberOfLent();
@@ -55,7 +53,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
     final AsyncValue<List<ShareCards>> state = ref.watch(shareCardsControllerProvider);
     fetchLentNumber();
     fetchBorrowNumber();
-    List<ShareCards> loanList = state.value ?? [];
+    List<ShareCards> loanList =  state.value ?? [];
     return BaseTemplate(
       baseAppBar: BaseAppBar(title: 'Mes Prêts'),
       backgroundColor: AppColors.background,
@@ -106,7 +104,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
             SizedBox(height: 10),
             BaseSliderSegmentedButton(),
             SizedBox(height: 10),
-            LoanList(loanList: loanList , filter: ref.watch(indexProvider) == 1 ? LoanListFilter.borrow: LoanListFilter.lent),
+            LoanList(loanList: state.value ?? [], filter: ref.watch(indexProvider) == 1 ? LoanListFilter.borrow: LoanListFilter.lent),
 
           ],
         ),

@@ -1,6 +1,10 @@
+import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_loan_sum.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/organisms/organism_card_sum_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';
@@ -10,21 +14,57 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class LoanDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ShareCards loanToSum = ref.read(selectLoan);
     return BaseTemplate(
       baseAppBar: BaseAppBar(title: "Details du prêt"),
       backgroundColor: AppColors.background,
-      body: BaseLoanSum(),
-      // Card ou container avec le titre du prêt
-      // Un encart pour savoir si le prêt est en cours
-      // qui emprunt/prête les cartes
-      // la date de l'emprunt
-      // quand le retour est précu
-      // depuis combien de temps l'emprunt cour
-
-      // en dessous les cartes prêtéses sous forme de liste avec:
-      // - l'image de la carte
-      // - le nom de la carte
-      // - l'extension
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BaseLoanSum(),
+          SizedBox(height: 5),
+          BaseText(
+            data: "Cartes prêtées (${loanToSum.lendingCards.length})",
+            fontSize: 20,
+          ),
+          ?loanToSum.lendingCards.isNotEmpty ? BaseCardSumList() : null,
+        ],
+      ),
+      bottomNavBar: Container(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: AppColors.primary, width: 1.0)),
+        ),
+        child: BottomAppBar(
+          color: AppColors.background,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FilledButton(
+                onPressed: () async {
+                  await ref
+                      .read(shareCardsControllerProvider.notifier)
+                      .markAsReturned(loanToSum.id!);
+                  Navigator.pop(context);
+                },
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.success,
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.check),
+                    BaseText(data: "Marquer comme rendu", fontSize: 15),
+                  ],
+                ),
+              ),
+              //BaseButton(label: "Marquer comme rendu", onPressed: () {}),
+              Spacer(),
+              BaseButton(label: "Prolonger", onPressed: () {}),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

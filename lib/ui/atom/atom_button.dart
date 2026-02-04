@@ -21,7 +21,7 @@ class BaseButton extends StatelessWidget {
         backgroundColor: buttonColor,
        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
-      child: BaseText(data: label,fontSize: 20,)
+      child: BaseText(data: label,fontSize: 18,)
     );
   }
 }
