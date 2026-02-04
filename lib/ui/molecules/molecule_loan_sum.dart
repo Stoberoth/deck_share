@@ -1,6 +1,7 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
+import 'package:deck_share/ui/molecules/molecule_card_sum.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:deck_share/utils/date_formatter.dart';
@@ -23,6 +24,17 @@ class BaseLoanSum extends ConsumerWidget {
             padding: EdgeInsets.all(12),
             alignment: Alignment.topLeft,
             decoration: BoxDecoration(
+              gradient: RadialGradient(
+                colors: [
+                  Color.lerp(Colors.white, AppColors.surface, 0.75)!,
+                  //Color.lerp(Colors.white, AppColors.surface, 0.9)!,
+                  AppColors.surface,
+                ],
+                stops: [0.0, 0.5],
+                center: Alignment.topRight,
+                radius: 1.5,
+                tileMode: TileMode.clamp,
+              ),
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(15),
             ),
@@ -89,9 +101,18 @@ class BaseLoanSum extends ConsumerWidget {
             ),
           ),
         ),
-        SizedBox(height: 5,),
-        BaseText(data: "Cartes prêtées (${loanToSum.lendingCards.length})", fontSize: 20,),
-        // TODO : create the view of the cards.
+        SizedBox(height: 5),
+        BaseText(
+          data: "Cartes prêtées (${loanToSum.lendingCards.length})",
+          fontSize: 20,
+        ),
+        ?loanToSum.lendingCards.isNotEmpty
+            ? BaseCardSum(
+                image: loanToSum.lendingCards[0].imageUris!.artCrop.toString(),
+                cardExtension: loanToSum.lendingCards[0].set,
+                cardName: loanToSum.lendingCards[0].name,
+              )
+            : null,
       ],
     );
   }
