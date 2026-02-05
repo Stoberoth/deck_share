@@ -24,9 +24,9 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 | Page liste | `lib/share_cards/presentation/page/home_share_cards.dart` | ✅ Stats + Tabs |
 | Page création | `lib/share_cards/presentation/page/loan_creation_page.dart` | ✅ Complet |
 | Page détail legacy | `lib/share_cards/presentation/page/share_cards_details_page.dart` | ⚠️ Obsolète (à supprimer) |
-| Page détail (nouvelle) | `lib/share_cards/presentation/page/loan_details_page.dart` | ✅ Quasi complète (90%) |
+| Page détail (nouvelle) | `lib/share_cards/presentation/page/loan_details_page.dart` | ✅ Complète |
 | Widget liste | `lib/share_cards/presentation/widget/share_cards_list.dart` | ✅ |
-| Scryfall picker | `lib/scryfall_searcher/` | ✅ Complet |
+| Scryfall picker | `lib/scryfall_searcher/` | ✅ Complet (+ cartes multi-faces) |
 | Navigation | `lib/home/home.dart` | ✅ Bottom nav avec ShareCards |
 | Thème couleurs | `lib/utils/app_color.dart` | ✅ Palette sombre violet |
 
@@ -57,6 +57,7 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 | Dismissible | `molecule_dismissible.dart` | ✅ Déplacé depuis atom |
 | LoanSubtitle | `molecule_loan_subtitle.dart` | ✅ |
 | LoanSum | `molecule_loan_sum.dart` | ✅ Nouveau |
+| Notes | `molecule_notes.dart` | ✅ Nouveau |
 | SearchBar | `molecule_search_bar.dart` | ✅ |
 | ShadowImage | `molecule_shadow_image.dart` | ✅ |
 | SliderSegmentedButton | `molecule_slider_segmented_button.dart` | ✅ |
@@ -81,12 +82,12 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 
 ### Ce qui reste à faire ❌
 
-| Élément | Description |
-|---------|-------------|
-| Section notes | Afficher `loanToSum.notes` sur la page détail |
-| Badge statut "En retard" | Ajouter l'affichage "En retard" quand `isOverdue == true` |
-| Gestion contacts | Modèle Contact + repository + services (optionnel) |
-| Intégration Wishlist | Badge "Empruntée" sur les cartes |
+| Élément | Description | Priorité |
+|---------|-------------|----------|
+| Intégration Firebase | Migrer le stockage local vers Firebase Firestore | 🔴 Haute |
+| Gestion contacts | Modèle Contact + repository + services | 🔴 Haute |
+| Badge statut "En retard" | Ajouter l'affichage "En retard" quand `isOverdue == true` | 🟡 Moyenne |
+| Intégration Wishlist | Badge "Empruntée" sur les cartes | 🟢 Basse (reportée) |
 
 ---
 
@@ -167,7 +168,7 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-## Phase 3 : Mettre à jour les Pages UI ✅ TERMINÉE (99%)
+## Phase 3 : Mettre à jour les Pages UI ✅ TERMINÉE
 
 ### Étape 3.1 : Page d'accueil des prêts ✅ FAIT
 
@@ -201,7 +202,7 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-### Étape 3.3 : Page de détail ✅ TERMINÉE (99%)
+### Étape 3.3 : Page de détail ✅ TERMINÉE
 
 > **Note** : Deux fichiers existent pour cette fonctionnalité :
 > - `share_cards_details_page.dart` - Version legacy (à supprimer éventuellement)
@@ -239,7 +240,7 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 **Améliorations restantes (mineures)** :
 - [x] Bug : Calcul "Depuis X jours" négatif ✅ CORRIGÉ
-- [ ] Section notes - Afficher `loanToSum.notes` si présent
+- [x] Section notes - `BaseNotes` (`molecule_notes.dart`) ✅ FAIT
 - [ ] Badge "En retard" - Afficher un texte différent quand `isOverdue == true`
 
 **Services disponibles dans le controller** :
@@ -248,13 +249,74 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-## Phase 4 : Gestion des Contacts (Optionnel v1)
+## Phase 4 : Intégration Firebase 🔴 PRIORITAIRE
 
-> Cette phase peut être reportée. Pour l'instant, `lender` et `applicant` sont des strings.
+> Objectif : Migrer le stockage local (JSON) vers Firebase Firestore pour une base de données robuste et synchronisée.
 
-### Étape 4.1 : Créer le modèle Contact
+### Étape 4.1 : Configuration Firebase
 
-**Fichier** : `lib/share_cards/domain/contact_model.dart`
+**Actions** :
+- [ ] Créer un projet Firebase Console
+- [ ] Ajouter l'app Flutter au projet Firebase
+- [ ] Configurer `firebase_options.dart` via FlutterFire CLI
+- [ ] Ajouter les dépendances dans `pubspec.yaml`
+
+**Dépendances à ajouter** :
+```yaml
+dependencies:
+  firebase_core: ^latest
+  cloud_firestore: ^latest
+  firebase_auth: ^latest  # optionnel pour auth future
+```
+
+### Étape 4.2 : Créer le Repository Firebase pour ShareCards
+
+**Fichier** : `lib/share_cards/data/share_card_firebase_repository.dart`
+
+```dart
+class ShareCardFirebaseRepository implements ShareCardRepository {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  @override
+  Future<List<ShareCards>> getAllShareCards() async {
+    final snapshot = await _firestore.collection('shareCards').get();
+    return snapshot.docs.map((doc) => ShareCards.fromJson(doc.data())).toList();
+  }
+  
+  // Implémenter toutes les méthodes de l'interface...
+}
+```
+
+### Étape 4.3 : Adapter le Provider pour switcher Local/Firebase
+
+**Fichier** : `lib/core/config/repository_config.dart`
+
+```dart
+enum RepositoryType { local, firebase }
+
+final repositoryTypeProvider = StateProvider<RepositoryType>((ref) => RepositoryType.firebase);
+
+final shareCardRepositoryProvider = Provider<ShareCardRepository>((ref) {
+  final type = ref.watch(repositoryTypeProvider);
+  return type == RepositoryType.firebase
+      ? ShareCardFirebaseRepository()
+      : ShareCardLocalRepository();
+});
+```
+
+### Étape 4.4 : Migrer les données existantes (optionnel)
+
+**Script de migration** : Transférer les données du JSON local vers Firestore.
+
+---
+
+## Phase 5 : Gestion des Contacts 🔴 PRIORITAIRE
+
+> Remplace les strings `lender` et `applicant` par de vrais objets Contact.
+
+### Étape 5.1 : Créer le modèle Contact
+
+**Fichier** : `lib/contacts/domain/contact_model.dart`
 
 ```dart
 class Contact {
@@ -262,31 +324,56 @@ class Contact {
   final String name;
   final String? email;
   final String? phone;
+  final String? avatarUrl;
   
-  Contact({this.id, required this.name, this.email, this.phone});
+  Contact({this.id, required this.name, this.email, this.phone, this.avatarUrl});
   
-  // fromJson / toJson
+  Map<String, dynamic> toJson() => { ... };
+  factory Contact.fromJson(Map<String, dynamic> json) => Contact(...);
 }
 ```
 
-### Étape 4.2 : Repository et Services pour Contact
+### Étape 5.2 : Repository et Services pour Contact
 
 **Fichiers** :
-- `lib/share_cards/data/contact_repository.dart`
-- `lib/share_cards/data/contact_local_repository.dart`
-- `lib/share_cards/application/contact_services.dart`
+- `lib/contacts/data/contact_repository.dart` - Interface
+- `lib/contacts/data/contact_firebase_repository.dart` - Implémentation Firebase
+- `lib/contacts/application/contact_services.dart` - Logique métier
 
-### Étape 4.3 : Page des contacts
+**Méthodes à implémenter** :
+- `getAllContacts()`
+- `getContactById(String id)`
+- `saveContact(Contact contact)`
+- `deleteContact(String id)`
+- `searchContacts(String query)`
 
-**Fichier** : `lib/share_cards/presentation/page/contacts_page.dart`
+### Étape 5.3 : Controller Contact
+
+**Fichier** : `lib/contacts/presentation/controller/contact_controller.dart`
+
+### Étape 5.4 : Pages UI Contacts
+
+**Fichiers** :
+- `lib/contacts/presentation/page/contacts_page.dart` - Liste des contacts
+- `lib/contacts/presentation/page/contact_creation_page.dart` - Création/édition
 
 **Référence maquette** : `design/ai_design/v1/contacts_page.png`
 
+### Étape 5.5 : Mettre à jour ShareCards pour utiliser Contact
+
+**Modifications** :
+- Changer `lender: String` → `lender: Contact`
+- Changer `applicant: String` → `applicant: Contact`
+- Mettre à jour `toJson()` et `fromJson()`
+- Adapter les pages de création et détail
+
 ---
 
-## Phase 5 : Intégration Wishlist
+## Phase 6 : Intégration Wishlist 🟢 REPORTÉE
 
-### Étape 5.1 : Créer un provider de croisement
+> Cette phase est reportée pour se concentrer sur une base saine avec Firebase et Contacts.
+
+### Étape 6.1 : Créer un provider de croisement
 
 **Fichier** : `lib/wishlist/presentation/controller/wishlist_loan_provider.dart`
 
@@ -301,7 +388,7 @@ final wishlistWithLoanStatusProvider = Provider<List<WishlistCardWithStatus>>((r
 });
 ```
 
-### Étape 5.2 : Modifier la page Wishlist
+### Étape 6.2 : Modifier la page Wishlist
 
 **Référence maquette** : `design/ai_design/v1/wishlist_with_loans.png`
 
@@ -311,7 +398,7 @@ final wishlistWithLoanStatusProvider = Provider<List<WishlistCardWithStatus>>((r
 
 ---
 
-## Phase 6 : Thème et Design ✅ TERMINÉE
+## Phase 7 : Thème et Design ✅ TERMINÉE
 
 ### Étape 6.1 : Créer un thème sombre violet ✅ FAIT
 
@@ -342,7 +429,7 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 - [x] Ajouter les méthodes services (`markAsReturned`, `extendLoan`, filtres)
 - [x] Mettre à jour le controller
 
-### Phase 3 - UI ✅ Terminée (99%)
+### Phase 3 - UI ✅ Terminée
 - [x] Mettre à jour `home_share_cards.dart` (stats, tabs)
 - [x] Mettre à jour `loan_creation_page.dart` (DatePicker, titre, notes, validation)
 - [x] Créer `molecule_date_picker.dart` (sélecteur de date)
@@ -359,22 +446,34 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 - [x] Bouton "Prolonger" fonctionnel (avec showDatePicker)
 - [x] Badge statut dynamique ("En cours" / "Returned")
 - [x] Corriger bug calcul "Depuis X jours"
-- [ ] Section notes sur page détail (mineur)
+- [x] Créer `molecule_notes.dart` (section notes sur page détail)
 
-### Phase 4 - Contacts (optionnel)
+### Phase 4 - Intégration Firebase 🔴 PRIORITAIRE
+- [ ] Créer projet Firebase Console
+- [ ] Configurer FlutterFire CLI (`firebase_options.dart`)
+- [ ] Ajouter dépendances (`firebase_core`, `cloud_firestore`)
+- [ ] Créer `share_card_firebase_repository.dart`
+- [ ] Adapter les providers pour switcher local/Firebase
+- [ ] Tester la synchronisation
+
+### Phase 5 - Gestion Contacts 🔴 PRIORITAIRE
 - [ ] Créer `contact_model.dart`
-- [ ] Créer repository et services
+- [ ] Créer `contact_firebase_repository.dart`
+- [ ] Créer `contact_services.dart`
+- [ ] Créer `contact_controller.dart`
 - [ ] Créer `contacts_page.dart`
+- [ ] Créer `contact_creation_page.dart`
+- [ ] Mettre à jour ShareCards pour utiliser Contact au lieu de String
 
-### Phase 5 - Intégration Wishlist
+### Phase 6 - Intégration Wishlist 🟢 REPORTÉE
 - [ ] Créer le provider de croisement
 - [ ] Modifier la page wishlist
 
-### Phase 6 - Design ✅
+### Phase 7 - Design ✅
 - [x] Appliquer le thème sombre violet (`app_color.dart`)
 - [x] Intégrer dans `main.dart`
 
-### Phase 7 - Refactoring Atomic Design ✅
+### Phase 8 - Refactoring Atomic Design ✅ TERMINÉ
 - [x] Renommer les composants avec préfixes explicites (`atom_`, `molecule_`, `organism_`, `template_`)
 - [x] Créer `atom_image.dart` (image avec gestion chargement/erreur)
 - [x] Créer `atom_text.dart` (texte stylisé réutilisable)
@@ -389,15 +488,20 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 
 1. ~~**Phase 1** : Corrections modèle~~ ✅ TERMINÉ
 2. ~~**Phase 2** : Services et controller~~ ✅ TERMINÉ
-3. ~~**Phase 3** : UI pages~~ ✅ TERMINÉ (99%)
-   - ~~Page création~~ ✅ TERMINÉ
-   - ~~Page accueil~~ ✅ TERMINÉ
-   - ~~Page détail~~ ✅ TERMINÉ (99%)
-   - **Améliorations mineures restantes** : Section notes, bug calcul jours
-4. **Phase 5** : Intégration wishlist - À FAIRE
-5. **Phase 4** : Contacts (optionnel) - À FAIRE
-6. ~~**Phase 6** : Thème~~ ✅ TERMINÉ
-7. ~~**Phase 7** : Refactoring Atomic Design~~ ✅ TERMINÉ
+3. ~~**Phase 3** : UI pages~~ ✅ TERMINÉ
+4. **Phase 4** : Intégration Firebase 🔴 **PROCHAINE ÉTAPE**
+   - Configuration projet Firebase
+   - Repository Firebase pour ShareCards
+   - Switch local/Firebase
+5. **Phase 5** : Gestion Contacts 🔴 **PRIORITAIRE**
+   - Modèle Contact
+   - Repository + Services + Controller
+   - Pages UI (liste + création)
+   - Lier Contact à ShareCards
+6. **Phase 6** : Intégration Wishlist 🟢 REPORTÉE
+7. ~~**Phase 7** : Thème~~ ✅ TERMINÉ
+8. ~~**Phase 8** : Refactoring Atomic Design~~ ✅ TERMINÉ
+9. ~~**Bug cartes multi-faces**~~ ✅ CORRIGÉ
 
 ---
 
@@ -421,14 +525,21 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 
 ### Prochaines étapes recommandées
 
-1. **Correction mineure `molecule_loan_sum.dart`** (1 petite tâche) :
-   - **Section notes** : Ajouter l'affichage de `loanToSum.notes` si non null/vide
+1. **Phase 4 - Intégration Firebase** 🔴 :
+   - Créer un projet sur [Firebase Console](https://console.firebase.google.com/)
+   - Installer FlutterFire CLI : `dart pub global activate flutterfire_cli`
+   - Configurer : `flutterfire configure`
+   - Créer `share_card_firebase_repository.dart` implémentant `ShareCardRepository`
 
-2. **Phase 5 - Intégration Wishlist** : Créer le provider de croisement et modifier la page wishlist
+2. **Phase 5 - Gestion Contacts** 🔴 :
+   - Créer la structure `lib/contacts/` (domain, data, application, presentation)
+   - Implémenter le modèle Contact avec Firebase
+   - Créer les pages UI pour gérer les contacts
+   - Modifier ShareCards pour référencer des Contact au lieu de strings
 
-3. **(Optionnel) Supprimer `share_cards_details_page.dart`** : L'ancienne page legacy peut être supprimée maintenant que `loan_details_page.dart` est complète
+3. **(Nettoyage) Supprimer `share_cards_details_page.dart`** : L'ancienne page legacy peut être supprimée
 
-4. **(Optionnel) Améliorer badge statut** : Afficher "En retard" quand `isOverdue == true` au lieu de juste changer la couleur
+4. **(Optionnel) Améliorer badge statut** : Afficher "En retard" quand `isOverdue == true`
 
 ### Composants UI disponibles pour réutilisation
 
@@ -442,6 +553,7 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 | `BaseDatePicker` | `molecule_date_picker.dart` | Sélecteur de date avec provider |
 | `BaseLoanSubtitle` | `molecule_loan_subtitle.dart` | Affiche nb cartes, contact, durée, date retour |
 | `BaseLoanSum` | `molecule_loan_sum.dart` | Résumé complet du prêt (titre, statut, dates, personne) |
+| `BaseNotes` | `molecule_notes.dart` | Affichage des notes d'un prêt |
 | `BaseCardSum` | `molecule_card_sum.dart` | Élément carte individuel (image, nom, extension) |
 | `BaseShadowImage` | `molecule_shadow_image.dart` | Image avec ombre colorée selon statut |
 | `BaseLoanCard` | `organism_loan_card.dart` | Carte complète avec image, titre, sous-titre |

@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_floating_action_button.dart';
-import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_slider_segmented_button.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
-import 'package:deck_share/ui/organisms/organism_loan_card.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';
@@ -20,8 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 
 final lentNumber = StateProvider<int>((ref) => 0);
-final borrowNumber = StateProvider<int>((ref)=> 0);
-
+final borrowNumber = StateProvider<int>((ref) => 0);
 
 class ShareCardsPage extends ConsumerStatefulWidget {
   const ShareCardsPage({super.key});
@@ -31,28 +26,66 @@ class ShareCardsPage extends ConsumerStatefulWidget {
 }
 
 class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
-  int? groupValue = 0;
-  void fetchLentNumber() async
-  {
-    int lent = await ref.read(shareCardsControllerProvider.notifier).getNumberOfLent();
-    setState(() {
-      ref.read(lentNumber.notifier).state = lent;
+  @override
+  void initState() {
+    super.initState();
+    // Chargement initial des données
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
     });
   }
 
-  void fetchBorrowNumber() async
-  {
-    int borrow = await ref.read(shareCardsControllerProvider.notifier).getNumberOfBorrow();
-    setState(() {
-      ref.read(borrowNumber.notifier).state = borrow;
-    });
+  Future<void> _loadData() async {
+    final controller = ref.read(shareCardsControllerProvider.notifier);
+
+    // Charger les compteurs
+    final lent = await controller.getNumberOfLent();
+    final borrow = await controller.getNumberOfBorrow();
+
+    ref.read(lentNumber.notifier).state = lent;
+    ref.read(borrowNumber.notifier).state = borrow;
+
+    // Charger la liste selon l'index actuel
+    final currentIndex = ref.read(indexProvider);
+    if (currentIndex == 0) {
+      await controller.getLentCards();
+    } else {
+      await controller.getBorrowedCards();
+    }
   }
-  
+
+  Future<void> _onIndexChanged(int index) async {
+    _loadData();
+  }
+
+  Future<void> _fetchData() async {
+    final controller = ref.read(shareCardsControllerProvider.notifier);
+    final lent = await controller.getNumberOfLent();
+    final borrow = await controller.getNumberOfBorrow();
+
+    ref.read(lentNumber.notifier).state = lent;
+    ref.read(borrowNumber.notifier).state = borrow;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<List<ShareCards>> state = ref.watch(shareCardsControllerProvider);
-    fetchLentNumber();
-    fetchBorrowNumber();
+    final AsyncValue<List<ShareCards>> state = ref.watch(
+      shareCardsControllerProvider,
+    );
+
+    // Écouter les changements d'index pour recharger les données
+    ref.listen<int>(indexProvider, (previous, next) {
+      if (previous != next) {
+        _onIndexChanged(next);
+      }
+    });
+
+    ref.listen(shareCardsControllerProvider, (previous, next) {
+      if (next is AsyncData) {
+        _fetchData();
+      }
+    });
+
     return BaseTemplate(
       baseAppBar: BaseAppBar(title: 'Mes Prêts'),
       backgroundColor: AppColors.background,
@@ -74,7 +107,9 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(data: "Prêts actifs : ${ref.watch(lentNumber)}"),
+                        BaseText(
+                          data: "Prêts actifs : ${ref.watch(lentNumber)}",
+                        ),
                         SizedBox(height: 15),
                       ],
                     ),
@@ -92,7 +127,9 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(data: "Emprunts actifs : ${ref.watch(borrowNumber)}"),
+                        BaseText(
+                          data: "Emprunts actifs : ${ref.watch(borrowNumber)}",
+                        ),
                         SizedBox(height: 15),
                       ],
                     ),
@@ -103,8 +140,14 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
             SizedBox(height: 10),
             BaseSliderSegmentedButton(),
             SizedBox(height: 10),
-            LoanList(loanList: state.value ?? [], filter: ref.watch(indexProvider) == 1 ? LoanListFilter.borrow: LoanListFilter.lent),
-
+            LoanList(
+              loanList: ref.watch(shareCardsControllerProvider).value != null
+                  ? ref.watch(shareCardsControllerProvider).value!
+                  : [],
+              filter: ref.watch(indexProvider) == 1
+                  ? LoanListFilter.borrow
+                  : LoanListFilter.lent,
+            ),
           ],
         ),
       ),
@@ -115,9 +158,8 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
           ShareCards? sc = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-              LoanCreationPage()
-                  //ShareCardsCreationPage(pickCards: [], amILender: true),
+              builder: (context) => LoanCreationPage(),
+              //ShareCardsCreationPage(pickCards: [], amILender: true),
             ),
           );
           if (sc != null) {
@@ -125,6 +167,8 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                 .read(shareCardsControllerProvider.notifier)
                 .addShareCards(sc);
           }
+          // Recharger les données après l'ajout
+          await _loadData();
         },
       ),
     );

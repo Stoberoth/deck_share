@@ -18,7 +18,7 @@ class BaseCardTile extends StatelessWidget {
       color: AppColors.textDisabled,
       child: BaseListTile(
         title: BaseText(data: card!.name.toString(), fontSize: 20),
-        leading: BaseImage(url: card!.imageUris != null ? card!.imageUris!.normal.toString() : ""),
+        leading: BaseImage(url: card!.imageUris != null ? card!.imageUris!.normal.toString() : card!.cardFaces![0].imageUris!.normal.toString()),
         trailing: IconButton(
           onPressed: onPressed,
           icon: Icon(Icons.close, color: AppColors.textPrimary),

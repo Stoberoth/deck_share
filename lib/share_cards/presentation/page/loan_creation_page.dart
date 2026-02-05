@@ -1,7 +1,6 @@
 // enfin un bouton de validation
 
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
@@ -96,14 +95,14 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
             title: titleController.text,
             lender: amILender ? "Me" : contactController.text,
             applicant: !amILender ? "Me" : contactController.text,
-            lendingCards: ref.watch(pickcards).toList(),
-            expectedReturnDate: ref.watch(selectDate),
+            lendingCards: ref.read(pickcards).toList(),
+            expectedReturnDate: ref.read(selectDate),
             lendingDate: DateTime.now(),
             notes: noteController.text,
           );
           ref.read(pickcards.notifier).state.clear();
-          ref.read(shareCardsControllerProvider.notifier).addShareCards(sc);
-          Navigator.pop(context);
+          // Retourner le ShareCards à la page parente qui gère l'ajout
+          Navigator.pop(context, sc);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -20,7 +20,10 @@ class _BaseCardSumListState extends ConsumerState<BaseCardSumList> {
         itemCount: loanToSum.lendingCards.length,
         itemBuilder: (context, index) {
           return BaseCardSum(
-            image: loanToSum.lendingCards[index].imageUris!.normal.toString(),
+            image: loanToSum.lendingCards[index].cardFaces != null
+                ? loanToSum.lendingCards[index].cardFaces![0].imageUris!.normal
+                      .toString()
+                : loanToSum.lendingCards[index].imageUris!.normal.toString(),
             cardExtension: loanToSum.lendingCards[index].setName,
             cardName: loanToSum.lendingCards[index].name,
           );

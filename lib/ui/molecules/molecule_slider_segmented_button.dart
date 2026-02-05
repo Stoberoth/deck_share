@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 // TODO passer par un controller
 final indexProvider = StateProvider<int>((ref) => 0);
-
 
 class BaseSliderSegmentedButton extends ConsumerStatefulWidget {
   const BaseSliderSegmentedButton({super.key});
@@ -57,7 +55,9 @@ class _BaseSliderSegmentedButtonState
                     child: BaseText(data: "Prêtés", fontSize: 15),
                   ),
                   onTap: () {
-                    ref.read(indexProvider.notifier).state = 0;
+                    setState(() {
+                      ref.read(indexProvider.notifier).state = 0;
+                    });
                   },
                 ),
               ),
@@ -67,7 +67,9 @@ class _BaseSliderSegmentedButtonState
                     child: BaseText(data: "Empruntés", fontSize: 15),
                   ),
                   onTap: () {
-                    ref.read(indexProvider.notifier).state = 1;
+                    setState(() {
+                      ref.read(indexProvider.notifier).state = 1;
+                    });
                   },
                 ),
               ),

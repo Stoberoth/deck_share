@@ -4,6 +4,7 @@ import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_loan_sum.dart';
 import 'package:deck_share/ui/molecules/molecule_notes.dart';
+import 'package:deck_share/ui/molecules/molecule_slider_segmented_button.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_card_sum_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
@@ -49,11 +50,8 @@ class LoanDetailsPage extends ConsumerWidget {
                 onPressed: () async {
                   await ref
                       .read(shareCardsControllerProvider.notifier)
-                      .markAsReturned(loanToSum.id!);
-                  await ref
-                      .read(shareCardsControllerProvider.notifier)
-                      .getAllShareCards();
-                  Navigator.pop(context);
+                      .markAsReturned(loanToSum.id!, ref.watch(indexProvider));
+                  Navigator.pop(context, true);
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.success,
@@ -78,11 +76,8 @@ class LoanDetailsPage extends ConsumerWidget {
                   if (newReturnDate != null) {
                     await ref
                         .read(shareCardsControllerProvider.notifier)
-                        .extendLoan(loanToSum.id!, newReturnDate);
-                    await ref
-                        .read(shareCardsControllerProvider.notifier)
-                        .getAllShareCards();
-                    Navigator.pop(context);
+                        .extendLoan(loanToSum.id!, newReturnDate, ref.watch(indexProvider));
+                    Navigator.pop(context, true);
                   }
                 },
               ),

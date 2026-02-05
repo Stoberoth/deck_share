@@ -21,14 +21,11 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   ShareCardsController({
     required this.shareCardsServices,
     required this.selectedItem,
-  }) : super(const AsyncValue.data([])) {
-    getAllShareCards();
-  }
+  }) : super(const AsyncValue.data([]));
 
   Future<void> addShareCards(ShareCards shareCards) async {
     state = const AsyncLoading();
     await shareCardsServices.saveShareCards(shareCards);
-    getAllShareCards();
   }
 
   Future<void> selectItem(String id) async {
@@ -38,17 +35,44 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   Future<void> deleteShareCards(String id) async {
     state = const AsyncLoading();
     await shareCardsServices.deleteShareCards(id);
-    getAllShareCards();
   }
 
-  Future<void> markAsReturned(String id) async {
+  Future<void> markAsReturned(String id, int filter) async {
+    print("===== mark as returned build =====");
+    print("State: $state");
+    state = const AsyncLoading();
     await shareCardsServices.markAsReturned(id);
-    await shareCardsServices.getAllShareCards();
+    if (filter == 0) {
+      state = await AsyncValue.guard(() async {
+        final result = await shareCardsServices.getLentCards();
+        return result;
+      });
+    }
+    else
+    {
+      state = await AsyncValue.guard(() async {
+        final result = await shareCardsServices.getBorrowedCards();
+        return result;
+      });
+    }
   }
 
-  Future<void> extendLoan(String id, DateTime newReturnDate) async {
+  Future<void> extendLoan(String id, DateTime newReturnDate, int filter) async {
+    state = const AsyncLoading();
     await shareCardsServices.extendLoan(id, newReturnDate);
-    await shareCardsServices.getAllShareCards();
+    if (filter == 0) {
+      state = await AsyncValue.guard(() async {
+        final result = await shareCardsServices.getLentCards();
+        return result;
+      });
+    }
+    else
+    {
+      state = await AsyncValue.guard(() async {
+        final result = await shareCardsServices.getBorrowedCards();
+        return result;
+      });
+    }
   }
 
   Future<void> getAllShareCards() async {
@@ -65,13 +89,11 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     });
   }
 
-  Future<int> getNumberOfLent() async
-  {
+  Future<int> getNumberOfLent() async {
     return shareCardsServices.getNumberOfLent();
   }
 
-  Future<int> getNumberOfBorrow() async
-  {
+  Future<int> getNumberOfBorrow() async {
     return shareCardsServices.getNumberOfBorrow();
   }
 

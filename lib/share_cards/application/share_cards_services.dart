@@ -28,7 +28,7 @@ class ShareCardsServices {
       lendingCards: shareCards.lendingCards,
       lendingDate: shareCards.lendingDate,
     );
-    saveShareCards(newShareCards);
+    await saveShareCards(newShareCards);
   }
 
   // Prolonger un prêt
@@ -46,7 +46,7 @@ class ShareCardsServices {
       lendingCards: shareCards.lendingCards,
       lendingDate: shareCards.lendingDate,
     );
-    saveShareCards(newShareCards);
+    await saveShareCards(newShareCards);
   }
 
   // Filtre les prêts par status
@@ -64,19 +64,19 @@ class ShareCardsServices {
    Future<int> getNumberOfBorrow() async
   {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicant == "Me" && sc.returnedAt == null).toList().length;
+    return all.where((sc) => sc.applicant == "Me" && sc.status != ShareCardsStatus.returned).toList().length;
   }
 
   // Obtenir les prêts que je fais (lender = "Me")
   Future<List<ShareCards>> getLentCards() async {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lender == "Me").toList();
+    return all.where((sc) => sc.lender == "Me" && sc.status != ShareCardsStatus.returned).toList();
   }
 
   //Obtenir les prêts que je reçois
   Future<List<ShareCards>> getBorrowedCards() async {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicant == "Me").toList();
+    return all.where((sc) => sc.applicant == "Me"  && sc.status != ShareCardsStatus.returned).toList();
   }
 
   Future<void> saveShareCards(ShareCards shareCards) async {

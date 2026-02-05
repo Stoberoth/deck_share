@@ -36,35 +36,35 @@ class LoanList extends ConsumerStatefulWidget {
 }
 
 class _LoanListState extends ConsumerState<LoanList> {
-  List<ShareCards> filterLoan() {
-    if (widget.filter == LoanListFilter.all) {
-      return widget.loanList;
-    } else if (widget.filter == LoanListFilter.lent) {
-      List<ShareCards> list = widget.loanList
-          .where((sc) => sc.lender == "Me" && sc.returnedAt == null)
-          .toList();
-      return list;
-    } else {
-      return widget.loanList
-          .where((sc) => sc.applicant == "Me" && sc.returnedAt == null)
-          .toList();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<ShareCards> tmp = filterLoan();
+    final state = ref.watch(shareCardsControllerProvider);
+    final list = state.value;
+
+    print("===== Loan List build =====");
+    print("State: $state");
+    print("list length: ${list?.length}");
+
+    if (list == null) return Container();
+
     return Expanded(
       child: ListView.builder(
-        itemCount: tmp.length,
+        itemCount: list.length,
         itemBuilder: (context, index) {
-          ShareCards currentShareCards = tmp[index];
+          ShareCards currentShareCards = list[index];
           return BaseLoanCard(
             leadingImage: BaseImage(
               //url: currentShareCards.lendingCards[0].imageUris!.png.toString(),
               url: currentShareCards.lendingCards.isNotEmpty
-                  ? currentShareCards.lendingCards[0].imageUris!.normal
-                        .toString()
+                  ? currentShareCards.lendingCards[0].cardFaces != null
+                        ? currentShareCards
+                              .lendingCards[0]
+                              .cardFaces![0]
+                              .imageUris!
+                              .normal
+                              .toString()
+                        : currentShareCards.lendingCards[0].imageUris!.normal
+                              .toString()
                   : "",
             ),
             loanTitle: BaseText(data: currentShareCards.title!, fontSize: 20),
@@ -97,11 +97,8 @@ class _LoanListState extends ConsumerState<LoanList> {
                     return LoanDetailsPage();
                   },
                 ),
-              );
+              ); 
             },
-            onLongPress: () => ref
-                .read(shareCardsControllerProvider.notifier)
-                .deleteShareCards(currentShareCards.id!),
           );
         },
       ),
