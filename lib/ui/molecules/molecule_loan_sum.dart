@@ -50,7 +50,7 @@ class BaseLoanSum extends ConsumerWidget {
                       : AppColors.success,
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
-                    child: BaseText(data: "En Cours", fontSize: 20),
+                    child: BaseText(data: loanToSum.status.name != ShareCardsStatus.returned ? "En cours" : "Returned", fontSize: 20),
                   ),
                 ),
                 Spacer(),
@@ -93,7 +93,7 @@ class BaseLoanSum extends ConsumerWidget {
                     Icon(Icons.hourglass_empty_outlined, color: Colors.white),
                     BaseText(
                       data:
-                          " Depuis ${loanToSum.lendingDate!.difference(DateTime.now()).inDays} jours",
+                          " Depuis ${DateTime.now().difference(loanToSum.lendingDate!).inDays} jours",
                       fontSize: 20,
                     ),
                   ],

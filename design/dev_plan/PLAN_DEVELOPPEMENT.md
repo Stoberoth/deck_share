@@ -23,8 +23,8 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 | Controller | `lib/share_cards/presentation/controller/share_cards_controller.dart` | ✅ Complet |
 | Page liste | `lib/share_cards/presentation/page/home_share_cards.dart` | ✅ Stats + Tabs |
 | Page création | `lib/share_cards/presentation/page/loan_creation_page.dart` | ✅ Complet |
-| Page détail legacy | `lib/share_cards/presentation/page/share_cards_details_page.dart` | ⚠️ Partiel |
-| Page détail (nouvelle) | `lib/share_cards/presentation/page/loan_details_page.dart` | ⚠️ En cours |
+| Page détail legacy | `lib/share_cards/presentation/page/share_cards_details_page.dart` | ⚠️ Obsolète (à supprimer) |
+| Page détail (nouvelle) | `lib/share_cards/presentation/page/loan_details_page.dart` | ✅ Quasi complète (90%) |
 | Widget liste | `lib/share_cards/presentation/widget/share_cards_list.dart` | ✅ |
 | Scryfall picker | `lib/scryfall_searcher/` | ✅ Complet |
 | Navigation | `lib/home/home.dart` | ✅ Bottom nav avec ShareCards |
@@ -69,7 +69,7 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 | CardListView | `organism_card_list_view.dart` | ✅ Déplacé depuis molecules |
 | LoanCard | `organism_loan_card.dart` | ✅ |
 | LoanCardsList | `organism_loan_cards_list.dart` | ✅ Nouveau |
-| CardSumList | `organisme_card_sum_list.dart` | ✅ Nouveau (⚠️ typo "organisme") |
+| CardSumList | `organism_card_sum_list.dart` | ✅ Renommé (typo corrigée) |
 
 #### Templates (`lib/ui/templates/`)
 
@@ -83,10 +83,8 @@ Cette fonctionnalité permet de gérer les prêts de cartes Magic entre joueurs,
 
 | Élément | Description |
 |---------|-------------|
-| Page détail | Compléter `loan_details_page.dart` avec : titre, statut, emprunteur/prêteur, dates, liste cartes |
-| Boutons actions | Boutons "Marquer comme rendu" et "Prolonger" sur page détail |
-| Section notes | Afficher les notes sur la page détail |
-| Correction typo | Renommer `organisme_card_sum_list.dart` → `organism_card_sum_list.dart` |
+| Section notes | Afficher `loanToSum.notes` sur la page détail |
+| Badge statut "En retard" | Ajouter l'affichage "En retard" quand `isOverdue == true` |
 | Gestion contacts | Modèle Contact + repository + services (optionnel) |
 | Intégration Wishlist | Badge "Empruntée" sur les cartes |
 
@@ -169,7 +167,7 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-## Phase 3 : Mettre à jour les Pages UI ⚠️ EN COURS (95% terminé)
+## Phase 3 : Mettre à jour les Pages UI ✅ TERMINÉE (99%)
 
 ### Étape 3.1 : Page d'accueil des prêts ✅ FAIT
 
@@ -203,43 +201,50 @@ La sérialisation gère tous les nouveaux champs via `toJson()` et `fromJson()`.
 
 ---
 
-### Étape 3.3 : Page de détail ⚠️ À COMPLÉTER
+### Étape 3.3 : Page de détail ✅ TERMINÉE (99%)
 
 > **Note** : Deux fichiers existent pour cette fonctionnalité :
-> - `share_cards_details_page.dart` - Version legacy avec fonctionnalités de base
-> - `loan_details_page.dart` - Nouvelle version en cours de développement avec les composants Atomic Design
+> - `share_cards_details_page.dart` - Version legacy (à supprimer éventuellement)
+> - `loan_details_page.dart` - Nouvelle version avec les composants Atomic Design ✅
 
 **Fichier principal** : `lib/share_cards/presentation/page/loan_details_page.dart`
 
 **Référence maquette** : `design/ai_design/v1/loan_detail_page.png`
 
-**Composants disponibles** :
-- `BaseLoanSum` (`molecule_loan_sum.dart`) - Résumé du prêt avec infos
-- `BaseCardSumList` (`organisme_card_sum_list.dart`) - Liste des cartes prêtées
-- `BaseCardSum` (`molecule_card_sum.dart`) - Élément carte individuel
+**Composants utilisés** :
+- `BaseLoanSum` (`molecule_loan_sum.dart`) - Résumé complet du prêt ✅
+- `BaseCardSumList` (`organism_card_sum_list.dart`) - Liste des cartes prêtées ✅
+- `BaseCardSum` (`molecule_card_sum.dart`) - Élément carte individuel ✅
 
 **État actuel de `loan_details_page.dart`** :
 - [x] Structure de base avec `BaseTemplate`
 - [x] AppBar avec titre "Details du prêt"
-- [x] Intégration de `BaseLoanSum`
-- [ ] Afficher le titre du prêt
-- [ ] Afficher le badge de statut (En cours / Rendu / En retard)
-- [ ] Afficher qui emprunte/prête
-- [ ] Afficher la date de l'emprunt
-- [ ] Afficher la date de retour prévue
-- [ ] Afficher depuis combien de temps l'emprunt court
-- [ ] Intégrer `BaseCardSumList` pour la liste des cartes
+- [x] Intégration de `BaseLoanSum` avec :
+  - [x] Afficher le titre du prêt
+  - [x] Badge de statut avec couleur (vert/orange selon `isOverdue`)
+  - [x] Afficher qui emprunte/prête
+  - [x] Afficher la date de l'emprunt
+  - [x] Afficher la date de retour prévue
+  - [x] Afficher depuis combien de jours l'emprunt court
+- [x] Intégrer `BaseCardSumList` pour la liste des cartes
+- [x] BottomAppBar avec bordure en haut
 
-**Boutons d'action à ajouter** :
-- [ ] Bouton "Marquer comme rendu" - Appeler `markAsReturned(id)`
-- [ ] Bouton "Prolonger" - Appeler `extendLoan(id, newDate)` avec `BaseDatePicker`
+**Boutons d'action** :
+- [x] Bouton "Marquer comme rendu" - Appelle `markAsReturned(id)` + navigation retour ✅
+- [x] Bouton "Prolonger" - Appelle `extendLoan(id, newDate)` avec `showDatePicker` ✅
 
-**Section notes** :
-- [ ] Afficher `currentShareCards.notes`
+**État actuel de `molecule_loan_sum.dart`** :
+- [x] Badge statut dynamique - Affiche "En cours" ou "Returned" selon `loanToSum.status` ✅
+- [x] Couleur badge selon `isOverdue` (vert/orange) ✅
+
+**Améliorations restantes (mineures)** :
+- [x] Bug : Calcul "Depuis X jours" négatif ✅ CORRIGÉ
+- [ ] Section notes - Afficher `loanToSum.notes` si présent
+- [ ] Badge "En retard" - Afficher un texte différent quand `isOverdue == true`
 
 **Services disponibles dans le controller** :
-- `markAsReturned(String id)` - Marquer un prêt comme rendu
-- `extendLoan(String id, DateTime newReturnDate)` - Prolonger un prêt
+- `markAsReturned(String id)` - Marquer un prêt comme rendu ✅ Utilisé
+- `extendLoan(String id, DateTime newReturnDate)` - Prolonger un prêt (disponible)
 
 ---
 
@@ -337,7 +342,7 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 - [x] Ajouter les méthodes services (`markAsReturned`, `extendLoan`, filtres)
 - [x] Mettre à jour le controller
 
-### Phase 3 - UI ⚠️ En cours
+### Phase 3 - UI ✅ Terminée (99%)
 - [x] Mettre à jour `home_share_cards.dart` (stats, tabs)
 - [x] Mettre à jour `loan_creation_page.dart` (DatePicker, titre, notes, validation)
 - [x] Créer `molecule_date_picker.dart` (sélecteur de date)
@@ -346,11 +351,15 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 - [x] Créer `organism_loan_card.dart` (carte de prêt stylisée)
 - [x] Créer `template_loan_list.dart` (liste avec filtres lent/borrow)
 - [x] Créer `molecule_card_sum.dart` (élément carte pour résumé)
-- [x] Créer `molecule_loan_sum.dart` (résumé du prêt)
-- [x] Créer `organisme_card_sum_list.dart` (liste des cartes prêtées)
-- [x] Créer `loan_details_page.dart` (structure de base)
-- [ ] Compléter `loan_details_page.dart` (infos prêt, liste cartes, boutons actions)
-- [ ] Renommer `organisme_card_sum_list.dart` → `organism_card_sum_list.dart` (correction typo)
+- [x] Créer `molecule_loan_sum.dart` (résumé du prêt avec toutes les infos)
+- [x] Créer `organism_card_sum_list.dart` (liste des cartes prêtées)
+- [x] Créer `loan_details_page.dart` (page complète avec infos, cartes, actions)
+- [x] Bouton "Marquer comme rendu" fonctionnel
+- [x] BottomAppBar avec bordure stylisée
+- [x] Bouton "Prolonger" fonctionnel (avec showDatePicker)
+- [x] Badge statut dynamique ("En cours" / "Returned")
+- [x] Corriger bug calcul "Depuis X jours"
+- [ ] Section notes sur page détail (mineur)
 
 ### Phase 4 - Contacts (optionnel)
 - [ ] Créer `contact_model.dart`
@@ -380,10 +389,11 @@ Thème appliqué via `ColorScheme.fromSeed()` avec les couleurs de `AppColors`.
 
 1. ~~**Phase 1** : Corrections modèle~~ ✅ TERMINÉ
 2. ~~**Phase 2** : Services et controller~~ ✅ TERMINÉ
-3. **Phase 3** : UI pages ⚠️ EN COURS (95%)
+3. ~~**Phase 3** : UI pages~~ ✅ TERMINÉ (99%)
    - ~~Page création~~ ✅ TERMINÉ
    - ~~Page accueil~~ ✅ TERMINÉ
-   - **Prochaine tâche** : Compléter `loan_details_page.dart`
+   - ~~Page détail~~ ✅ TERMINÉ (99%)
+   - **Améliorations mineures restantes** : Section notes, bug calcul jours
 4. **Phase 5** : Intégration wishlist - À FAIRE
 5. **Phase 4** : Contacts (optionnel) - À FAIRE
 6. ~~**Phase 6** : Thème~~ ✅ TERMINÉ
@@ -411,16 +421,14 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 
 ### Prochaines étapes recommandées
 
-1. **Compléter `loan_details_page.dart`** : 
-   - Afficher le titre du prêt via `selectLoan` provider
-   - Ajouter le badge de statut (En cours / Rendu / En retard)
-   - Intégrer `BaseCardSumList` pour afficher les cartes
-   - Ajouter les infos emprunteur/prêteur, dates
-   - Ajouter bouton "Marquer comme rendu" 
-   - Ajouter bouton "Prolonger"
-   - Afficher la section notes
-2. **Correction typo** : Renommer `organisme_card_sum_list.dart` → `organism_card_sum_list.dart`
-3. **Phase 5 - Intégration Wishlist** : Créer le provider de croisement et modifier la page wishlist
+1. **Correction mineure `molecule_loan_sum.dart`** (1 petite tâche) :
+   - **Section notes** : Ajouter l'affichage de `loanToSum.notes` si non null/vide
+
+2. **Phase 5 - Intégration Wishlist** : Créer le provider de croisement et modifier la page wishlist
+
+3. **(Optionnel) Supprimer `share_cards_details_page.dart`** : L'ancienne page legacy peut être supprimée maintenant que `loan_details_page.dart` est complète
+
+4. **(Optionnel) Améliorer badge statut** : Afficher "En retard" quand `isOverdue == true` au lieu de juste changer la couleur
 
 ### Composants UI disponibles pour réutilisation
 
@@ -430,13 +438,14 @@ Toutes les maquettes sont dans `design/ai_design/v1/` :
 |-----------|---------|-------------|
 | `BaseText` | `atom_text.dart` | Texte stylisé avec différents styles |
 | `BaseImage` | `atom_image.dart` | Image avec gestion chargement/erreur |
+| `BaseButton` | `atom_button.dart` | Bouton stylisé réutilisable |
 | `BaseDatePicker` | `molecule_date_picker.dart` | Sélecteur de date avec provider |
 | `BaseLoanSubtitle` | `molecule_loan_subtitle.dart` | Affiche nb cartes, contact, durée, date retour |
-| `BaseLoanSum` | `molecule_loan_sum.dart` | Résumé des infos du prêt |
+| `BaseLoanSum` | `molecule_loan_sum.dart` | Résumé complet du prêt (titre, statut, dates, personne) |
 | `BaseCardSum` | `molecule_card_sum.dart` | Élément carte individuel (image, nom, extension) |
 | `BaseShadowImage` | `molecule_shadow_image.dart` | Image avec ombre colorée selon statut |
 | `BaseLoanCard` | `organism_loan_card.dart` | Carte complète avec image, titre, sous-titre |
-| `BaseCardSumList` | `organisme_card_sum_list.dart` | Liste des cartes prêtées |
+| `BaseCardSumList` | `organism_card_sum_list.dart` | Liste des cartes prêtées |
 | `LoanList` | `template_loan_list.dart` | Liste filtrée (all/lent/borrow) avec provider `selectLoan` |
 
 ### Providers utiles

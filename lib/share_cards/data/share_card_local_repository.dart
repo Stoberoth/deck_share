@@ -35,7 +35,6 @@ class ShareCardLocalRepository implements ShareCardRepository {
     final file = File("${dir.path}/wishlist.json");
     if (!file.existsSync()) {
       file.create();
-      file.writeAsString(jsonEncode({"wishlist": [], "shareCards": []}));
     }
     final json = await file.readAsString();
     final content = json != '' ? jsonDecode(json)["shareCards"] : null;
@@ -65,9 +64,12 @@ class ShareCardLocalRepository implements ShareCardRepository {
     final file = File("${dir.path}/wishlist.json");
     if (!file.existsSync()) {
       file.create();
-      file.writeAsString(jsonEncode({"shareCards": []}));
     }
-    final json = await file.readAsString();
+    String json = await file.readAsString();
+    if (json == "")
+    {
+      json = jsonEncode({"shareCards": []});
+    }
     final content = jsonDecode(json);
     if (content["shareCards"]
         .where((element) => element["id"] == shareCards.id)

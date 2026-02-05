@@ -37,8 +37,8 @@ class ShareCardsServices {
     ShareCards newShareCards = ShareCards(
       id: shareCards.id,
       title: shareCards.title,
-      expectedReturnDate: shareCards.expectedReturnDate,
-      returnedAt: newReturnDate,
+      expectedReturnDate: newReturnDate,
+      returnedAt: shareCards.returnedAt,
       status: shareCards.status,
       notes: shareCards.notes,
       lender: shareCards.lender,

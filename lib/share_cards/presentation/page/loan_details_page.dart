@@ -46,6 +46,9 @@ class LoanDetailsPage extends ConsumerWidget {
                   await ref
                       .read(shareCardsControllerProvider.notifier)
                       .markAsReturned(loanToSum.id!);
+                  await ref
+                      .read(shareCardsControllerProvider.notifier)
+                      .getAllShareCards();
                   Navigator.pop(context);
                 },
                 style: FilledButton.styleFrom(
@@ -60,7 +63,25 @@ class LoanDetailsPage extends ConsumerWidget {
               ),
               //BaseButton(label: "Marquer comme rendu", onPressed: () {}),
               Spacer(),
-              BaseButton(label: "Prolonger", onPressed: () {}),
+              BaseButton(
+                label: "Prolonger",
+                onPressed: () async {
+                  DateTime? newReturnDate = await showDatePicker(
+                    context: context,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 365)),
+                  );
+                  if (newReturnDate != null) {
+                    await ref
+                        .read(shareCardsControllerProvider.notifier)
+                        .extendLoan(loanToSum.id!, newReturnDate);
+                    await ref
+                      .read(shareCardsControllerProvider.notifier)
+                      .getAllShareCards();
+                    Navigator.pop(context);
+                  }
+                },
+              ),
             ],
           ),
         ),
