@@ -80,7 +80,12 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                 children: [
                   BaseCard(
                     child: BaseListTile(
-                      trailing: IconButton(onPressed: (){onSearch();}, icon: Icon(Icons.search, color: AppColors.textPrimary,)),
+                      trailing: IconButton(
+                        onPressed: () {
+                          onSearch();
+                        },
+                        icon: Icon(Icons.search, color: AppColors.textPrimary),
+                      ),
                       title: BaseTextField(
                         controller: searchController,
                         hintText: "Search Card by name",
@@ -88,54 +93,25 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                       ),
                     ),
                   ),
-
-                  /* SizedBox(height: 10),
-                  BaseTextField(
-                    controller: searchOracleController,
-                    hintText: "Search card by oracle text",
-                    icon: Icon(Icons.search),
-                    onSubmitted: (value) => onSearch(),
-                  ),*/
-
-                  /*SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text("Sets"),
-                      SizedBox(width: 50),
-                      SizedBox(
-                        width: 180,
-                        child: DropdownMenu(
-                          textStyle: TextStyle(fontSize: 20),
-                          controller: setSearchController,
-                          dropdownMenuEntries: snapshot.data!,
-                          requestFocusOnTap: true,
-                          enableFilter: true,
-                          menuHeight: 200,
-                          onSelected: (value) async {
-                            setState(() {
-                              selectedSet = value!;
-                            });
-                            onSearch();
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Flexible(child: BaseButton(
-                        label: "Clear",
-                        onPressed: () {
-                          setState(() {
-                            selectedSet = null;
-                            setSearchController.clear();
-                          });
-                        },
-                      ),) 
-                    ],
-                  ),*/
                   SizedBox(height: 10),
+                  /*ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 50),
+                    child: CarouselView.weighted(
+                      flexWeights: [1,1,1],
+                      children: [
+                        BaseButton(label: "Color", onPressed: () {}),
+                        BaseButton(label: "Color", onPressed: () {}),
+                        BaseButton(label: "Color", onPressed: () {}),
+                        BaseButton(label: "Color", onPressed: () {}),
+                        BaseButton(label: "Color", onPressed: () {}),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                    /*  BaseButton(
+                      /*  BaseButton(
                         label: "Search",
                         onPressed: () async {
                           onSearch();
@@ -159,6 +135,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                       ),
                     ],
                   ),
+                  
 
                   SizedBox(height: 10),
                   listOfCards.isLoading

@@ -3,6 +3,7 @@ import 'package:deck_share/share_cards/presentation/controller/share_cards_contr
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_loan_sum.dart';
+import 'package:deck_share/ui/molecules/molecule_notes.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_card_sum_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
@@ -29,6 +30,9 @@ class LoanDetailsPage extends ConsumerWidget {
             fontSize: 20,
           ),
           ?loanToSum.lendingCards.isNotEmpty ? BaseCardSumList() : null,
+
+          // Container pour les notes
+          loanToSum.notes != "" ? BaseNotes() : Container(),
         ],
       ),
       bottomNavBar: Container(
@@ -76,8 +80,8 @@ class LoanDetailsPage extends ConsumerWidget {
                         .read(shareCardsControllerProvider.notifier)
                         .extendLoan(loanToSum.id!, newReturnDate);
                     await ref
-                      .read(shareCardsControllerProvider.notifier)
-                      .getAllShareCards();
+                        .read(shareCardsControllerProvider.notifier)
+                        .getAllShareCards();
                     Navigator.pop(context);
                   }
                 },

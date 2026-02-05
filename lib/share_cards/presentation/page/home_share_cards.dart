@@ -53,7 +53,6 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
     final AsyncValue<List<ShareCards>> state = ref.watch(shareCardsControllerProvider);
     fetchLentNumber();
     fetchBorrowNumber();
-    List<ShareCards> loanList =  state.value ?? [];
     return BaseTemplate(
       baseAppBar: BaseAppBar(title: 'Mes Prêts'),
       backgroundColor: AppColors.background,
