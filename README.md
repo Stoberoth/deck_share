@@ -33,19 +33,21 @@ Architecture Scalable : Prêt pour l'intégration de services cloud et la synchr
 ⚙️ Installation et Lancement
 Cloner le dépôt :
 
-Bash
+'''
 
 git clone https://github.com/Stoberoth/deck_share.git
+
+'''
 Installer les dépendances :
-
-Bash
-
+'''
 flutter pub get
+'''
+
 Lancer l'application :
-
-Bash
-
+'''
 flutter run
+'''
+
 👨‍💻 À propos de l'auteur
 Nicolas Lenoir – Développeur Freelance à Limoges.
 
