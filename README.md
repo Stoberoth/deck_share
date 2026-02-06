@@ -1,56 +1,62 @@
-🎴 DeckShare
-DeckShare est une application mobile développée avec Flutter, conçue pour la création et la gestion de decks de cartes personnalisés. Ce projet est une vitrine technique démontrant la mise en œuvre d'une architecture robuste et scalable adaptée aux projets d'envergure.
+# 🎴 DeckShare
 
-🛠 Stack Technique & Patterns
-Framework : Flutter & Dart
+**DeckShare** est une application mobile moderne développée avec **Flutter**, dédiée à la création et à la gestion de decks de cartes personnalisés. Ce projet constitue une vitrine technique illustrant la mise en œuvre d'une architecture logicielle robuste, scalable et maintenable, conforme aux standards industriels du développement mobile.
 
-Gestion d'état : Riverpod (pour une gestion d'état réactive, testable et découplée).
+## 🚀 Fonctionnalités
 
-Architecture : DDD (Domain-Driven Design) organisée par fonctionnalités (Feature-first).
+* **Conception de Decks :** Interface intuitive permettant aux utilisateurs de créer, structurer et organiser leurs propres paquets de cartes.
+* **Système de Design Atomique :** Utilisation d'une bibliothèque de composants UI hautement modulaires pour une cohérence graphique totale et une maintenance facilitée.
+* **Architecture Ready-to-Cloud :** Structure logicielle conçue pour intégrer nativement la synchronisation en temps réel et l'authentification.
+* **Gestion d'État Réactive :** Mise à jour fluide de l'interface utilisateur en fonction des interactions métier complexes grâce à Riverpod.
 
-Design Pattern UI : Atomic Design (Atoms, Molecules, Organisms) pour une bibliothèque de composants réutilisables et cohérents.
+## 🛠 Stack Technique & Architecture
 
-Persistance (Back-end) : Intégration de Firebase (en cours de planification).
+Le choix technologique s'est porté sur des outils garantissant une séparation stricte des préoccupations et une testabilité maximale :
 
-🏗 Structure du Projet (DDD - Feature First)
-Le projet suit une séparation stricte des préoccupations pour garantir la testabilité et la maintenance, inspirée des meilleures pratiques de l'industrie :
+* **Framework :** Flutter & Dart
+* **Gestion d'état :** **Riverpod** (approche réactive, découplée et hautement testable).
+* **Architecture :** **DDD (Domain-Driven Design)** avec une organisation *Feature-first*.
+* **Design Pattern UI :** **Atomic Design** (Atomes, Molécules, Organismes) pour une UI modulaire.
+* **Persistance des données :** Intégration de **Firebase** (planifiée).
 
-Plaintext
+## 🏗 Structure du Projet (DDD - Feature First)
 
+Le projet suit un découpage par fonctionnalités (*features*). Chaque fonctionnalité est segmentée en quatre couches distinctes, conformément aux principes du DDD :
+
+```text
 lib/
   └── [feature_name]/
-      ├── domain/         # Modèles (Entities) et logique métier pure
-      ├── data/           # Repositories et Data Sources (API/Firebase)
-      ├── application/    # Providers Riverpod et services applicatifs
-      └── presentation/   # UI suivant le pattern Atomic Design
-🚀 Fonctionnalités
-Conception de Decks : Interface intuitive pour structurer ses propres paquets de cartes.
+    ├── domain/         # Couche métier : Entités, modèles et interfaces de repositories
+    ├── data/           # Couche données : Implémentations des repositories et Data Sources
+    ├── application/    # Couche applicative : Providers Riverpod et logique de pilotage
+    └── presentation/   # Couche UI : Widgets organisés selon l'Atomic Design
 
-Système de Design Atomique : Composants UI hautement modulaires facilitant l'évolution graphique.
+```
 
-Architecture Scalable : Prêt pour l'intégration de services cloud et la synchronisation en temps réel via Firebase.
+## Installation et Lancement
+Pour tester le projet en local, assurez-vous d'avoir le SDK Flutter installé sur votre machine.
 
-⚙️ Installation et Lancement
-Cloner le dépôt :
+### 1. Cloner le dépôt :
 
-'''
-
+```bash
 git clone https://github.com/Stoberoth/deck_share.git
+```
 
-'''
-Installer les dépendances :
-'''
+### 2. Installer les dépendances :
+
+```bash
 flutter pub get
-'''
+```
 
-Lancer l'application :
-'''
+### 3. Lancer l'application : 
+
+```bash
 flutter run
-'''
+```
 
-👨‍💻 À propos de l'auteur
-Nicolas Lenoir – Développeur Freelance à Limoges.
+## A propos de l'auteur
 
-Expertises : Mobile (Flutter), Logiciel (C++/Qt) et Game Design (Unity/Unreal).
+**Nicolas LENOIR** - Développeur Flutter/Logiciel Freelance (NicoDev) basé à Limoges.
 
-Profil : Titulaire d'un Master ISICG, ex-développeur chez Golemlabs et intervenant à l'IUT de Limoges.
+- **Expertises :** Développement Mobile (**Flutter/Dart**), Logiciel (**C++/Qt**) et Technologies Immersives (**Unity/Unreal Engines**).
+- **Parcours :** Titulaire d'un **Master ISICG**, ex-développeur chez **Golemlabs** (Canada) et actuel enseignant vacataire à l'Université de Limoges (IUT & Facultés des Sciences).
