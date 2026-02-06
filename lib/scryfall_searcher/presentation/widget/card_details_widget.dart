@@ -1,19 +1,21 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
+import 'package:deck_share/ui/atom/atom_text.dart';
+import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
-class Ruling_widget extends ConsumerWidget {
-  final String card_id;
+class RulingWidget extends ConsumerWidget {
+  final String cardId;
 
-  const Ruling_widget({super.key, required this.card_id});
+  const RulingWidget({super.key, required this.cardId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder(
       future: ref
           .read(scryfallControllerProvider.notifier)
-          .getRulingById(card_id),
+          .getRulingById(cardId),
       builder: (context, snapshot) {
 
         if (!snapshot.hasData || snapshot.data!.isEmpty) return Container();
@@ -22,7 +24,7 @@ class Ruling_widget extends ConsumerWidget {
               (ruling) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(ruling.comment),
+                  AtomText(data: ruling.comment),
                   Divider(color: Colors.black),
                 ],
               ),
@@ -46,20 +48,21 @@ class Ruling_widget extends ConsumerWidget {
   }
 }
 
-class CardDetails_widget extends StatefulWidget {
-  const CardDetails_widget({super.key, required this.card});
+class CardDetailsWidget extends StatefulWidget {
+  const CardDetailsWidget({super.key, required this.card});
 
   final MtgCard card;
 
   @override
-  State<CardDetails_widget> createState() => _CardDetails_widgetState();
+  State<CardDetailsWidget> createState() => _CardDetailsWidgetState();
 }
 
-class _CardDetails_widgetState extends State<CardDetails_widget> {
-  int current_face = 0;
+class _CardDetailsWidgetState extends State<CardDetailsWidget> {
+  int currentFace = 0;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppColors.primary,
       content: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -74,8 +77,8 @@ class _CardDetails_widgetState extends State<CardDetails_widget> {
                         widget.card.layout == Layout.battle ||
                         widget.card.layout == Layout.transform ||
                         (widget.card.layout == Layout.saga)) {
-                      current_face++;
-                      current_face %= 2;
+                      currentFace++;
+                      currentFace %= 2;
                     }
                   });
                 },
@@ -85,7 +88,7 @@ class _CardDetails_widgetState extends State<CardDetails_widget> {
                           widget.card.imageUris!.normal.toString(),
                         ).image
                       : Image.network(
-                          widget.card.cardFaces![current_face].imageUris!.normal
+                          widget.card.cardFaces![currentFace].imageUris!.normal
                               .toString(),
                         ).image,
                 ),
@@ -95,42 +98,45 @@ class _CardDetails_widgetState extends State<CardDetails_widget> {
               widget.card.cardFaces != null
                   ? Column(
                       children: [
-                        Text(
+                        AtomText( data: 
                           widget.card.cardFaces![0].name,
-                          style: TextStyle(
+                          fontSize: 10,
+                          /*style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),*/
                         ),
                         SizedBox(height: 10),
-                        Text(widget.card.cardFaces![0].oracleText!),
+                        AtomText(data: widget.card.cardFaces![0].oracleText!),
                         SizedBox(height: 10),
-                        Text(
+                        AtomText(data:
                           widget.card.cardFaces![1].name,
-                          style: TextStyle(
+                          fontSize: 20,
+                          /*style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),*/
                         ),
                         SizedBox(height: 10),
-                        Text(widget.card.cardFaces![1].oracleText!),
+                        AtomText(data:widget.card.cardFaces![1].oracleText!),
                       ],
                     )
                   : Column(
                       children: [
-                        Text(
+                        AtomText(data:
                           widget.card.name,
-                          style: TextStyle(
+                          fontSize: 20,
+                          /*style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                          ),
+                          ),*/
                         ),
                         SizedBox(height: 10),
-                        Text(widget.card.oracleText!),
+                        AtomText(data:widget.card.oracleText!),
                       ],
                     ),
               SizedBox(height: 10),
-              Ruling_widget(card_id: widget.card.id),
+              RulingWidget(cardId: widget.card.id),
             ],
           ),
         ),

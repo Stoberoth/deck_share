@@ -1,8 +1,8 @@
-import 'dart:developer';
-
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
-import 'package:deck_share/share_cards/presentation/page/share_cards_details_page.dart';
+import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
+import 'package:deck_share/ui/atom/atom_list_tile.dart';
+import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,62 +24,60 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
     List<ShareCards> shareCardsList = state.value ?? [];
     return state.isLoading
         ? const CircularProgressIndicator()
-        : Expanded(child: ListView.builder(
-            itemCount: shareCardsList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: Text("Day of the lending"),
-                title: Text("Cards lend by ${shareCardsList[index].lender}"),
-                subtitle: Text(
-                  "${shareCardsList[index].lendingCards.length} are lend",
-                ),
-                trailing: Text(shareCardsList[index].applicant),
-                onTap: () async {
-                  print("onTap");
-                  await ref
-                      .read(shareCardsControllerProvider.notifier)
-                      .selectItem(shareCardsList[index].id!);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShareCardsDetailsPage(),
+        : Expanded(
+            child: ListView.builder(
+              itemCount: shareCardsList.length,
+              itemBuilder: (context, index) {
+                return MoleculeDismissible(
+                  dismissibleKey: ValueKey(shareCardsList[index].id),
+                  onDismissed: (direction) async {
+                    await ref
+                        .read(shareCardsControllerProvider.notifier)
+                        .deleteShareCards(shareCardsList[index].id!);
+                  },
+                  child: AtomListTile(
+                    leading: shareCardsList[index].lendingDate != null
+                        ? Column(
+                            children: [
+                              Text(
+                                "${DateFormatter.formatDateDayOfWeek(shareCardsList[index].lendingDate!)} ${DateFormatter.formatDateDay(shareCardsList[index].lendingDate!)}",
+                              ),
+                              Text(
+                                DateFormatter.formatDateMounth(
+                                  shareCardsList[index].lendingDate!,
+                                ),
+                              ),
+                              Text(
+                                DateFormatter.formatDateYear(
+                                  shareCardsList[index].lendingDate!,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text("null"),
+                    title: Text(
+                      "${shareCardsList[index].lendingCards.length} cards lend by ${shareCardsList[index].lender}",
                     ),
-                  );
-                },
-                onLongPress: () async {
-                  bool result = await showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Delete"),
-                        content: Text(
-                          "Are you sure you want to delete this list ?",
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, true);
-                            },
-                            child: Text("Validate"),
+                    trailing: Text(
+                      "Applicant : ${shareCardsList[index].applicant} title : ${shareCardsList[index].title}",
+                    ),
+                    onTap: () async {
+                      await ref
+                          .read(shareCardsControllerProvider.notifier)
+                          .selectItem(shareCardsList[index].id!);
+                      /*if(context.mounted){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShareCardsDetailsPage(),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, false);
-                            },
-                            child: Text("Cancel"),
-                          ),
-                        ],
-                      );
+                        );
+                      }*/
                     },
-                  );
-                  result
-                      ? await ref
-                            .read(shareCardsControllerProvider.notifier)
-                            .deleteShareCards(shareCardsList[index].id!)
-                      : null;
-                },
-              );
-            },
-          )); 
+                  ),
+                );
+              },
+            ),
+          );
   }
 }

@@ -1,0 +1,44 @@
+import 'package:deck_share/utils/app_color.dart';
+import 'package:flutter/material.dart';
+
+class AtomListTile extends StatelessWidget {
+  final Widget? leading;
+  final Widget title;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final Color? selectedColor;
+  final Color? tileColor;
+  final double padding;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+
+  const AtomListTile({
+    super.key,
+    this.leading,
+    required this.title,
+    this.subtitle,
+    this.trailing,
+    this.selectedColor,
+    this.tileColor = AppColors.surface,
+    this.padding = 3.0,
+    this.onTap,
+    this.onLongPress,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(this.padding),
+        child: ListTile(
+          leading: leading,
+          title: title,
+          subtitle: subtitle,
+          trailing: trailing,
+          selectedColor: selectedColor,
+          tileColor: tileColor,
+          onTap: onTap,
+          onLongPress: onLongPress,
+        ),
+    );
+  }
+}
