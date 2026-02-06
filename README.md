@@ -33,7 +33,7 @@ lib/
 
 ```
 
-## Installation et Lancement
+## ⚙️ Installation et Lancement
 Pour tester le projet en local, assurez-vous d'avoir le SDK Flutter installé sur votre machine.
 
 ### 1. Cloner le dépôt :
@@ -54,7 +54,7 @@ flutter pub get
 flutter run
 ```
 
-## A propos de l'auteur
+## 👨‍💻 A propos de l'auteur
 
 **Nicolas LENOIR** - Développeur Flutter/Logiciel Freelance (NicoDev) basé à Limoges.
 
