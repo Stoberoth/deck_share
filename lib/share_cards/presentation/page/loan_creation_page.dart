@@ -1,6 +1,7 @@
 // enfin un bouton de validation
 
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
@@ -28,20 +29,20 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
     TextEditingController titleController = TextEditingController();
     TextEditingController contactController = TextEditingController();
     TextEditingController noteController = TextEditingController();
-    return BaseTemplate(
-      baseAppBar: BaseAppBar(title: "Nouveau prêt"),
+    return TemplateBase(
+      baseAppBar: OrganismAppBar(title: "Nouveau prêt"),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            BaseTextField(
+            AtomTextField(
               controller: titleController,
               hintText: "Ex: Modern Burn Deck",
               textColor: Colors.black,
             ),
             // leading l'image de la carte (la crop image je pense)
             // en title le nom de la carte et en trailing de quoi la supprimer de la liste
-            BaseLoanCardList(),
+            OrganismLoanCardList(),
             SizedBox(height: 10),
             Row(
               children: [
@@ -53,15 +54,15 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
                     });
                   },
                 ),
-                BaseText(data: "Je prête", color: Colors.black, fontSize: 20),
+                AtomText(data: "Je prête", color: Colors.black, fontSize: 20),
               ],
             ),
 
-            BaseCard(
+            AtomCard(
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsetsGeometry.all(10),
-                child: BaseTextField(
+                child: AtomTextField(
                   controller: contactController,
                   hintText:
                       "Entrez le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
@@ -69,12 +70,12 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
                 ),
               ),
             ),
-            BaseDatePicker(),
-            BaseCard(
+            MoleculeDatePicker(),
+            AtomCard(
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsetsGeometry.all(10),
-                child: BaseTextField(
+                child: AtomTextField(
                   controller: noteController,
                   hintText: "Ajouter des notes",
                   textColor: Colors.black,
@@ -84,7 +85,7 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
           ],
         ),
       ),
-      floatingActionButton: BaseButton(
+      floatingActionButton: AtomButton(
         label: "Créer le prêt",
         buttonColor: AppColors.surface,
         onPressed: () {

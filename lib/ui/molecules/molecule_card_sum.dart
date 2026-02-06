@@ -6,12 +6,12 @@ import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BaseCardSum extends ConsumerWidget {
+class MoleculeCardSum extends ConsumerWidget {
   final String image;
   final String cardName;
   final String cardExtension;
 
-  const BaseCardSum({
+  const MoleculeCardSum({
     super.key,
     required this.image,
     required this.cardExtension,
@@ -20,12 +20,16 @@ class BaseCardSum extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
-    return BaseCard(
+    return AtomCard(
       color: AppColors.surface,
-      child: BaseListTile(
-        leading: BaseImage(url: image),
-        title: BaseText(data: cardName, fontSize: 20,),
-        subtitle: BaseText(data: cardExtension, fontSize: 15, color: AppColors.textSecondary,),
+      child: AtomListTile(
+        leading: AtomImage(url: image),
+        title: AtomText(data: cardName, fontSize: 20),
+        subtitle: AtomText(
+          data: cardExtension,
+          fontSize: 15,
+          color: AppColors.textSecondary,
+        ),
       ),
     );
   }

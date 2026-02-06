@@ -19,8 +19,8 @@ class _WishlistEditPageState extends ConsumerState<WishlistEditPage> {
  
   @override
   Widget build(BuildContext context) {
-    return BaseTemplate(
-      baseAppBar: BaseAppBar(title: "Edit Wishlist ${widget.wishlist.name}"),
+    return TemplateBase(
+      baseAppBar: OrganismAppBar(title: "Edit Wishlist ${widget.wishlist.name}"),
       body: CardListViewWidget(wishlist: widget.wishlist),
     );
   }

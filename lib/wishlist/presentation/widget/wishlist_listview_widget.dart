@@ -1,7 +1,7 @@
 import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
-import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
+import 'package:deck_share/wishlist/presentation/controller/wishlist_controller.dart';
 import 'package:deck_share/wishlist/presentation/page/wishlist_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +34,7 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
               itemCount: wishlists.length,
               itemBuilder: (context, index) {
                 // need to rewrite this to change the text to have another presentation
-                return BaseDismissible(
+                return MoleculeDismissible(
                   dismissibleKey: ValueKey(index),
                   onDismissed: (direction) {
                     if (direction == DismissDirection.endToStart ||
@@ -44,7 +44,7 @@ class _WishListWidgetState extends ConsumerState<WishListWidget> {
                           .deleteWishlist(wishlists[index].id!);
                     }
                   },
-                  child: BaseListTile(
+                  child: AtomListTile(
                     leading: Icon(Icons.card_giftcard),
                     title: Text('Wishlist ${wishlists[index].name}'),
                     subtitle: Text(

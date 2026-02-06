@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BaseFloatingActionButton extends StatelessWidget {
+class AtomFloatingActionButton extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;
 
-  const BaseFloatingActionButton({
+  const AtomFloatingActionButton({
     super.key,
     required this.child,
     required this.onPressed,

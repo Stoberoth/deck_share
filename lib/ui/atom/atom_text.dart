@@ -1,12 +1,12 @@
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
-class BaseText extends StatelessWidget {
+class AtomText extends StatelessWidget {
   final String data;
   final double? fontSize;
   final Color? color;
 
-  const BaseText({super.key, required this.data, this.fontSize, this.color});
+  const AtomText({super.key, required this.data, this.fontSize, this.color});
 
   @override
   Widget build(BuildContext context) {

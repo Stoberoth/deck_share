@@ -6,6 +6,8 @@ enum ShareCardsStatus{
   overdue, // prêt en retard
 }
 
+
+
 class ShareCards {
   String? id;
   final String? title; // nom du prêt
@@ -30,8 +32,6 @@ class ShareCards {
     required this.lendingCards,
     this.lendingDate,
   });
-
-  List<MtgCard> get lengingCards => lendingCards;
 
   factory ShareCards.fromJson(Map<String, dynamic> json) {
     return ShareCards(

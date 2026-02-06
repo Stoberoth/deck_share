@@ -1,3 +1,4 @@
+import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
@@ -86,8 +87,8 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
       }
     });
 
-    return BaseTemplate(
-      baseAppBar: BaseAppBar(title: 'Mes Prêts'),
+    return TemplateBase(
+      baseAppBar: OrganismAppBar(title: 'Mes Prêts'),
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
@@ -96,7 +97,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               children: [
                 /*2 container avec icons de prêt et icon de d'emprunt*/
                 Expanded(
-                  child: BaseCard(
+                  child: AtomCard(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -107,7 +108,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(
+                        AtomText(
                           data: "Prêts actifs : ${ref.watch(lentNumber)}",
                         ),
                         SizedBox(height: 15),
@@ -116,7 +117,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                   ),
                 ),
                 Expanded(
-                  child: BaseCard(
+                  child: AtomCard(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -127,7 +128,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
                           color: AppColors.primary,
                         ),
                         SizedBox(height: 10),
-                        BaseText(
+                        AtomText(
                           data: "Emprunts actifs : ${ref.watch(borrowNumber)}",
                         ),
                         SizedBox(height: 15),
@@ -138,9 +139,9 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               ],
             ),
             SizedBox(height: 10),
-            BaseSliderSegmentedButton(),
+            MoleculeSliderSegmentedButton(),
             SizedBox(height: 10),
-            LoanList(
+            TemplateLoanList(
               loanList: ref.watch(shareCardsControllerProvider).value != null
                   ? ref.watch(shareCardsControllerProvider).value!
                   : [],
@@ -152,7 +153,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: BaseFloatingActionButton(
+      floatingActionButton: AtomFloatingActionButton(
         child: Icon(Icons.add, color: AppColors.textPrimary),
         onPressed: () async {
           ShareCards? sc = await Navigator.push(

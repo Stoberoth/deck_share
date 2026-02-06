@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:deck_share/home/home.dart';
+import 'package:deck_share/home/presentation/page/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:deck_share/utils/app_color.dart';
 

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 // Base button for all the application
 // This is an atom because it's a base component of the application
 
-class BaseButton extends StatelessWidget {
+class AtomButton extends StatelessWidget {
   final String label;
   final Color buttonColor;
   final VoidCallback onPressed;
 
-  const BaseButton({super.key, required this.label, required this.onPressed, this.buttonColor = AppColors.primary});
+  const AtomButton({super.key, required this.label, required this.onPressed, this.buttonColor = AppColors.primary});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class BaseButton extends StatelessWidget {
         backgroundColor: buttonColor,
        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
-      child: BaseText(data: label,fontSize: 18,)
+      child: AtomText(data: label,fontSize: 18,)
     );
   }
 }

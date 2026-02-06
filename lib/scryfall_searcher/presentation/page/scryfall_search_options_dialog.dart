@@ -36,12 +36,12 @@ class ScryfallOptionDialog extends ConsumerWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return AlertDialog(
-          title: BaseText(data: "Add search options"),
+          title: AtomText(data: "Add search options"),
           content: Column(
             children: [
               Row(
                 children: [
-                  BaseText(data: "Sets"),
+                  AtomText(data: "Sets"),
                   SizedBox(width: 10),
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
@@ -61,7 +61,7 @@ class ScryfallOptionDialog extends ConsumerWidget {
               SizedBox(height: 10),
               Row(
                 children: [
-                  BaseText(data: "Rarity"),
+                  AtomText(data: "Rarity"),
                   SizedBox(width: 10),
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
@@ -79,7 +79,7 @@ class ScryfallOptionDialog extends ConsumerWidget {
               SizedBox(height: 10),
               Row(
                 children: [
-                  BaseText(data: "Type"),
+                  AtomText(data: "Type"),
                   SizedBox(width: 10),
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
@@ -95,13 +95,13 @@ class ScryfallOptionDialog extends ConsumerWidget {
             ],
           ),
           actions: [
-            BaseButton(
+            AtomButton(
               label: "Validate options",
               onPressed: () {
                 Navigator.pop(context, optionsText);
               },
             ),
-            BaseButton(
+            AtomButton(
               label: "Clear options",
               onPressed: () {
                 optionsText = {};

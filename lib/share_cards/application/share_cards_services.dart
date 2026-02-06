@@ -80,22 +80,22 @@ class ShareCardsServices {
   }
 
   Future<void> saveShareCards(ShareCards shareCards) async {
-    await localRepository.saveShareCards(shareCards);
+    await localRepository.save(shareCards);
   }
 
   Future<void> deleteShareCards(String id) async {
-    await localRepository.deleteShareCards(id);
+    await localRepository.delete(id);
   }
 
   Future<List<ShareCards>> getAllShareCards() async {
-    return await localRepository.getAllShareCards();
+    return await localRepository.getAll();
   }
 
   Future<ShareCards> getShareCardsById(String id) async {
     return await localRepository.getShareCardsById(id);
   }
 
-  Future<void> updateShareCards(ShareCards shareCards) async {
+  /*Future<void> updateShareCards(ShareCards shareCards) async {
     await localRepository.updateShareCards(shareCards);
-  }
+  }*/
 }

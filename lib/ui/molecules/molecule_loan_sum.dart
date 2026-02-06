@@ -1,4 +1,5 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_card_sum.dart';
@@ -9,8 +10,8 @@ import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BaseLoanSum extends ConsumerWidget {
-  const BaseLoanSum({super.key});
+class MoleculeLoanSum extends ConsumerWidget {
+  const MoleculeLoanSum({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,22 +43,22 @@ class BaseLoanSum extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BaseText(data: loanToSum.title!, fontSize: 30),
+                AtomText(data: loanToSum.title!, fontSize: 30),
                 Spacer(),
-                BaseCard(
+                AtomCard(
                   color: loanToSum.isOverdue
                       ? AppColors.warning
                       : AppColors.success,
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
-                    child: BaseText(data: loanToSum.status.name != ShareCardsStatus.returned ? "En cours" : "Returned", fontSize: 20),
+                    child: AtomText(data: loanToSum.status.name != ShareCardsStatus.returned ? "En cours" : "Returned", fontSize: 20),
                   ),
                 ),
                 Spacer(),
                 Row(
                   children: [
                     Icon(Icons.man, color: Colors.white),
-                    BaseText(
+                    AtomText(
                       data: loanToSum.lender == "Me"
                           ? " Prêté à ${loanToSum.applicant}"
                           : " Emprunté à ${loanToSum.lender}",
@@ -69,7 +70,7 @@ class BaseLoanSum extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(Icons.calendar_today, color: Colors.white),
-                    BaseText(
+                    AtomText(
                       data:
                           " Depuis : ${DateFormatter.formatDateDayMounthYear(loanToSum.lendingDate!)}",
                       fontSize: 20,
@@ -80,7 +81,7 @@ class BaseLoanSum extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(Icons.lock_clock, color: Colors.white),
-                    BaseText(
+                    AtomText(
                       data:
                           " Retour prévu : ${DateFormatter.formatDateDayMounthYear(loanToSum.expectedReturnDate!)}",
                       fontSize: 20,
@@ -91,7 +92,7 @@ class BaseLoanSum extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(Icons.hourglass_empty_outlined, color: Colors.white),
-                    BaseText(
+                    AtomText(
                       data:
                           " Depuis ${DateTime.now().difference(loanToSum.lendingDate!).inDays} jours",
                       fontSize: 20,

@@ -1,7 +1,7 @@
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
-class BaseTextField extends StatelessWidget {
+class AtomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
   final Icon? icon;
@@ -9,7 +9,7 @@ class BaseTextField extends StatelessWidget {
   final ValueChanged? onSubmitted;
   final bool? enabled;
 
-  const BaseTextField({
+  const AtomTextField({
     super.key,
     required this.controller,
     required this.hintText,

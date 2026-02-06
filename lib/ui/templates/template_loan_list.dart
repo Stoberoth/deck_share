@@ -1,3 +1,4 @@
+import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_details_page.dart';
@@ -5,24 +6,15 @@ import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_loan_subtitle.dart';
 import 'package:deck_share/ui/organisms/organism_loan_card.dart';
+import 'package:deck_share/utils/card_image_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum LoanListFilter {
-  all, // see all loan
-  lent, // see lent loan
-  borrow, // see borrowed loan
-}
-
-final selectLoan = StateProvider<ShareCards>(
-  (ref) => ShareCards(lender: "", applicant: "", lendingCards: []),
-);
-
-class LoanList extends ConsumerStatefulWidget {
+class TemplateLoanList extends ConsumerStatefulWidget {
   final List<ShareCards> loanList;
   final LoanListFilter filter;
 
-  const LoanList({
+  const TemplateLoanList({
     super.key,
     required this.loanList,
     this.filter = LoanListFilter.all,
@@ -31,19 +23,15 @@ class LoanList extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     // TODO: implement createState
-    return _LoanListState();
+    return _TemplateLoanListState();
   }
 }
 
-class _LoanListState extends ConsumerState<LoanList> {
+class _TemplateLoanListState extends ConsumerState<TemplateLoanList> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(shareCardsControllerProvider);
     final list = state.value;
-
-    print("===== Loan List build =====");
-    print("State: $state");
-    print("list length: ${list?.length}");
 
     if (list == null) return Container();
 
@@ -52,23 +40,13 @@ class _LoanListState extends ConsumerState<LoanList> {
         itemCount: list.length,
         itemBuilder: (context, index) {
           ShareCards currentShareCards = list[index];
-          return BaseLoanCard(
-            leadingImage: BaseImage(
+          return OrganismLoanCard(
+            leadingImage: AtomImage(
               //url: currentShareCards.lendingCards[0].imageUris!.png.toString(),
-              url: currentShareCards.lendingCards.isNotEmpty
-                  ? currentShareCards.lendingCards[0].cardFaces != null
-                        ? currentShareCards
-                              .lendingCards[0]
-                              .cardFaces![0]
-                              .imageUris!
-                              .normal
-                              .toString()
-                        : currentShareCards.lendingCards[0].imageUris!.normal
-                              .toString()
-                  : "",
+              url: currentShareCards.lendingCards.isNotEmpty ? getCardImageUrl(currentShareCards.lendingCards[0]) : "",
             ),
-            loanTitle: BaseText(data: currentShareCards.title!, fontSize: 20),
-            loanSubtitle: BaseLoanSubtitle(
+            loanTitle: AtomText(data: currentShareCards.title!, fontSize: 20),
+            loanSubtitle: MoleculeLoanSubtitle(
               cardNumber: currentShareCards.lendingCards.length,
               contact: widget.filter == LoanListFilter.lent
                   ? currentShareCards.applicant
@@ -97,7 +75,7 @@ class _LoanListState extends ConsumerState<LoanList> {
                     return LoanDetailsPage();
                   },
                 ),
-              ); 
+              );
             },
           );
         },

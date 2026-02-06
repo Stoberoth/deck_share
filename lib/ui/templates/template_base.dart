@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // Template the determine the structure of the page without content ont the structure (generic layout)
 
-class BaseTemplate extends StatelessWidget {
+class TemplateBase extends StatelessWidget {
   final Widget baseAppBar;
   final Widget body;
   final Color backgroundColor;
@@ -11,7 +11,7 @@ class BaseTemplate extends StatelessWidget {
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
-  const BaseTemplate({
+  const TemplateBase({
     super.key,
     required this.baseAppBar,
     required this.body,

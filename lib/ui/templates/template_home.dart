@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-class HomeTemplate extends StatelessWidget {
-  const HomeTemplate({super.key, required this.body/*, required this.bottomNavigationBar*/});
+class TemplateHome extends StatelessWidget {
+  const TemplateHome({super.key, required this.body/*, required this.bottomNavigationBar*/});
   final Widget body;
   //final Widget bottomNavigationBar;
 

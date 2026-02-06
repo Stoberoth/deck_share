@@ -5,7 +5,7 @@ import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/wishlist/domain/wishlist_model.dart';
-import 'package:deck_share/wishlist/presentation/controller/whishlist_controller.dart';
+import 'package:deck_share/wishlist/presentation/controller/wishlist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
@@ -87,7 +87,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
           child: ListView.builder(
             itemCount: currentWishlist!.cards.length,
             itemBuilder: (context, index) {
-              return BaseDismissible(
+              return MoleculeDismissible(
                 dismissibleKey: ValueKey(currentWishlist!.cards[index].id),
                 onDismissed: (direction) async {
                   final card = currentWishlist!.cards[index];
@@ -98,7 +98,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
                     currentWishlist!.cards.removeAt(index);
                   });
                 },
-                child: BaseListTile(
+                child: AtomListTile(
                   leading: currentWishlist!.cards[index].cardFaces == null
                       ? Image(
                           image: Image.network(
@@ -158,7 +158,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: BaseButton(
+                child: AtomButton(
                   label: "Add to a share list selected cards",
                   onPressed: () async {
                     if (alreadyShare()) {
@@ -189,7 +189,7 @@ class _CardListViewWidgetState extends ConsumerState<CardListViewWidget> {
               ),
               SizedBox(
                 width: double.infinity,
-                child: BaseButton(
+                child: AtomButton(
                   label: "Add new cards to wishlist",
                   onPressed: () async {
                     List<MtgCard> card = await Navigator.push(

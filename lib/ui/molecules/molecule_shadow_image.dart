@@ -1,11 +1,11 @@
 import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:flutter/material.dart';
 
-class BaseShadowImage extends StatelessWidget {
-  final BaseImage image;
+class MoleculeShadowImage extends StatelessWidget {
+  final AtomImage image;
   final Color? color;
 
-  const BaseShadowImage({super.key, required this.image, this.color});
+  const MoleculeShadowImage({super.key, required this.image, this.color});
 
   @override
   Widget build(BuildContext context) {

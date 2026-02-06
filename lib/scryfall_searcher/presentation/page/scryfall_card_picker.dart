@@ -1,6 +1,7 @@
 import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
+import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
@@ -64,9 +65,9 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
       scryfallControllerProvider,
     );
 
-    return BaseTemplate(
+    return TemplateBase(
       backgroundColor: AppColors.background,
-      baseAppBar: BaseAppBar(title: "Search for cards"),
+      baseAppBar: OrganismAppBar(title: "Search for cards"),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(8.0),
@@ -78,15 +79,15 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
               }
               return Column(
                 children: [
-                  BaseCard(
-                    child: BaseListTile(
+                  AtomCard(
+                    child: AtomListTile(
                       trailing: IconButton(
                         onPressed: () {
                           onSearch();
                         },
                         icon: Icon(Icons.search, color: AppColors.textPrimary),
                       ),
-                      title: BaseTextField(
+                      title: AtomTextField(
                         controller: searchController,
                         hintText: "Search Card by name",
                         onSubmitted: (value) => onSearch(),
@@ -118,7 +119,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                         },
                       ),
                       SizedBox(width: 10),*/
-                      BaseButton(
+                      AtomButton(
                         label: "Add search options",
                         onPressed: () async {
                           // show a dialog to add some option to the search
@@ -239,7 +240,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
           ),
         ),
       ),
-      floatingActionButton: BaseButton(
+      floatingActionButton: AtomButton(
         label: "Validate ${ref.watch(pickcards).length} Selected Cards",
         onPressed: () {
           if (ref.watch(pickcards).isEmpty) {

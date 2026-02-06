@@ -24,7 +24,7 @@ class RulingWidget extends ConsumerWidget {
               (ruling) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  BaseText(data: ruling.comment),
+                  AtomText(data: ruling.comment),
                   Divider(color: Colors.black),
                 ],
               ),
@@ -98,7 +98,7 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
               widget.card.cardFaces != null
                   ? Column(
                       children: [
-                        BaseText( data: 
+                        AtomText( data: 
                           widget.card.cardFaces![0].name,
                           fontSize: 10,
                           /*style: TextStyle(
@@ -107,9 +107,9 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
                           ),*/
                         ),
                         SizedBox(height: 10),
-                        BaseText(data: widget.card.cardFaces![0].oracleText!),
+                        AtomText(data: widget.card.cardFaces![0].oracleText!),
                         SizedBox(height: 10),
-                        BaseText(data:
+                        AtomText(data:
                           widget.card.cardFaces![1].name,
                           fontSize: 20,
                           /*style: TextStyle(
@@ -118,12 +118,12 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
                           ),*/
                         ),
                         SizedBox(height: 10),
-                        BaseText(data:widget.card.cardFaces![1].oracleText!),
+                        AtomText(data:widget.card.cardFaces![1].oracleText!),
                       ],
                     )
                   : Column(
                       children: [
-                        BaseText(data:
+                        AtomText(data:
                           widget.card.name,
                           fontSize: 20,
                           /*style: TextStyle(
@@ -132,7 +132,7 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
                           ),*/
                         ),
                         SizedBox(height: 10),
-                        BaseText(data:widget.card.oracleText!),
+                        AtomText(data:widget.card.oracleText!),
                       ],
                     ),
               SizedBox(height: 10),

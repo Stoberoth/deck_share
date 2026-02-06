@@ -1,7 +1,7 @@
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
-class BaseListTile extends StatelessWidget {
+class AtomListTile extends StatelessWidget {
   final Widget? leading;
   final Widget title;
   final Widget? subtitle;
@@ -12,7 +12,7 @@ class BaseListTile extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
-  const BaseListTile({
+  const AtomListTile({
     super.key,
     this.leading,
     required this.title,

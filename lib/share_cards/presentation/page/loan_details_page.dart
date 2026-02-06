@@ -17,23 +17,23 @@ class LoanDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ShareCards loanToSum = ref.read(selectLoan);
-    return BaseTemplate(
-      baseAppBar: BaseAppBar(title: "Details du prêt"),
+    return TemplateBase(
+      baseAppBar: OrganismAppBar(title: "Details du prêt"),
       backgroundColor: AppColors.background,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BaseLoanSum(),
+          MoleculeLoanSum(),
           SizedBox(height: 5),
-          BaseText(
+          AtomText(
             data: "Cartes prêtées (${loanToSum.lendingCards.length})",
             fontSize: 20,
           ),
-          ?loanToSum.lendingCards.isNotEmpty ? BaseCardSumList() : null,
+          ?loanToSum.lendingCards.isNotEmpty ? OrganismCardSumList() : null,
 
           // Container pour les notes
-          loanToSum.notes != "" ? BaseNotes() : Container(),
+          loanToSum.notes != "" ? MoleculeNotes() : Container(),
         ],
       ),
       bottomNavBar: Container(
@@ -59,13 +59,13 @@ class LoanDetailsPage extends ConsumerWidget {
                 child: Row(
                   children: [
                     Icon(Icons.check),
-                    BaseText(data: "Marquer comme rendu", fontSize: 15),
+                    AtomText(data: "Marquer comme rendu", fontSize: 15),
                   ],
                 ),
               ),
               //BaseButton(label: "Marquer comme rendu", onPressed: () {}),
               Spacer(),
-              BaseButton(
+              AtomButton(
                 label: "Prolonger",
                 onPressed: () async {
                   DateTime? newReturnDate = await showDatePicker(

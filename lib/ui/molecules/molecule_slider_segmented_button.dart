@@ -1,3 +1,4 @@
+import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -5,18 +6,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // TODO passer par un controller
-final indexProvider = StateProvider<int>((ref) => 0);
 
-class BaseSliderSegmentedButton extends ConsumerStatefulWidget {
-  const BaseSliderSegmentedButton({super.key});
+
+class MoleculeSliderSegmentedButton extends ConsumerStatefulWidget {
+  const MoleculeSliderSegmentedButton({super.key});
   final int selectionindex = 1;
   @override
-  ConsumerState<BaseSliderSegmentedButton> createState() =>
-      _BaseSliderSegmentedButtonState();
+  ConsumerState<MoleculeSliderSegmentedButton> createState() =>
+      _OrganismSliderSegmentedButtonState();
 }
 
-class _BaseSliderSegmentedButtonState
-    extends ConsumerState<BaseSliderSegmentedButton> {
+class _OrganismSliderSegmentedButtonState
+    extends ConsumerState<MoleculeSliderSegmentedButton> {
   @override
   Widget build(BuildContext context) {
     // le premier container contient le thumb (l'objet qui va slide) et les different item
@@ -52,7 +53,7 @@ class _BaseSliderSegmentedButtonState
                 child: GestureDetector(
                   child: Center(
                     heightFactor: 1.2,
-                    child: BaseText(data: "Prêtés", fontSize: 15),
+                    child: AtomText(data: "Prêtés", fontSize: 15),
                   ),
                   onTap: () {
                     setState(() {
@@ -64,7 +65,7 @@ class _BaseSliderSegmentedButtonState
               Expanded(
                 child: GestureDetector(
                   child: Center(
-                    child: BaseText(data: "Empruntés", fontSize: 15),
+                    child: AtomText(data: "Empruntés", fontSize: 15),
                   ),
                   onTap: () {
                     setState(() {

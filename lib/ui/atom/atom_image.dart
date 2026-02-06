@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class BaseImage extends StatelessWidget {
+class AtomImage extends StatelessWidget {
   final String url;
   final double? width;
   final double? height;
   final Widget? placeholder;
   final Widget? errorWidget;
 
-  const BaseImage({
+  const AtomImage({
     super.key,
     required this.url,
     this.width,

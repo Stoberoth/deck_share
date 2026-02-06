@@ -71,7 +71,7 @@ class WishlistLocalRepository implements WishlistRepository {
     //file.delete();
     if (!file.existsSync()) {
       file.create();
-      file.writeAsString(jsonEncode({"wishlist": [], "shareCards": []}));
+      file.writeAsString(jsonEncode({"wishlist": []}));
     }
     final json = await file.readAsString();
     final wishlists = jsonDecode(json)["wishlist"];

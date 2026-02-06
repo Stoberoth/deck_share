@@ -17,7 +17,7 @@ class _HomeState extends ConsumerState<Home> {
   int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return HomeTemplate(
+    return TemplateHome(
       body: _listOfPages[currentPageIndex],
       /*bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

@@ -1,6 +1,5 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
-import 'package:deck_share/share_cards/presentation/page/share_cards_details_page.dart';
 import 'package:deck_share/ui/molecules/molecule_dismissible.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/utils/date_formatter.dart';
@@ -29,14 +28,14 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
             child: ListView.builder(
               itemCount: shareCardsList.length,
               itemBuilder: (context, index) {
-                return BaseDismissible(
+                return MoleculeDismissible(
                   dismissibleKey: ValueKey(shareCardsList[index].id),
                   onDismissed: (direction) async {
                     await ref
                         .read(shareCardsControllerProvider.notifier)
                         .deleteShareCards(shareCardsList[index].id!);
                   },
-                  child: BaseListTile(
+                  child: AtomListTile(
                     leading: shareCardsList[index].lendingDate != null
                         ? Column(
                             children: [
@@ -66,14 +65,14 @@ class _ShareCardsListWidgetState extends ConsumerState<ShareCardsListWidget> {
                       await ref
                           .read(shareCardsControllerProvider.notifier)
                           .selectItem(shareCardsList[index].id!);
-                      if(context.mounted){
+                      /*if(context.mounted){
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ShareCardsDetailsPage(),
                           ),
                         );
-                      }
+                      }*/
                     },
                   ),
                 );

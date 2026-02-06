@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:deck_share/core/data/base_local_repository.dart';
 import 'package:deck_share/share_cards/data/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:flutter/foundation.dart';
@@ -13,11 +14,12 @@ final shareCardsLocalRepositoryProvider = Provider<ShareCardLocalRepository>((
   return ShareCardLocalRepository();
 });
 
-class ShareCardLocalRepository implements ShareCardRepository {
+class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
+    implements ShareCardRepository {
   @override
   Future<void> deleteShareCards(String id) async {
     final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/wishlist.json");
+    final file = File("${dir.path}/share_cards.json");
 
     if (!file.existsSync()) {
       file.create();
@@ -32,7 +34,7 @@ class ShareCardLocalRepository implements ShareCardRepository {
   @override
   Future<List<ShareCards>> getAllShareCards() async {
     final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/wishlist.json");
+    final file = File("${dir.path}/share_cards.json");
     if (!file.existsSync()) {
       file.create();
     }
@@ -47,12 +49,14 @@ class ShareCardLocalRepository implements ShareCardRepository {
   }
 
   @override
-  Future<ShareCards> getShareCardsById(String id) async{
+  Future<ShareCards> getShareCardsById(String id) async {
     final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/wishlist.json");
+    final file = File("${dir.path}/share_cards.json");
     final json = await file.readAsString();
     final content = jsonDecode(json)["shareCards"];
-    return ShareCards.fromJson(content.where((element) => element["id"] == id).first);
+    return ShareCards.fromJson(
+      content.where((element) => element["id"] == id).first,
+    );
   }
 
   @override
@@ -61,13 +65,12 @@ class ShareCardLocalRepository implements ShareCardRepository {
       shareCards.id = UniqueKey().toString();
     }
     final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/wishlist.json");
+    final file = File("${dir.path}/share_cards.json");
     if (!file.existsSync()) {
       file.create();
     }
     String json = await file.readAsString();
-    if (json == "")
-    {
+    if (json == "") {
       json = jsonEncode({"shareCards": []});
     }
     final content = jsonDecode(json);
@@ -79,16 +82,46 @@ class ShareCardLocalRepository implements ShareCardRepository {
           content["shareCards"][i] = shareCards.toJson();
         }
       }
-    } 
-    else {
+    } else {
       content["shareCards"].add(shareCards.toJson());
     }
     file.writeAsString(jsonEncode(content), mode: FileMode.writeOnly);
   }
 
   @override
+  ShareCards fromJson(Map<String, dynamic> json) {
+    return ShareCards.fromJson(json);
+  }
+
+  @override
+  String getCollectionName() {
+    // TODO: implement getCollectionName
+    return "shareCards";
+  }
+
+  @override
+  String getFileName() {
+    return "share_cards.json";
+  }
+
+  @override
+  String? getId(ShareCards item) {
+    return item.id;
+  }
+
+  @override
+  void setId(ShareCards item, String id) {
+    item.id = id;
+  }
+
+  @override
+  Map<String, dynamic> toJson(ShareCards item) {
+    return item.toJson();
+  }
+
+  /*@override
   Future<void> updateShareCards(ShareCards shareCards) {
     // TODO: implement updateShareCards
     throw UnimplementedError();
-  }
+  }*/
 }

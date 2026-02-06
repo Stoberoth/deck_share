@@ -37,11 +37,11 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseTemplate(
-      baseAppBar: BaseAppBar(
+    return TemplateBase(
+      baseAppBar: OrganismAppBar(
         title: "Create a new wishlist",
         actions: [
-          BaseIconButton(
+          AtomIconButton(
             icon: Icon(Icons.save),
             onPressed: () {
               Navigator.pop(
@@ -61,12 +61,12 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
           children: [
             // need to add field to complete whishlist informations
             // add text controller to the text field
-            BaseTextField(
+            AtomTextField(
               controller: nameController,
               hintText: "Name of the deck's wishlist",
               icon: Icon(Icons.text_fields),
             ),
-            BaseButton(
+            AtomButton(
               label: "Add card",
               onPressed: () async {
                 pick_cards = await Navigator.push(
@@ -85,14 +85,14 @@ class _WishlistCreationPageState extends State<WishlistCreationPage> {
                 ? Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
-                        return BaseDismissible(
+                        return MoleculeDismissible(
                           dismissibleKey: ValueKey(pick_cards[index].id),
                           onDismissed: (direction) {
                             setState(() {
                               pick_cards.removeAt(index);
                             });
                           },
-                          child: BaseListTile(
+                          child: AtomListTile(
                             leading: pick_cards[index].cardFaces != null
                                 ? Image(
                                     image: Image.network(

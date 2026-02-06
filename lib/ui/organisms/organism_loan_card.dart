@@ -6,15 +6,15 @@ import 'package:deck_share/ui/molecules/molecule_shadow_image.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 
-class BaseLoanCard extends StatelessWidget {
-  final BaseImage leadingImage;
-  final BaseText loanTitle;
+class OrganismLoanCard extends StatelessWidget {
+  final AtomImage leadingImage;
+  final AtomText loanTitle;
   final Widget loanSubtitle;
   final bool isOverdue;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
-  const BaseLoanCard({
+  const OrganismLoanCard({
     super.key,
     required this.leadingImage,
     required this.loanTitle,
@@ -27,9 +27,9 @@ class BaseLoanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor = (isOverdue ? AppColors.warning : AppColors.success);
-    return BaseCard(
-      child: BaseListTile(
-        leading: BaseShadowImage(image: leadingImage, color: statusColor),
+    return AtomCard(
+      child: AtomListTile(
+        leading: MoleculeShadowImage(image: leadingImage, color: statusColor),
         title: loanTitle,
         subtitle: loanSubtitle,
         trailing: Icon(Icons.arrow_forward_ios, color: statusColor),
