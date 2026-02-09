@@ -1,5 +1,6 @@
 import 'package:deck_share/share_cards/application/share_cards_services.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scryfall_api/scryfall_api.dart';
 
@@ -10,7 +11,7 @@ final pickcards = StateProvider<List<MtgCard>>(
 );
 
 final selectLoan = StateProvider<ShareCards>(
-  (ref) => ShareCards(lender: "", applicant: "", lendingCards: []),
+  (ref) => ShareCards(id: UniqueKey().hashCode.toString(), lender: "", applicant: "", lendingCards: []),
 );
 
 final shareCardsControllerProvider =

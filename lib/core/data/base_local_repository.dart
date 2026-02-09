@@ -12,7 +12,6 @@ abstract class BaseLocalRepository<T> {
   T fromJson(Map<String, dynamic> json);
   Map<String, dynamic> toJson(T item);
   String? getId(T item);
-  void setId(T item, String id);
 
   // Méthode communes
   Future<File> _getFile() async {
@@ -55,10 +54,6 @@ abstract class BaseLocalRepository<T> {
 
   Future<void> save(T item) async
   {
-    if (getId(item)?.isEmpty ?? true)
-    {
-      setId(item, UniqueKey().toString());
-    }
     final content = await _readJsonFile();
     
     // Initialiser la collection si elle n'existe pas

@@ -1,4 +1,8 @@
 import 'package:scryfall_api/scryfall_api.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'share_cards_model.freezed.dart';
+part 'share_cards_model.g.dart';
 
 enum ShareCardsStatus{
   active, // prêt en cours
@@ -7,7 +11,33 @@ enum ShareCardsStatus{
 }
 
 
+@freezed
+abstract class ShareCards with _$ShareCards
+{
+  const ShareCards._();
 
+  const factory ShareCards({required String id, 
+  String? title, 
+  DateTime? expectedReturnDate,
+  DateTime? returnedAt,
+  ShareCardsStatus? status,
+  String? notes,
+  required String lender,
+  required String applicant,
+  required List<MtgCard> lendingCards,
+  DateTime? lendingDate
+  }) = _ShareCards;
+
+  factory ShareCards.fromJson(Map<String, dynamic> json) => _$ShareCardsFromJson(json);
+
+  bool get isOverdue {
+    if(status == ShareCardsStatus.returned) return false;
+    if(expectedReturnDate == null) return false;
+    return DateTime.now().isAfter(expectedReturnDate!);
+  }
+} 
+
+/*
 class ShareCards {
   String? id;
   final String? title; // nom du prêt
@@ -73,3 +103,4 @@ class ShareCards {
     return DateTime.now().isAfter(expectedReturnDate!);
   }
 }
+*/

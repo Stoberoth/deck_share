@@ -61,9 +61,6 @@ class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
 
   @override
   Future<void> saveShareCards(ShareCards shareCards) async {
-    if (shareCards.id!.isEmpty) {
-      shareCards.id = UniqueKey().toString();
-    }
     final dir = await getApplicationDocumentsDirectory();
     final file = File("${dir.path}/share_cards.json");
     if (!file.existsSync()) {
@@ -107,11 +104,6 @@ class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
   @override
   String? getId(ShareCards item) {
     return item.id;
-  }
-
-  @override
-  void setId(ShareCards item, String id) {
-    item.id = id;
   }
 
   @override
