@@ -1,4 +1,5 @@
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';

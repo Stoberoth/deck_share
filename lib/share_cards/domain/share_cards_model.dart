@@ -16,7 +16,8 @@ abstract class ShareCards with _$ShareCards
 {
   const ShareCards._();
 
-  const factory ShareCards({required String id, 
+  const factory ShareCards({
+  String? id, 
   String? title, 
   DateTime? expectedReturnDate,
   DateTime? returnedAt,

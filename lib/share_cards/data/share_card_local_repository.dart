@@ -1,88 +1,29 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:deck_share/core/data/base_local_repository.dart';
 import 'package:deck_share/share_cards/data/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
 
-final shareCardsLocalRepositoryProvider = Provider<ShareCardLocalRepository>((
-  ref,
-) {
-  return ShareCardLocalRepository();
-});
+
 
 class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
     implements ShareCardRepository {
   @override
   Future<void> deleteShareCards(String id) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/share_cards.json");
-
-    if (!file.existsSync()) {
-      file.create();
-    }
-    final json = await file.readAsString();
-    final content = jsonDecode(json);
-
-    content["shareCards"].removeWhere((element) => element["id"] == id);
-    file.writeAsString(jsonEncode(content), mode: FileMode.writeOnly);
+    await delete(id);
   }
 
   @override
   Future<List<ShareCards>> getAllShareCards() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/share_cards.json");
-    if (!file.existsSync()) {
-      file.create();
-    }
-    final json = await file.readAsString();
-    final content = json != '' ? jsonDecode(json)["shareCards"] : null;
-    if (content == null) {
-      return [];
-    }
-    return List<ShareCards>.from(
-      content.map((shareCard) => ShareCards.fromJson(shareCard)),
-    );
+    return await getAll(); 
   }
 
   @override
   Future<ShareCards> getShareCardsById(String id) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/share_cards.json");
-    final json = await file.readAsString();
-    final content = jsonDecode(json)["shareCards"];
-    return ShareCards.fromJson(
-      content.where((element) => element["id"] == id).first,
-    );
+    return await getById(id);
   }
 
   @override
   Future<void> saveShareCards(ShareCards shareCards) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File("${dir.path}/share_cards.json");
-    if (!file.existsSync()) {
-      file.create();
-    }
-    String json = await file.readAsString();
-    if (json == "") {
-      json = jsonEncode({"shareCards": []});
-    }
-    final content = jsonDecode(json);
-    if (content["shareCards"]
-        .where((element) => element["id"] == shareCards.id)
-        .isNotEmpty) {
-      for (int i = 0; i < content["shareCards"].length; ++i) {
-        if (content["shareCards"][i]["id"] == shareCards.id) {
-          content["shareCards"][i] = shareCards.toJson();
-        }
-      }
-    } else {
-      content["shareCards"].add(shareCards.toJson());
-    }
-    file.writeAsString(jsonEncode(content), mode: FileMode.writeOnly);
+    await save(shareCards);
   }
 
   @override
@@ -109,6 +50,12 @@ class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
   @override
   Map<String, dynamic> toJson(ShareCards item) {
     return item.toJson();
+  }
+  
+  @override
+  ShareCards setId(ShareCards item, String id) {
+    // TODO: implement setId
+    return item.copyWith(id: id);
   }
 
   /*@override

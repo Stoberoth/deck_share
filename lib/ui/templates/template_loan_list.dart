@@ -2,6 +2,7 @@ import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_details_page.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_loan_subtitle.dart';

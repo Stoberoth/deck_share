@@ -7,7 +7,7 @@ part of 'share_cards_model.dart';
 // **************************************************************************
 
 _ShareCards _$ShareCardsFromJson(Map<String, dynamic> json) => _ShareCards(
-  id: json['id'] as String,
+  id: json['id'] as String?,
   title: json['title'] as String?,
   expectedReturnDate: json['expectedReturnDate'] == null
       ? null

@@ -1,7 +1,7 @@
 import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_floating_action_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
@@ -16,8 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Page to create a share cards
 ///
 
-final lentNumber = StateProvider<int>((ref) => 0);
-final borrowNumber = StateProvider<int>((ref) => 0);
+
 
 class ShareCardsPage extends ConsumerStatefulWidget {
   const ShareCardsPage({super.key});

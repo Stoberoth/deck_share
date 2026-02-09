@@ -2,6 +2,7 @@ import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_co
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
 import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
