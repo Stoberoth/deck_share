@@ -1,8 +1,6 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/molecules/molecule_card_sum.dart';
-import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/card_image_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

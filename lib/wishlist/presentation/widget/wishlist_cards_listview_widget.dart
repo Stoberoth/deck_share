@@ -1,6 +1,5 @@
 import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_card_picker.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/molecules/molecule_dismissible.dart';

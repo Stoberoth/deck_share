@@ -15,9 +15,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Page to create a share cards
 ///
-
-
-
 class ShareCardsPage extends ConsumerStatefulWidget {
   const ShareCardsPage({super.key});
 
@@ -69,9 +66,6 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<List<ShareCards>> state = ref.watch(
-      shareCardsControllerProvider,
-    );
 
     // Écouter les changements d'index pour recharger les données
     ref.listen<int>(indexProvider, (previous, next) {
