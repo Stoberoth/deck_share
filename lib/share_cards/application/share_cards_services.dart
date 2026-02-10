@@ -1,4 +1,4 @@
-import 'package:deck_share/share_cards/data/share_card_repository.dart';
+import 'package:deck_share/share_cards/domain/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 
 class ShareCardsServices {

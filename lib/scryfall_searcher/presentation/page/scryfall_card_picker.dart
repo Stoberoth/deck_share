@@ -1,15 +1,11 @@
-import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
-import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
+import 'package:deck_share/scryfall_searcher/presentation/providers/scryfall_providers.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
 import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
-import 'package:deck_share/ui/molecules/molecule_card_tile.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
-import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +16,7 @@ import 'package:scryfall_api/scryfall_api.dart';
 
 // ignore: must_be_immutable
 class ScryfallCardPicker extends ConsumerStatefulWidget {
-  ScryfallCardPicker({super.key});
+  const ScryfallCardPicker({super.key});
 
   @override
   ConsumerState<ScryfallCardPicker> createState() => _ScryfallCardPickerState();
@@ -43,7 +39,6 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
             cardName: searchController.text,
             setCode: selectedSet?.code,
             oracleText: searchOracleController.text,
-            optionsText: optionText,
           );
     } on ScryfallException catch (e) {
       ScaffoldMessenger.of(
@@ -110,7 +105,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                     ),
                   ),
                   SizedBox(height: 10),*/
-                  Row(
+                  /*Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       /*  BaseButton(
@@ -120,7 +115,7 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                         },
                       ),
                       SizedBox(width: 10),*/
-                      AtomButton(
+                      /*AtomButton(
                         label: "Add search options",
                         onPressed: () async {
                           // show a dialog to add some option to the search
@@ -134,9 +129,9 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                           );
                           onSearch();
                         },
-                      ),
+                      ),*/
                     ],
-                  ),
+                  ),*/
                   
 
                   SizedBox(height: 10),

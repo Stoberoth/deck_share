@@ -55,6 +55,7 @@ dependencies:
 
   # Scryfall API
   scryfall_api : ^2.3.0
+  http: ^1.6.0
 
 
 

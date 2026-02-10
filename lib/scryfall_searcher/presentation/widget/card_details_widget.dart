@@ -1,4 +1,4 @@
-import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
+import 'package:deck_share/scryfall_searcher/presentation/providers/scryfall_providers.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';

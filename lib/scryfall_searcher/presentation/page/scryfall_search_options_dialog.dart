@@ -1,13 +1,26 @@
-import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
+import 'package:deck_share/scryfall_searcher/presentation/providers/scryfall_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scryfall_api/scryfall_api.dart';
+
+const List<String> rarity = ["Common", "Uncommon", "Rare", "Mythic", "Special"];
+const List<String> type = [
+  "Creature",
+  "Enchantment",
+  "Instant",
+  "Sorcery",
+  "Artifact",
+  "Land",
+  "Plane",
+  "Battle",
+  "Snow",
+  "Ongoing",
+];
 
 class ScryfallOptionDialog extends ConsumerWidget {
-  ScryfallOptionDialog({super.key, required this.optionsText});
-  Map<String, String> optionsText;
+  const ScryfallOptionDialog({super.key, required this.optionsText});
+  final Map<String, String> optionsText;
 
   // la langue de recherche
   // le CCM
@@ -15,19 +28,6 @@ class ScryfallOptionDialog extends ConsumerWidget {
   // la couleur / identité de couleur de la carte
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<String> Rarity = ["Common", "Uncommon", "Rare", "Mythic", "Special"];
-    List<String> Type = [
-      "Creature",
-      "Enchantment",
-      "Instant",
-      "Sorcery",
-      "Artifact",
-      "Land",
-      "Plane",
-      "Battle",
-      "Snow",
-      "Ongoing",
-    ];
     TextEditingController setSearchController = TextEditingController();
     TextEditingController rarityController = TextEditingController();
     TextEditingController typeController = TextEditingController();
@@ -66,9 +66,9 @@ class ScryfallOptionDialog extends ConsumerWidget {
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
                     controller: rarityController,
-                    dropdownMenuEntries: Rarity.map(
-                      (e) => DropdownMenuEntry(value: e, label: e),
-                    ).toList(),
+                    dropdownMenuEntries: rarity
+                        .map((e) => DropdownMenuEntry(value: e, label: e))
+                        .toList(),
                     initialSelection: optionsText["rarity:"],
                     onSelected: (value) {
                       optionsText["rarity:"] = "${rarityController.text}";
@@ -84,7 +84,9 @@ class ScryfallOptionDialog extends ConsumerWidget {
                   DropdownMenu(
                     textStyle: TextStyle(fontSize: 20),
                     controller: typeController,
-                    dropdownMenuEntries: Type.map((e) => DropdownMenuEntry(value: e, label: e)).toList(),
+                    dropdownMenuEntries: type
+                        .map((e) => DropdownMenuEntry(value: e, label: e))
+                        .toList(),
                     initialSelection: optionsText["t:"],
                     onSelected: (value) {
                       optionsText["t:"] = "${typeController.text}";
@@ -104,7 +106,6 @@ class ScryfallOptionDialog extends ConsumerWidget {
             AtomButton(
               label: "Clear options",
               onPressed: () {
-                optionsText = {};
                 setSearchController.clear();
                 rarityController.clear();
                 typeController.clear();
