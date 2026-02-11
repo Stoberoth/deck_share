@@ -71,7 +71,7 @@ class ScryfallOptionDialog extends ConsumerWidget {
                         .toList(),
                     initialSelection: optionsText["rarity:"],
                     onSelected: (value) {
-                      optionsText["rarity:"] = "${rarityController.text}";
+                      optionsText["rarity:"] = rarityController.text;
                     },
                   ),
                 ],
@@ -89,7 +89,7 @@ class ScryfallOptionDialog extends ConsumerWidget {
                         .toList(),
                     initialSelection: optionsText["t:"],
                     onSelected: (value) {
-                      optionsText["t:"] = "${typeController.text}";
+                      optionsText["t:"] = typeController.text;
                     },
                   ),
                 ],
