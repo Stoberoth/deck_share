@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:deck_share/scryfall_searcher/application/scryfall_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,12 +8,6 @@ import 'package:scryfall_api/scryfall_api.dart';
 
 typedef MtgSetEntry = DropdownMenuEntry<MtgSet>;
 
-final scryfallControllerProvider =
-    StateNotifierProvider<ScryfallController, AsyncValue<List<MtgCard>>>((ref) {
-      return ScryfallController(
-        scryfallServices: ref.read(scryfallServiceProvider),
-      );
-    });
 
 class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
   final ScryfallServices scryfallServices;
@@ -55,7 +48,6 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
     required String cardName,
     required String? setCode,
     required String oracleText,
-    Map<String, String>? optionsText,
   }) async {
     state = AsyncValue.loading();
     try {
@@ -63,7 +55,6 @@ class ScryfallController extends StateNotifier<AsyncValue<List<MtgCard>>> {
         cardName,
         setCode,
         oracleText,
-        optionsText,
       );
       state = AsyncValue.data(list.isNotEmpty ? list : []);
     } on ScryfallException {

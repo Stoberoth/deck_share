@@ -3,7 +3,7 @@ import 'package:deck_share/ui/atom/atom_image.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/utils/app_color.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MoleculeCardSum extends ConsumerWidget {
@@ -19,7 +19,6 @@ class MoleculeCardSum extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
     return AtomCard(
       color: AppColors.surface,
       child: AtomListTile(

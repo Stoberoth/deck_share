@@ -1,27 +1,7 @@
 import 'package:deck_share/share_cards/application/share_cards_services.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scryfall_api/scryfall_api.dart';
 
-final selectedItemProvider = StateProvider((ref) => "");
-final indexProvider = StateProvider<int>((ref) => 0);
-final pickcards = StateProvider<List<MtgCard>>(
-  (ref) => List<MtgCard>.empty(growable: true),
-);
-
-final selectLoan = StateProvider<ShareCards>(
-  (ref) => ShareCards(lender: "", applicant: "", lendingCards: []),
-);
-
-final shareCardsControllerProvider =
-    StateNotifierProvider<ShareCardsController, AsyncValue<List<ShareCards>>>((
-      ref,
-    ) {
-      return ShareCardsController(
-        shareCardsServices: ref.read(shareCardsServiceProvider),
-        selectedItem: ref.read(selectedItemProvider),
-      );
-    });
 
 class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   final ShareCardsServices shareCardsServices;

@@ -1,14 +1,12 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_loan_sum.dart';
 import 'package:deck_share/ui/molecules/molecule_notes.dart';
-import 'package:deck_share/ui/molecules/molecule_slider_segmented_button.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_card_sum_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
-import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

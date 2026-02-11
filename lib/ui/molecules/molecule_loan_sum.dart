@@ -1,10 +1,7 @@
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
-import 'package:deck_share/ui/molecules/molecule_card_sum.dart';
-import 'package:deck_share/ui/organisms/organism_card_sum_list.dart';
-import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +48,7 @@ class MoleculeLoanSum extends ConsumerWidget {
                       : AppColors.success,
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
-                    child: AtomText(data: loanToSum.status.name != ShareCardsStatus.returned ? "En cours" : "Returned", fontSize: 20),
+                    child: AtomText(data: loanToSum.status!.name != ShareCardsStatus.returned ? "En cours" : "Returned", fontSize: 20),
                   ),
                 ),
                 Spacer(),

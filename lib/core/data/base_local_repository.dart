@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class BaseLocalRepository<T> {
@@ -12,7 +10,7 @@ abstract class BaseLocalRepository<T> {
   T fromJson(Map<String, dynamic> json);
   Map<String, dynamic> toJson(T item);
   String? getId(T item);
-  void setId(T item, String id);
+  T setId(T item, String id);
 
   // Méthode communes
   Future<File> _getFile() async {
@@ -23,7 +21,7 @@ abstract class BaseLocalRepository<T> {
   Future<Map<String, dynamic>> _readJsonFile() async {
     final file = await _getFile();
     if (!file.existsSync()) {
-      file.create();
+      await file.create();
     }
     final jsonString = await file.readAsString();
     if (jsonString.isEmpty) {
@@ -55,10 +53,8 @@ abstract class BaseLocalRepository<T> {
 
   Future<void> save(T item) async
   {
-    if (getId(item)?.isEmpty ?? true)
-    {
-      setId(item, UniqueKey().toString());
-    }
+    final currentId = getId(item);
+    final itemWithId = (currentId == null || currentId.isEmpty) ? setId(item, _generateId()) : item;
     final content = await _readJsonFile();
     
     // Initialiser la collection si elle n'existe pas
@@ -68,15 +64,15 @@ abstract class BaseLocalRepository<T> {
     
     final collection = content[getCollectionName()] as List;
 
-    final index = collection.indexWhere((e) => e["id"] == getId(item));
+    final index = collection.indexWhere((e) => e["id"] == getId(itemWithId));
 
     if(index != -1)
     {
-      collection[index] = toJson(item);
+      collection[index] = toJson(itemWithId);
     }
     else
     {
-      collection.add(toJson(item));
+      collection.add(toJson(itemWithId));
     }
 
     await _writeJsonFile(content);
@@ -90,5 +86,10 @@ abstract class BaseLocalRepository<T> {
     collection.removeWhere((e) => e["id"] == id);
 
     await _writeJsonFile(content);
+  }
+
+  String _generateId()
+  {
+    return UniqueKey().hashCode.toString();
   }
 }

@@ -1,15 +1,8 @@
-import 'package:deck_share/share_cards/data/share_card_local_repository.dart';
+import 'package:deck_share/share_cards/domain/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final shareCardsServiceProvider = Provider<ShareCardsServices>((ref) {
-  return ShareCardsServices(
-    localRepository: ref.read(shareCardsLocalRepositoryProvider),
-  );
-});
 
 class ShareCardsServices {
-  final ShareCardLocalRepository localRepository;
+  final ShareCardRepository localRepository;
 
   ShareCardsServices({required this.localRepository});
 
@@ -80,15 +73,15 @@ class ShareCardsServices {
   }
 
   Future<void> saveShareCards(ShareCards shareCards) async {
-    await localRepository.save(shareCards);
+    await localRepository.saveShareCards(shareCards);
   }
 
   Future<void> deleteShareCards(String id) async {
-    await localRepository.delete(id);
+    await localRepository.deleteShareCards(id);
   }
 
   Future<List<ShareCards>> getAllShareCards() async {
-    return await localRepository.getAll();
+    return await localRepository.getAllShareCards();
   }
 
   Future<ShareCards> getShareCardsById(String id) async {

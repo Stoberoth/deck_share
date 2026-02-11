@@ -1,14 +1,11 @@
-import 'package:deck_share/scryfall_searcher/presentation/controller/scryfall_controller.dart';
-import 'package:deck_share/scryfall_searcher/presentation/page/scryfall_search_options_dialog.dart';
+import 'package:deck_share/scryfall_searcher/presentation/providers/scryfall_providers.dart';
 import 'package:deck_share/scryfall_searcher/presentation/widget/card_details_widget.dart';
-import 'package:deck_share/share_cards/presentation/controller/share_cards_controller.dart';
+import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_list_tile.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
-import 'package:deck_share/ui/molecules/molecule_card_tile.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
-import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +16,7 @@ import 'package:scryfall_api/scryfall_api.dart';
 
 // ignore: must_be_immutable
 class ScryfallCardPicker extends ConsumerStatefulWidget {
-  ScryfallCardPicker({super.key});
+  const ScryfallCardPicker({super.key});
 
   @override
   ConsumerState<ScryfallCardPicker> createState() => _ScryfallCardPickerState();
@@ -42,7 +39,6 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
             cardName: searchController.text,
             setCode: selectedSet?.code,
             oracleText: searchOracleController.text,
-            optionsText: optionText,
           );
     } on ScryfallException catch (e) {
       ScaffoldMessenger.of(
@@ -95,49 +91,6 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  /*ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 50),
-                    child: CarouselView.weighted(
-                      flexWeights: [1,1,1],
-                      children: [
-                        BaseButton(label: "Color", onPressed: () {}),
-                        BaseButton(label: "Color", onPressed: () {}),
-                        BaseButton(label: "Color", onPressed: () {}),
-                        BaseButton(label: "Color", onPressed: () {}),
-                        BaseButton(label: "Color", onPressed: () {}),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),*/
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      /*  BaseButton(
-                        label: "Search",
-                        onPressed: () async {
-                          onSearch();
-                        },
-                      ),
-                      SizedBox(width: 10),*/
-                      AtomButton(
-                        label: "Add search options",
-                        onPressed: () async {
-                          // show a dialog to add some option to the search
-                          optionText = await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ScryfallOptionDialog(
-                                optionsText: optionText,
-                              );
-                            },
-                          );
-                          onSearch();
-                        },
-                      ),
-                    ],
-                  ),
-                  
-
                   SizedBox(height: 10),
                   listOfCards.isLoading
                       ? const Center(child: CircularProgressIndicator())
@@ -153,7 +106,6 @@ class _ScryfallCardPickerState extends ConsumerState<ScryfallCardPicker> {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Card(
-                                  // Correction du type pour correspondre à Color?
                                   color:
                                       ref
                                           .watch(pickcards)
