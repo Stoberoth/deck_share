@@ -1,3 +1,5 @@
+import 'package:deck_share/home/presentation/page/log_in.dart';
+import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +19,26 @@ Widget authentification() {
   return StreamBuilder(
     stream: FirebaseAuth.instance.authStateChanges(),
     builder: (context, snapshot) {
-      if (!snapshot.hasData) {
-        return SignInScreen(providers: [EmailAuthProvider()]);
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(color: AppColors.primary),
+                SizedBox(height: 20),
+                AtomText(data: "Loading ....."),
+              ],
+            ),
+          ),
+        );
       }
-      return Home();
+      if (snapshot.hasData && snapshot.data != null) {
+        return Home();
+      }
+      return LogInPage();
     },
   );
 }

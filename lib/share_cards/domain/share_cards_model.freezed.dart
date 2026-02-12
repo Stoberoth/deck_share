@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ShareCards {
 
- String? get id; String? get title; DateTime? get expectedReturnDate; DateTime? get returnedAt; ShareCardsStatus? get status; String? get notes; String get lender; String get applicant; List<MtgCard> get lendingCards; DateTime? get lendingDate;
+ String? get id; String? get title; DateTime? get expectedReturnDate; DateTime? get returnedAt; ShareCardsStatus? get status; String? get notes; String get lender; String get applicant;@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> get lendingCards; DateTime? get lendingDate;
 /// Create a copy of ShareCards
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $ShareCardsCopyWith<$Res>  {
   factory $ShareCardsCopyWith(ShareCards value, $Res Function(ShareCards) _then) = _$ShareCardsCopyWithImpl;
 @useResult
 $Res call({
- String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lender, String applicant, List<MtgCard> lendingCards, DateTime? lendingDate
+ String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lender, String applicant,@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> lendingCards, DateTime? lendingDate
 });
 
 
@@ -162,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant,  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ShareCards() when $default != null:
 return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lender,_that.applicant,_that.lendingCards,_that.lendingDate);case _:
@@ -183,7 +183,7 @@ return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant,  List<MtgCard> lendingCards,  DateTime? lendingDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)  $default,) {final _that = this;
 switch (_that) {
 case _ShareCards():
 return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lender,_that.applicant,_that.lendingCards,_that.lendingDate);case _:
@@ -203,7 +203,7 @@ return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant,  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,) {final _that = this;
 switch (_that) {
 case _ShareCards() when $default != null:
 return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lender,_that.applicant,_that.lendingCards,_that.lendingDate);case _:
@@ -218,7 +218,7 @@ return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_
 @JsonSerializable()
 
 class _ShareCards extends ShareCards {
-  const _ShareCards({this.id, this.title, this.expectedReturnDate, this.returnedAt, this.status, this.notes, required this.lender, required this.applicant, required final  List<MtgCard> lendingCards, this.lendingDate}): _lendingCards = lendingCards,super._();
+  const _ShareCards({this.id, this.title, this.expectedReturnDate, this.returnedAt, this.status, this.notes, required this.lender, required this.applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) required final  List<MtgCard> lendingCards, this.lendingDate}): _lendingCards = lendingCards,super._();
   factory _ShareCards.fromJson(Map<String, dynamic> json) => _$ShareCardsFromJson(json);
 
 @override final  String? id;
@@ -230,7 +230,7 @@ class _ShareCards extends ShareCards {
 @override final  String lender;
 @override final  String applicant;
  final  List<MtgCard> _lendingCards;
-@override List<MtgCard> get lendingCards {
+@override@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> get lendingCards {
   if (_lendingCards is EqualUnmodifiableListView) return _lendingCards;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_lendingCards);
@@ -271,7 +271,7 @@ abstract mixin class _$ShareCardsCopyWith<$Res> implements $ShareCardsCopyWith<$
   factory _$ShareCardsCopyWith(_ShareCards value, $Res Function(_ShareCards) _then) = __$ShareCardsCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lender, String applicant, List<MtgCard> lendingCards, DateTime? lendingDate
+ String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lender, String applicant,@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> lendingCards, DateTime? lendingDate
 });
 
 

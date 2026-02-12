@@ -1,3 +1,5 @@
+import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Base App Bar for all the application
@@ -6,7 +8,8 @@ import 'package:flutter/material.dart';
 class OrganismAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
-  const OrganismAppBar({Key? key, required this.title, this.actions}) : super(key: key);
+  const OrganismAppBar({Key? key, required this.title, this.actions})
+    : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -14,12 +17,18 @@ class OrganismAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: TextStyle(color: Colors.white, ),),
-      actions: actions,
+      title: Text(title, style: TextStyle(color: Colors.white)),
       backgroundColor: Theme.of(context).colorScheme.secondary,
       shadowColor: Colors.black,
       elevation: 5,
-      //actions: [BaseButton(label: "Log out", onPressed: () {})],
+      actions: [
+        AtomButton(
+          label: "Log out",
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+          },
+        ),
+      ],
     );
   }
 }

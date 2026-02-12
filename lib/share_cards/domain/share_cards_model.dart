@@ -1,5 +1,6 @@
 import 'package:scryfall_api/scryfall_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'share_cards_model.freezed.dart';
 part 'share_cards_model.g.dart';
@@ -10,6 +11,15 @@ enum ShareCardsStatus{
   overdue, // prêt en retard
 }
 
+List<Map<String, dynamic>> _lendingCardsToJson(List<MtgCard> cards)
+{
+  return cards.map((card) => card.toJson()).toList();
+}
+
+List<MtgCard> _lendingCardsFromJson(List<dynamic> json)
+{
+  return json.map((item) => MtgCard.fromJson(item as Map<String, dynamic>)).toList();
+}
 
 @freezed
 abstract class ShareCards with _$ShareCards
@@ -25,6 +35,7 @@ abstract class ShareCards with _$ShareCards
   String? notes,
   required String lender,
   required String applicant,
+  @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)
   required List<MtgCard> lendingCards,
   DateTime? lendingDate
   }) = _ShareCards;

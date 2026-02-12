@@ -132,7 +132,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               ],
             ),
             SizedBox(height: 10),
-            MoleculeSliderSegmentedButton(),
+            MoleculeSliderSegmentedButton(indexReference: indexProvider, firstLabel: 'Prétés', secondLabel: "Empruntés",),
             SizedBox(height: 10),
             TemplateLoanList(
               loanList: ref.watch(shareCardsControllerProvider).value != null

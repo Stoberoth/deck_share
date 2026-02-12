@@ -6,6 +6,7 @@ class AtomTextField extends StatelessWidget {
   final String? hintText;
   final Icon? icon;
   final Color textColor;
+  final bool obscureText;
   final ValueChanged? onSubmitted;
   final bool? enabled;
 
@@ -15,7 +16,7 @@ class AtomTextField extends StatelessWidget {
     required this.hintText,
     this.textColor = AppColors.textPrimary,
     this.icon,
-
+    this.obscureText = false,
     this.onSubmitted,
     this.enabled
   });
@@ -23,6 +24,7 @@ class AtomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: obscureText,
       controller: controller,
       style: TextStyle(color: textColor),
       keyboardType: TextInputType.text,
