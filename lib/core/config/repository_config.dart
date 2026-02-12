@@ -1,0 +1,1 @@
+enum RepositoryType { local, firebase }
