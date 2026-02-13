@@ -87,9 +87,12 @@ class _CardDetailsWidgetState extends State<CardDetailsWidget> {
                       ? Image.network(
                           widget.card.imageUris!.normal.toString(),
                         ).image
-                      : Image.network(
+                      : widget.card.cardFaces![currentFace].imageUris != null ?
+                      Image.network(
                           widget.card.cardFaces![currentFace].imageUris!.normal
                               .toString(),
+                        ).image : Image.network(
+                          widget.card.imageUris!.normal.toString(),
                         ).image,
                 ),
               ),

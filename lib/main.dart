@@ -1,7 +1,7 @@
+import 'package:deck_share/core/presentation/widget/connectivity_listener.dart';
 import 'package:deck_share/home/presentation/page/log_in.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:deck_share/home/presentation/page/home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         ),
         primaryColorLight: AppColors.primaryLight,
       ),
-      home: authentification(),
+      home: ConnectivityListener(child: authentification()),
     );
   }
 }

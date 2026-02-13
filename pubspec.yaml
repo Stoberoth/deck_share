@@ -56,7 +56,12 @@ dependencies:
   # Scryfall API
   scryfall_api : ^2.3.0
   http: ^1.6.0
+
+  # Firebase configuration
   firebase_ui_auth: ^3.0.1
+
+  # Detection de connection
+  connectivity_plus: ^6.1.2
 
 
 
