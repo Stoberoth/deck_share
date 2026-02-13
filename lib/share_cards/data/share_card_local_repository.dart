@@ -33,7 +33,6 @@ class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
 
   @override
   String getCollectionName() {
-    // TODO: implement getCollectionName
     return "shareCards";
   }
 
@@ -54,7 +53,6 @@ class ShareCardLocalRepository extends BaseLocalRepository<ShareCards>
   
   @override
   ShareCards setId(ShareCards item, String id) {
-    // TODO: implement setId
     return item.copyWith(id: id);
   }
 

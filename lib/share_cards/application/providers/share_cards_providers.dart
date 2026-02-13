@@ -4,6 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final shareCardsServiceProvider = Provider<ShareCardsServices>((ref) {
   return ShareCardsServices(
-    localRepository: ref.read(shareCardsRepositoryProvider),
+    repository: ref.watch(shareCardsRepositoryProvider),
   );
 });

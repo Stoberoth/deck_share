@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1039915780058",
+    "project_id": "deckshare-2073f",
+    "storage_bucket": "deckshare-2073f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039915780058:android:2f8c32edf364114bfde2e3",
+        "android_client_info": {
+          "package_name": "com.company.deckshare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvNzuZUafysbg675dyBcojhewA5s7O4SE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039915780058:android:1f8f1391bffc77bdfde2e3",
+        "android_client_info": {
+          "package_name": "com.example.deck_share"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvNzuZUafysbg675dyBcojhewA5s7O4SE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

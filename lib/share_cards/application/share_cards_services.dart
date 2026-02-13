@@ -2,44 +2,20 @@ import 'package:deck_share/share_cards/domain/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 
 class ShareCardsServices {
-  final ShareCardRepository localRepository;
+  final ShareCardRepository repository;
 
-  ShareCardsServices({required this.localRepository});
+  ShareCardsServices({required this.repository});
 
   // Marquer un prêt comme rendu
   Future<void> markAsReturned(String id) async {
     final shareCards = await getShareCardsById(id);
-    ShareCards newShareCards = ShareCards(
-      id: shareCards.id,
-      title: shareCards.title,
-      expectedReturnDate: shareCards.expectedReturnDate,
-      returnedAt: DateTime.now(),
-      status: ShareCardsStatus.returned,
-      notes: shareCards.notes,
-      lender: shareCards.lender,
-      applicant: shareCards.applicant,
-      lendingCards: shareCards.lendingCards,
-      lendingDate: shareCards.lendingDate,
-    );
-    await saveShareCards(newShareCards);
+    await saveShareCards(shareCards.copyWith(returnedAt: DateTime.now(), status: ShareCardsStatus.returned));
   }
 
   // Prolonger un prêt
   Future<void> extendLoan(String id, DateTime newReturnDate) async {
     final shareCards = await getShareCardsById(id);
-    ShareCards newShareCards = ShareCards(
-      id: shareCards.id,
-      title: shareCards.title,
-      expectedReturnDate: newReturnDate,
-      returnedAt: shareCards.returnedAt,
-      status: shareCards.status,
-      notes: shareCards.notes,
-      lender: shareCards.lender,
-      applicant: shareCards.applicant,
-      lendingCards: shareCards.lendingCards,
-      lendingDate: shareCards.lendingDate,
-    );
-    await saveShareCards(newShareCards);
+     await saveShareCards(shareCards.copyWith(expectedReturnDate: newReturnDate));
   }
 
   // Filtre les prêts par status
@@ -73,19 +49,19 @@ class ShareCardsServices {
   }
 
   Future<void> saveShareCards(ShareCards shareCards) async {
-    await localRepository.saveShareCards(shareCards);
+    await repository.saveShareCards(shareCards);
   }
 
   Future<void> deleteShareCards(String id) async {
-    await localRepository.deleteShareCards(id);
+    await repository.deleteShareCards(id);
   }
 
   Future<List<ShareCards>> getAllShareCards() async {
-    return await localRepository.getAllShareCards();
+    return await repository.getAllShareCards();
   }
 
   Future<ShareCards> getShareCardsById(String id) async {
-    return await localRepository.getShareCardsById(id);
+    return await repository.getShareCardsById(id);
   }
 
   /*Future<void> updateShareCards(ShareCards shareCards) async {

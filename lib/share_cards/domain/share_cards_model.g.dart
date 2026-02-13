@@ -19,9 +19,7 @@ _ShareCards _$ShareCardsFromJson(Map<String, dynamic> json) => _ShareCards(
   notes: json['notes'] as String?,
   lender: json['lender'] as String,
   applicant: json['applicant'] as String,
-  lendingCards: (json['lendingCards'] as List<dynamic>)
-      .map((e) => MtgCard.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  lendingCards: _lendingCardsFromJson(json['lendingCards'] as List),
   lendingDate: json['lendingDate'] == null
       ? null
       : DateTime.parse(json['lendingDate'] as String),
@@ -37,7 +35,7 @@ Map<String, dynamic> _$ShareCardsToJson(_ShareCards instance) =>
       'notes': instance.notes,
       'lender': instance.lender,
       'applicant': instance.applicant,
-      'lendingCards': instance.lendingCards,
+      'lendingCards': _lendingCardsToJson(instance.lendingCards),
       'lendingDate': instance.lendingDate?.toIso8601String(),
     };
 
