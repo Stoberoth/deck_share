@@ -35,6 +35,10 @@ class UserFirebaseRepository
         .collection("users")
         .doc(currentUser!.uid)
         .get();
+    if(!doc.exists)
+    {
+      return UserProfile(name: "");
+    }
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return UserProfile.fromJson(data);
     }

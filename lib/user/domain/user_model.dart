@@ -6,7 +6,7 @@ part 'user_model.g.dart';
 @freezed
 abstract class UserProfile with _$UserProfile {
   const UserProfile._();
-  const factory UserProfile({String? id, required String name}) =
+  const factory UserProfile({String? id, required String name, String? phone}) =
       _UserProfile;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);

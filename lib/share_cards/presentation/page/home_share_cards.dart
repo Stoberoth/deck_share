@@ -2,14 +2,21 @@ import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
 import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
+import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_floating_action_button.dart';
+import 'package:deck_share/ui/atom/atom_icon_button.dart';
+import 'package:deck_share/ui/atom/atom_logout_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_slider_segmented_button.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
+import 'package:deck_share/user/data/providers/user_providers.dart';
+import 'package:deck_share/user/domain/user_model.dart';
+import 'package:deck_share/user/presentation/page/user_information_page.dart';
 import 'package:deck_share/utils/app_color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,12 +30,14 @@ class ShareCardsPage extends ConsumerStatefulWidget {
 }
 
 class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
+  late UserProfile user = UserProfile(name: "");
   @override
   void initState() {
     super.initState();
     // Chargement initial des données
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
+      _fetchData();
     });
   }
 
@@ -66,7 +75,6 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
 
   @override
   Widget build(BuildContext context) {
-
     // Écouter les changements d'index pour recharger les données
     ref.listen<int>(indexProvider, (previous, next) {
       if (previous != next) {
@@ -81,7 +89,24 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
     });
 
     return TemplateBase(
-      baseAppBar: OrganismAppBar(title: 'Mes Prêts'),
+      baseAppBar: OrganismAppBar(
+        title: 'Mes Prêts',
+        actions: [
+          AtomIconButton(
+            icon: Icon(Icons.verified_user),
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserInformationPage()),
+              );
+            },
+          ),
+          AtomButton(
+            label: "LogOut",
+            onPressed: () => FirebaseAuth.instance.signOut(),
+          ),
+        ],
+      ),
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
@@ -132,7 +157,11 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
               ],
             ),
             SizedBox(height: 10),
-            MoleculeSliderSegmentedButton(indexReference: indexProvider, firstLabel: 'Prétés', secondLabel: "Empruntés",),
+            MoleculeSliderSegmentedButton(
+              indexReference: indexProvider,
+              firstLabel: 'Prétés',
+              secondLabel: "Empruntés",
+            ),
             SizedBox(height: 10),
             TemplateLoanList(
               loanList: ref.watch(shareCardsControllerProvider).value != null

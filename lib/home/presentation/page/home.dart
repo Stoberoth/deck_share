@@ -11,28 +11,12 @@ class Home extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<Home> {
-  final List<Widget> _listOfPages = [/*HomeWishlistPage(),*/ ShareCardsPage()];
 
   int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return TemplateHome(
-      body: _listOfPages[currentPageIndex],
-      /*bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'WishList'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.handshake),
-            label: 'ShareCards',
-          ),
-        ],
-        currentIndex: currentPageIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) {setState(() {
-          //currentPageIndex = index;
-          currentPageIndex = 0;
-        });},
-      ),*/
+      body: ShareCardsPage(),
     );
     
   }

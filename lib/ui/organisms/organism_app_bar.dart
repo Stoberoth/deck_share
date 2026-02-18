@@ -21,14 +21,7 @@ class OrganismAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.secondary,
       shadowColor: Colors.black,
       elevation: 5,
-      actions: [
-        AtomButton(
-          label: "Log out",
-          onPressed: () {
-            FirebaseAuth.instance.signOut();
-          },
-        ),
-      ],
+      actions: actions,
     );
   }
 }
