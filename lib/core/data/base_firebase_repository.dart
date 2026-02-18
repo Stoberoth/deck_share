@@ -12,7 +12,7 @@ abstract class BaseFirebaseRepository<T> {
   T setId(T item, String id);
 
   Future<List<T>> getAll() async {
-    QuerySnapshot allRemoteItems = await getUserDocument()
+    QuerySnapshot allRemoteItems = await _getUserDocument()
         .collection(getCollectionName())
         .get();
     List<T> allReturnedObject = [];
@@ -29,7 +29,7 @@ abstract class BaseFirebaseRepository<T> {
     if (FirebaseAuth.instance.currentUser == null) {
       throw Exception("User not authenticated");
     }
-    DocumentSnapshot doc = await getUserDocument()
+    DocumentSnapshot doc = await _getUserDocument()
         .collection(getCollectionName())
         .doc(id)
         .get();
@@ -51,7 +51,7 @@ abstract class BaseFirebaseRepository<T> {
     {
       tmpItem = setId(item, _generateId());
     }
-    await getUserDocument()
+    await _getUserDocument()
         .collection(getCollectionName())
         .doc(getId(tmpItem))
         .set(toJson(tmpItem));
@@ -61,10 +61,10 @@ abstract class BaseFirebaseRepository<T> {
     if (FirebaseAuth.instance.currentUser == null) {
       throw Exception('User not authenticated');
     }
-    getUserDocument().collection(getCollectionName()).doc(id).delete();
+    _getUserDocument().collection(getCollectionName()).doc(id).delete();
   }
 
-  DocumentReference getUserDocument() {
+  DocumentReference _getUserDocument() {
     User? currentUser = FirebaseAuth.instance.currentUser;
     return _firestore.collection("users").doc(currentUser!.uid);
   }

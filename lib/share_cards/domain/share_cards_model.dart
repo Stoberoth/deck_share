@@ -1,6 +1,5 @@
 import 'package:scryfall_api/scryfall_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'share_cards_model.freezed.dart';
 part 'share_cards_model.g.dart';

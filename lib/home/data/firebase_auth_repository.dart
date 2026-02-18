@@ -1,4 +1,5 @@
 import 'package:deck_share/home/domain/auth_repository.dart';
+import 'package:deck_share/user/domain/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthRepository implements AuthRepository {

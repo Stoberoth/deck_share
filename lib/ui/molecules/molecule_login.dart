@@ -1,9 +1,12 @@
 import 'package:deck_share/home/application/providers/auth_services_providers.dart';
 import 'package:deck_share/home/presentation/page/providers/login_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
+import 'package:deck_share/user/data/providers/user_providers.dart';
+import 'package:deck_share/user/domain/user_model.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:deck_share/utils/auth_error_handling.dart';
 import 'package:deck_share/utils/validators.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -64,10 +67,10 @@ class MoleculeLoginState extends ConsumerState {
                               ref.watch(passwordControllerProvider).text,
                             );
                       } catch (e) {
-                        setState(() {
-                          _isLoading = false;
-                        });
                         if (mounted) {
+                          setState(() {
+                            _isLoading = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
