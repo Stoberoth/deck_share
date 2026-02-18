@@ -31,56 +31,58 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
       baseAppBar: OrganismAppBar(title: "Nouveau prêt"),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            AtomTextField(
-              controller: titleController,
-              hintText: "Ex: Modern Burn Deck",
-              textColor: Colors.black,
-            ),
-            // leading l'image de la carte (la crop image je pense)
-            // en title le nom de la carte et en trailing de quoi la supprimer de la liste
-            OrganismLoanCardList(),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Checkbox(
-                  value: amILender,
-                  onChanged: (value) {
-                    setState(() {
-                      amILender = value!;
-                    });
-                  },
-                ),
-                AtomText(data: "Je prête", color: Colors.black, fontSize: 20),
-              ],
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              AtomTextField(
+                controller: titleController,
+                hintText: "Ex: Modern Burn Deck",
+                textColor: Colors.black,
+              ),
+              // leading l'image de la carte (la crop image je pense)
+              // en title le nom de la carte et en trailing de quoi la supprimer de la liste
+              OrganismLoanCardList(),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Checkbox(
+                    value: amILender,
+                    onChanged: (value) {
+                      setState(() {
+                        amILender = value!;
+                      });
+                    },
+                  ),
+                  AtomText(data: "Je prête", color: Colors.black, fontSize: 20),
+                ],
+              ),
 
-            AtomCard(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsetsGeometry.all(10),
-                child: AtomTextField(
-                  controller: contactController,
-                  hintText:
-                      "Entrez le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
-                  textColor: Colors.black,
+              AtomCard(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsetsGeometry.all(10),
+                  child: AtomTextField(
+                    controller: contactController,
+                    hintText:
+                        "Entrez le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
+                    textColor: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            MoleculeDatePicker(),
-            AtomCard(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsetsGeometry.all(10),
-                child: AtomTextField(
-                  controller: noteController,
-                  hintText: "Ajouter des notes",
-                  textColor: Colors.black,
+              MoleculeDatePicker(),
+              AtomCard(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsetsGeometry.all(10),
+                  child: AtomTextField(
+                    controller: noteController,
+                    hintText: "Ajouter des notes",
+                    textColor: Colors.black,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: AtomButton(
