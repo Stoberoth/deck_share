@@ -7,6 +7,7 @@ class AtomTextField extends StatelessWidget {
   final Icon? icon;
   final Color textColor;
   final bool obscureText;
+  final TextInputType keyboardInput;
   final ValueChanged? onSubmitted;
   final bool? enabled;
 
@@ -16,6 +17,7 @@ class AtomTextField extends StatelessWidget {
     required this.hintText,
     this.textColor = AppColors.textPrimary,
     this.icon,
+    this.keyboardInput = TextInputType.text,
     this.obscureText = false,
     this.onSubmitted,
     this.enabled
@@ -27,7 +29,7 @@ class AtomTextField extends StatelessWidget {
       obscureText: obscureText,
       controller: controller,
       style: TextStyle(color: textColor),
-      keyboardType: TextInputType.text,
+      keyboardType: keyboardInput,
       decoration: InputDecoration(hintText: hintText, icon: icon, hintStyle: TextStyle(color :AppColors.textSecondary)),
       enabled: enabled,
       onSubmitted: onSubmitted,

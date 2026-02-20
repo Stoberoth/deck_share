@@ -15,6 +15,7 @@ import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/user/data/providers/user_providers.dart';
 import 'package:deck_share/user/domain/user_model.dart';
 import 'package:deck_share/user/presentation/page/user_information_page.dart';
+import 'package:deck_share/user/presentation/providers/user_providers.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
         title: 'Mes Prêts',
         actions: [
           AtomIconButton(
-            icon: Icon(Icons.verified_user),
+            icon: Icon(Icons.person, color: AppColors.primary,),
             onPressed: () async {
               await Navigator.push(
                 context,

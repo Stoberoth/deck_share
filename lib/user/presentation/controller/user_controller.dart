@@ -15,4 +15,14 @@ class UserController extends StateNotifier<AsyncValue<UserProfile>> {
       return result;
     });
   }
+
+  Future<List<UserProfile>> getAllUserProfile() async
+  {
+    return await userServices.getAllUserProfile();
+  }
+
+  Future<void> saveUser(UserProfile user) async
+  {
+    await userServices.saveUser(user);
+  }
 }

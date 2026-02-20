@@ -1,8 +1,6 @@
-import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/molecules/molecule_personnal_information.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
-import 'package:deck_share/user/data/providers/user_providers.dart';
 import 'package:deck_share/user/domain/user_model.dart';
 import 'package:deck_share/user/presentation/providers/user_providers.dart';
 import 'package:flutter/widgets.dart';
