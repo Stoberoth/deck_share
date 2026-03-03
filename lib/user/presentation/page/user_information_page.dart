@@ -1,3 +1,4 @@
+import 'package:deck_share/ui/molecules/molecule_loan_resume.dart';
 import 'package:deck_share/ui/molecules/molecule_personnal_information.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
@@ -23,7 +24,6 @@ class UserInformationPageState extends ConsumerState {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(userControllerProvider.notifier).getUserInformation();
     });
-    
   }
 
   @override
@@ -32,7 +32,13 @@ class UserInformationPageState extends ConsumerState {
     return TemplateBase(
       baseAppBar: OrganismAppBar(title: "Informations Personnelles"),
       body: Column(
-        children: [user != null ? MoleculePersonnalInformation(userProfile: user!):Container()],
+        children: [
+          user != null
+              ? MoleculePersonnalInformation(userProfile: user!)
+              : Container(),
+          SizedBox(height: 10,),
+          MoleculeLoanResume(),
+        ],
       ),
     );
   }

@@ -76,14 +76,23 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     });
   }
 
-  Future<int> getNumberOfLent() async {
+
+
+  Future<int> getNumberOfCurrentLent() async {
+    return shareCardsServices.getNumberOfCurrentLent();
+  }
+
+  Future<int> getNumberOfCurrentBorrow() async {
+    return shareCardsServices.getNumberOfCurrentBorrow();
+  }
+
+  Future<int> getNumberOfLentCard() async{
     return shareCardsServices.getNumberOfLent();
   }
-
-  Future<int> getNumberOfBorrow() async {
+  
+  Future<int> getNumberOfBorrowCard() async{
     return shareCardsServices.getNumberOfBorrow();
   }
-
   Future<void> getLentCards() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {

@@ -18,6 +18,5 @@ class _HomeState extends ConsumerState<Home> {
     return TemplateHome(
       body: ShareCardsPage(),
     );
-    
   }
 }

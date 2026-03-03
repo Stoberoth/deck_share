@@ -24,16 +24,26 @@ class ShareCardsServices {
     return all.where((sc) => sc.status == status).toList();
   }
 
-  Future<int> getNumberOfLent() async
+  Future<int> getNumberOfCurrentLent() async
   {
     final all = await getAllShareCards();
     return all.where((sc) => sc.lender == "Me" && sc.returnedAt == null).toList().length;
   }
 
-   Future<int> getNumberOfBorrow() async
+  Future<int> getNumberOfCurrentBorrow() async
   {
     final all = await getAllShareCards();
     return all.where((sc) => sc.applicant == "Me" && sc.status != ShareCardsStatus.returned).toList().length;
+  }
+
+  Future<int> getNumberOfLent() async{
+    final all = await getAllShareCards();
+    return all.where((sc) => sc.lender == "Me").toList().length;
+  }
+
+  Future<int> getNumberOfBorrow() async{
+    final all = await getAllShareCards();
+    return all.where((sc) => sc.lender != "Me").toList().length;
   }
 
   // Obtenir les prêts que je fais (lender = "Me")

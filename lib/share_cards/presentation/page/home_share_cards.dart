@@ -46,8 +46,8 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
     final controller = ref.read(shareCardsControllerProvider.notifier);
 
     // Charger les compteurs
-    final lent = await controller.getNumberOfLent();
-    final borrow = await controller.getNumberOfBorrow();
+    final lent = await controller.getNumberOfCurrentLent();
+    final borrow = await controller.getNumberOfCurrentBorrow();
 
     ref.read(lentNumber.notifier).state = lent;
     ref.read(borrowNumber.notifier).state = borrow;
@@ -67,8 +67,8 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
 
   Future<void> _fetchData() async {
     final controller = ref.read(shareCardsControllerProvider.notifier);
-    final lent = await controller.getNumberOfLent();
-    final borrow = await controller.getNumberOfBorrow();
+    final lent = await controller.getNumberOfCurrentLent();
+    final borrow = await controller.getNumberOfCurrentBorrow();
 
     ref.read(lentNumber.notifier).state = lent;
     ref.read(borrowNumber.notifier).state = borrow;
