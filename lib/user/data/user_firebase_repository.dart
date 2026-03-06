@@ -67,4 +67,31 @@ class UserFirebaseRepository
   String _generateId() {
     return UniqueKey().hashCode.toString();
   }
+  
+  @override
+  Future<List<UserProfile>> getUserByInformation(String? name, String? phone) async {
+    final all = await getAllUserProfile();
+    if (name == null || name.isEmpty)
+    {
+      if(phone == null || phone.isEmpty)
+      {
+        return all;
+      }
+      else
+      {
+        return all.where((sc) => sc.phone == phone).toList();
+      }
+    }
+    else
+    {
+      if(phone == null || phone.isEmpty){
+        return all.where((sc) => sc.name == name).toList();
+      }
+      else
+      {
+        return all.where((sc) => sc.name == name && sc.phone == phone).toList();
+      }
+    }
+  
+  }
 }

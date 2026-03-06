@@ -13,7 +13,7 @@ final pickcards = StateProvider<List<MtgCard>>(
 );
 
 final selectLoan = StateProvider<ShareCards>(
-  (ref) => ShareCards(lender: "", applicant: "", lendingCards: []),
+  (ref) => ShareCards(lenderId: "", applicantId: "", lendingCards: []),
 );
 
 final shareCardsControllerProvider =

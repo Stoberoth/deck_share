@@ -49,8 +49,8 @@ class _TemplateLoanListState extends ConsumerState<TemplateLoanList> {
             loanSubtitle: MoleculeLoanSubtitle(
               cardNumber: currentShareCards.lendingCards.length,
               contact: widget.filter == LoanListFilter.lent
-                  ? currentShareCards.applicant
-                  : currentShareCards.lender,
+                  ? currentShareCards.applicantId
+                  : currentShareCards.lenderId,
               days: DateTime.now()
                   .difference(
                     currentShareCards.lendingDate != null

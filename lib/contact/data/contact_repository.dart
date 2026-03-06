@@ -7,5 +7,6 @@ abstract class ContactRepository {
   Future<void> saveContact(Contact contact);
   Future<void> deleteContact(String id);
   Future<Contact> searchContact(String query);
+  Future<bool> isAlreadyInContact(String phone);
   //Future<Contact> searchUserInDb(String? name, String? phone);
 }

@@ -1,5 +1,3 @@
-import 'package:deck_share/ui/atom/atom_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Base App Bar for all the application

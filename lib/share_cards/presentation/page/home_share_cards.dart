@@ -1,3 +1,4 @@
+import 'package:deck_share/contact/presentation/page/contact_creation.dart';
 import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
@@ -6,16 +7,13 @@ import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_floating_action_button.dart';
 import 'package:deck_share/ui/atom/atom_icon_button.dart';
-import 'package:deck_share/ui/atom/atom_logout_button.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/molecules/molecule_slider_segmented_button.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
-import 'package:deck_share/user/data/providers/user_providers.dart';
 import 'package:deck_share/user/domain/user_model.dart';
 import 'package:deck_share/user/presentation/page/user_information_page.dart';
-import 'package:deck_share/user/presentation/providers/user_providers.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +92,16 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
         title: 'Mes Prêts',
         actions: [
           AtomIconButton(
-            icon: Icon(Icons.person, color: AppColors.primary,),
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ContactCreation()),
+              );
+            },
+          ),
+          AtomIconButton(
+            icon: Icon(Icons.person, color: AppColors.primary),
             onPressed: () async {
               await Navigator.push(
                 context,

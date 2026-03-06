@@ -12,6 +12,26 @@ class Validators {
     return null;
   }
 
+  static String? validateName(String? value)
+  {
+    if(value == null || value.isEmpty)
+    {
+      return "Nom requis";
+    }
+  }
+
+  static String? validatePhone(String? value)
+  {
+    if(value == null || value.isEmpty)
+    {
+      return "Numéro de téléphone requis";
+    }
+    if(value.length != 10 || !(value.startsWith('06') || value.startsWith('07')))
+    {
+      return "Numéro invalide";
+    }
+  }
+
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return "Mot de passe requis";

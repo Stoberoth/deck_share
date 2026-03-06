@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ShareCards {
 
- String? get id; String? get title; DateTime? get expectedReturnDate; DateTime? get returnedAt; ShareCardsStatus? get status; String? get notes; String get lender; String get applicant;@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> get lendingCards; DateTime? get lendingDate;
+ String? get id; String? get title; DateTime? get expectedReturnDate; DateTime? get returnedAt; ShareCardsStatus? get status; String? get notes; String get lenderId; String get applicantId;@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> get lendingCards; DateTime? get lendingDate;
 /// Create a copy of ShareCards
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ShareCardsCopyWith<ShareCards> get copyWith => _$ShareCardsCopyWithImpl<ShareCa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShareCards&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.expectedReturnDate, expectedReturnDate) || other.expectedReturnDate == expectedReturnDate)&&(identical(other.returnedAt, returnedAt) || other.returnedAt == returnedAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.lender, lender) || other.lender == lender)&&(identical(other.applicant, applicant) || other.applicant == applicant)&&const DeepCollectionEquality().equals(other.lendingCards, lendingCards)&&(identical(other.lendingDate, lendingDate) || other.lendingDate == lendingDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ShareCards&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.expectedReturnDate, expectedReturnDate) || other.expectedReturnDate == expectedReturnDate)&&(identical(other.returnedAt, returnedAt) || other.returnedAt == returnedAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.lenderId, lenderId) || other.lenderId == lenderId)&&(identical(other.applicantId, applicantId) || other.applicantId == applicantId)&&const DeepCollectionEquality().equals(other.lendingCards, lendingCards)&&(identical(other.lendingDate, lendingDate) || other.lendingDate == lendingDate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,expectedReturnDate,returnedAt,status,notes,lender,applicant,const DeepCollectionEquality().hash(lendingCards),lendingDate);
+int get hashCode => Object.hash(runtimeType,id,title,expectedReturnDate,returnedAt,status,notes,lenderId,applicantId,const DeepCollectionEquality().hash(lendingCards),lendingDate);
 
 @override
 String toString() {
-  return 'ShareCards(id: $id, title: $title, expectedReturnDate: $expectedReturnDate, returnedAt: $returnedAt, status: $status, notes: $notes, lender: $lender, applicant: $applicant, lendingCards: $lendingCards, lendingDate: $lendingDate)';
+  return 'ShareCards(id: $id, title: $title, expectedReturnDate: $expectedReturnDate, returnedAt: $returnedAt, status: $status, notes: $notes, lenderId: $lenderId, applicantId: $applicantId, lendingCards: $lendingCards, lendingDate: $lendingDate)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ShareCardsCopyWith<$Res>  {
   factory $ShareCardsCopyWith(ShareCards value, $Res Function(ShareCards) _then) = _$ShareCardsCopyWithImpl;
 @useResult
 $Res call({
- String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lender, String applicant,@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> lendingCards, DateTime? lendingDate
+ String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lenderId, String applicantId,@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> lendingCards, DateTime? lendingDate
 });
 
 
@@ -65,7 +65,7 @@ class _$ShareCardsCopyWithImpl<$Res>
 
 /// Create a copy of ShareCards
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? title = freezed,Object? expectedReturnDate = freezed,Object? returnedAt = freezed,Object? status = freezed,Object? notes = freezed,Object? lender = null,Object? applicant = null,Object? lendingCards = null,Object? lendingDate = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? title = freezed,Object? expectedReturnDate = freezed,Object? returnedAt = freezed,Object? status = freezed,Object? notes = freezed,Object? lenderId = null,Object? applicantId = null,Object? lendingCards = null,Object? lendingDate = freezed,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -73,8 +73,8 @@ as String?,expectedReturnDate: freezed == expectedReturnDate ? _self.expectedRet
 as DateTime?,returnedAt: freezed == returnedAt ? _self.returnedAt : returnedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ShareCardsStatus?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
-as String?,lender: null == lender ? _self.lender : lender // ignore: cast_nullable_to_non_nullable
-as String,applicant: null == applicant ? _self.applicant : applicant // ignore: cast_nullable_to_non_nullable
+as String?,lenderId: null == lenderId ? _self.lenderId : lenderId // ignore: cast_nullable_to_non_nullable
+as String,applicantId: null == applicantId ? _self.applicantId : applicantId // ignore: cast_nullable_to_non_nullable
 as String,lendingCards: null == lendingCards ? _self.lendingCards : lendingCards // ignore: cast_nullable_to_non_nullable
 as List<MtgCard>,lendingDate: freezed == lendingDate ? _self.lendingDate : lendingDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -162,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lenderId,  String applicantId, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ShareCards() when $default != null:
-return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lender,_that.applicant,_that.lendingCards,_that.lendingDate);case _:
+return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lenderId,_that.applicantId,_that.lendingCards,_that.lendingDate);case _:
   return orElse();
 
 }
@@ -183,10 +183,10 @@ return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lenderId,  String applicantId, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)  $default,) {final _that = this;
 switch (_that) {
 case _ShareCards():
-return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lender,_that.applicant,_that.lendingCards,_that.lendingDate);case _:
+return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lenderId,_that.applicantId,_that.lendingCards,_that.lendingDate);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +203,10 @@ return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lender,  String applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? title,  DateTime? expectedReturnDate,  DateTime? returnedAt,  ShareCardsStatus? status,  String? notes,  String lenderId,  String applicantId, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)  List<MtgCard> lendingCards,  DateTime? lendingDate)?  $default,) {final _that = this;
 switch (_that) {
 case _ShareCards() when $default != null:
-return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lender,_that.applicant,_that.lendingCards,_that.lendingDate);case _:
+return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_that.status,_that.notes,_that.lenderId,_that.applicantId,_that.lendingCards,_that.lendingDate);case _:
   return null;
 
 }
@@ -218,7 +218,7 @@ return $default(_that.id,_that.title,_that.expectedReturnDate,_that.returnedAt,_
 @JsonSerializable()
 
 class _ShareCards extends ShareCards {
-  const _ShareCards({this.id, this.title, this.expectedReturnDate, this.returnedAt, this.status, this.notes, required this.lender, required this.applicant, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) required final  List<MtgCard> lendingCards, this.lendingDate}): _lendingCards = lendingCards,super._();
+  const _ShareCards({this.id, this.title, this.expectedReturnDate, this.returnedAt, this.status, this.notes, required this.lenderId, required this.applicantId, @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) required final  List<MtgCard> lendingCards, this.lendingDate}): _lendingCards = lendingCards,super._();
   factory _ShareCards.fromJson(Map<String, dynamic> json) => _$ShareCardsFromJson(json);
 
 @override final  String? id;
@@ -227,8 +227,8 @@ class _ShareCards extends ShareCards {
 @override final  DateTime? returnedAt;
 @override final  ShareCardsStatus? status;
 @override final  String? notes;
-@override final  String lender;
-@override final  String applicant;
+@override final  String lenderId;
+@override final  String applicantId;
  final  List<MtgCard> _lendingCards;
 @override@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> get lendingCards {
   if (_lendingCards is EqualUnmodifiableListView) return _lendingCards;
@@ -251,16 +251,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShareCards&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.expectedReturnDate, expectedReturnDate) || other.expectedReturnDate == expectedReturnDate)&&(identical(other.returnedAt, returnedAt) || other.returnedAt == returnedAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.lender, lender) || other.lender == lender)&&(identical(other.applicant, applicant) || other.applicant == applicant)&&const DeepCollectionEquality().equals(other._lendingCards, _lendingCards)&&(identical(other.lendingDate, lendingDate) || other.lendingDate == lendingDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShareCards&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.expectedReturnDate, expectedReturnDate) || other.expectedReturnDate == expectedReturnDate)&&(identical(other.returnedAt, returnedAt) || other.returnedAt == returnedAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.lenderId, lenderId) || other.lenderId == lenderId)&&(identical(other.applicantId, applicantId) || other.applicantId == applicantId)&&const DeepCollectionEquality().equals(other._lendingCards, _lendingCards)&&(identical(other.lendingDate, lendingDate) || other.lendingDate == lendingDate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,expectedReturnDate,returnedAt,status,notes,lender,applicant,const DeepCollectionEquality().hash(_lendingCards),lendingDate);
+int get hashCode => Object.hash(runtimeType,id,title,expectedReturnDate,returnedAt,status,notes,lenderId,applicantId,const DeepCollectionEquality().hash(_lendingCards),lendingDate);
 
 @override
 String toString() {
-  return 'ShareCards(id: $id, title: $title, expectedReturnDate: $expectedReturnDate, returnedAt: $returnedAt, status: $status, notes: $notes, lender: $lender, applicant: $applicant, lendingCards: $lendingCards, lendingDate: $lendingDate)';
+  return 'ShareCards(id: $id, title: $title, expectedReturnDate: $expectedReturnDate, returnedAt: $returnedAt, status: $status, notes: $notes, lenderId: $lenderId, applicantId: $applicantId, lendingCards: $lendingCards, lendingDate: $lendingDate)';
 }
 
 
@@ -271,7 +271,7 @@ abstract mixin class _$ShareCardsCopyWith<$Res> implements $ShareCardsCopyWith<$
   factory _$ShareCardsCopyWith(_ShareCards value, $Res Function(_ShareCards) _then) = __$ShareCardsCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lender, String applicant,@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> lendingCards, DateTime? lendingDate
+ String? id, String? title, DateTime? expectedReturnDate, DateTime? returnedAt, ShareCardsStatus? status, String? notes, String lenderId, String applicantId,@JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson) List<MtgCard> lendingCards, DateTime? lendingDate
 });
 
 
@@ -288,7 +288,7 @@ class __$ShareCardsCopyWithImpl<$Res>
 
 /// Create a copy of ShareCards
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? title = freezed,Object? expectedReturnDate = freezed,Object? returnedAt = freezed,Object? status = freezed,Object? notes = freezed,Object? lender = null,Object? applicant = null,Object? lendingCards = null,Object? lendingDate = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? title = freezed,Object? expectedReturnDate = freezed,Object? returnedAt = freezed,Object? status = freezed,Object? notes = freezed,Object? lenderId = null,Object? applicantId = null,Object? lendingCards = null,Object? lendingDate = freezed,}) {
   return _then(_ShareCards(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -296,8 +296,8 @@ as String?,expectedReturnDate: freezed == expectedReturnDate ? _self.expectedRet
 as DateTime?,returnedAt: freezed == returnedAt ? _self.returnedAt : returnedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ShareCardsStatus?,notes: freezed == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
-as String?,lender: null == lender ? _self.lender : lender // ignore: cast_nullable_to_non_nullable
-as String,applicant: null == applicant ? _self.applicant : applicant // ignore: cast_nullable_to_non_nullable
+as String?,lenderId: null == lenderId ? _self.lenderId : lenderId // ignore: cast_nullable_to_non_nullable
+as String,applicantId: null == applicantId ? _self.applicantId : applicantId // ignore: cast_nullable_to_non_nullable
 as String,lendingCards: null == lendingCards ? _self._lendingCards : lendingCards // ignore: cast_nullable_to_non_nullable
 as List<MtgCard>,lendingDate: freezed == lendingDate ? _self.lendingDate : lendingDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,

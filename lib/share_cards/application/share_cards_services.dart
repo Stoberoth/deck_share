@@ -27,35 +27,35 @@ class ShareCardsServices {
   Future<int> getNumberOfCurrentLent() async
   {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lender == "Me" && sc.returnedAt == null).toList().length;
+    return all.where((sc) => sc.lenderId == "Me" && sc.returnedAt == null).toList().length;
   }
 
   Future<int> getNumberOfCurrentBorrow() async
   {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicant == "Me" && sc.status != ShareCardsStatus.returned).toList().length;
+    return all.where((sc) => sc.applicantId == "Me" && sc.status != ShareCardsStatus.returned).toList().length;
   }
 
   Future<int> getNumberOfLent() async{
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lender == "Me").toList().length;
+    return all.where((sc) => sc.lenderId == "Me").toList().length;
   }
 
   Future<int> getNumberOfBorrow() async{
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lender != "Me").toList().length;
+    return all.where((sc) => sc.lenderId != "Me").toList().length;
   }
 
   // Obtenir les prêts que je fais (lender = "Me")
   Future<List<ShareCards>> getLentCards() async {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lender == "Me" && sc.status != ShareCardsStatus.returned).toList();
+    return all.where((sc) => sc.lenderId == "Me" && sc.status != ShareCardsStatus.returned).toList();
   }
 
   //Obtenir les prêts que je reçois
   Future<List<ShareCards>> getBorrowedCards() async {
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicant == "Me"  && sc.status != ShareCardsStatus.returned).toList();
+    return all.where((sc) => sc.applicantId == "Me"  && sc.status != ShareCardsStatus.returned).toList();
   }
 
   Future<void> saveShareCards(ShareCards shareCards) async {

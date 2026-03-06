@@ -17,8 +17,8 @@ _ShareCards _$ShareCardsFromJson(Map<String, dynamic> json) => _ShareCards(
       : DateTime.parse(json['returnedAt'] as String),
   status: $enumDecodeNullable(_$ShareCardsStatusEnumMap, json['status']),
   notes: json['notes'] as String?,
-  lender: json['lender'] as String,
-  applicant: json['applicant'] as String,
+  lenderId: json['lenderId'] as String,
+  applicantId: json['applicantId'] as String,
   lendingCards: _lendingCardsFromJson(json['lendingCards'] as List),
   lendingDate: json['lendingDate'] == null
       ? null
@@ -33,8 +33,8 @@ Map<String, dynamic> _$ShareCardsToJson(_ShareCards instance) =>
       'returnedAt': instance.returnedAt?.toIso8601String(),
       'status': _$ShareCardsStatusEnumMap[instance.status],
       'notes': instance.notes,
-      'lender': instance.lender,
-      'applicant': instance.applicant,
+      'lenderId': instance.lenderId,
+      'applicantId': instance.applicantId,
       'lendingCards': _lendingCardsToJson(instance.lendingCards),
       'lendingDate': instance.lendingDate?.toIso8601String(),
     };

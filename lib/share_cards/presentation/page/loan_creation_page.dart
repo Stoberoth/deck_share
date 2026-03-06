@@ -105,8 +105,8 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
           ShareCards sc = ShareCards(
             status: ShareCardsStatus.active,
             title: titleController.text,
-            lender: amILender ? "Me" : contactController.text,
-            applicant: !amILender ? "Me" : contactController.text,
+            lenderId: amILender ? "Me" : contactController.text,
+            applicantId: !amILender ? "Me" : contactController.text,
             lendingCards: ref.read(pickcards).toList(),
             expectedReturnDate: ref.read(selectDate),
             lendingDate: DateTime.now(),

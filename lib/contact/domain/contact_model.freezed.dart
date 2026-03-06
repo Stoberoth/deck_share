@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Contact {
 
- String? get id; String get name; String? get email; String? get phone;
+ String? get id; String? get userId;// Id récupérer depuis le User Firebase
+ String get name; String? get email; String? get phone; bool get isRegistered;
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $ContactCopyWith<Contact> get copyWith => _$ContactCopyWithImpl<Contact>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Contact&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Contact&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.isRegistered, isRegistered) || other.isRegistered == isRegistered));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone);
+int get hashCode => Object.hash(runtimeType,id,userId,name,email,phone,isRegistered);
 
 @override
 String toString() {
-  return 'Contact(id: $id, name: $name, email: $email, phone: $phone)';
+  return 'Contact(id: $id, userId: $userId, name: $name, email: $email, phone: $phone, isRegistered: $isRegistered)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $ContactCopyWith<$Res>  {
   factory $ContactCopyWith(Contact value, $Res Function(Contact) _then) = _$ContactCopyWithImpl;
 @useResult
 $Res call({
- String? id, String name, String? email, String? phone
+ String? id, String? userId, String name, String? email, String? phone, bool isRegistered
 });
 
 
@@ -65,13 +66,15 @@ class _$ContactCopyWithImpl<$Res>
 
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? name = null,Object? email = freezed,Object? phone = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? userId = freezed,Object? name = null,Object? email = freezed,Object? phone = freezed,Object? isRegistered = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isRegistered: null == isRegistered ? _self.isRegistered : isRegistered // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -156,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String name,  String? email,  String? phone)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? userId,  String name,  String? email,  String? phone,  bool isRegistered)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Contact() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone);case _:
+return $default(_that.id,_that.userId,_that.name,_that.email,_that.phone,_that.isRegistered);case _:
   return orElse();
 
 }
@@ -177,10 +180,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String name,  String? email,  String? phone)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? userId,  String name,  String? email,  String? phone,  bool isRegistered)  $default,) {final _that = this;
 switch (_that) {
 case _Contact():
-return $default(_that.id,_that.name,_that.email,_that.phone);case _:
+return $default(_that.id,_that.userId,_that.name,_that.email,_that.phone,_that.isRegistered);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +200,10 @@ return $default(_that.id,_that.name,_that.email,_that.phone);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String name,  String? email,  String? phone)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? userId,  String name,  String? email,  String? phone,  bool isRegistered)?  $default,) {final _that = this;
 switch (_that) {
 case _Contact() when $default != null:
-return $default(_that.id,_that.name,_that.email,_that.phone);case _:
+return $default(_that.id,_that.userId,_that.name,_that.email,_that.phone,_that.isRegistered);case _:
   return null;
 
 }
@@ -212,13 +215,16 @@ return $default(_that.id,_that.name,_that.email,_that.phone);case _:
 @JsonSerializable()
 
 class _Contact implements Contact {
-  const _Contact({this.id, required this.name, this.email, this.phone});
+  const _Contact({this.id, this.userId, required this.name, this.email, this.phone, this.isRegistered = false});
   factory _Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
 
 @override final  String? id;
+@override final  String? userId;
+// Id récupérer depuis le User Firebase
 @override final  String name;
 @override final  String? email;
 @override final  String? phone;
+@override@JsonKey() final  bool isRegistered;
 
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Contact&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Contact&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.isRegistered, isRegistered) || other.isRegistered == isRegistered));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,email,phone);
+int get hashCode => Object.hash(runtimeType,id,userId,name,email,phone,isRegistered);
 
 @override
 String toString() {
-  return 'Contact(id: $id, name: $name, email: $email, phone: $phone)';
+  return 'Contact(id: $id, userId: $userId, name: $name, email: $email, phone: $phone, isRegistered: $isRegistered)';
 }
 
 
@@ -253,7 +259,7 @@ abstract mixin class _$ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
   factory _$ContactCopyWith(_Contact value, $Res Function(_Contact) _then) = __$ContactCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String name, String? email, String? phone
+ String? id, String? userId, String name, String? email, String? phone, bool isRegistered
 });
 
 
@@ -270,13 +276,15 @@ class __$ContactCopyWithImpl<$Res>
 
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? name = null,Object? email = freezed,Object? phone = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? userId = freezed,Object? name = null,Object? email = freezed,Object? phone = freezed,Object? isRegistered = null,}) {
   return _then(_Contact(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,userId: freezed == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String?,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,isRegistered: null == isRegistered ? _self.isRegistered : isRegistered // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

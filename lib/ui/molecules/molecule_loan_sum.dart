@@ -48,7 +48,7 @@ class MoleculeLoanSum extends ConsumerWidget {
                       : AppColors.success,
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
-                    child: AtomText(data: loanToSum.status!.name != ShareCardsStatus.returned ? "En cours" : "Returned", fontSize: 20),
+                    child: AtomText(data: loanToSum.status!.name != ShareCardsStatus.returned.name ? "En cours" : "Returned", fontSize: 20),
                   ),
                 ),
                 Spacer(),
@@ -56,9 +56,9 @@ class MoleculeLoanSum extends ConsumerWidget {
                   children: [
                     Icon(Icons.man, color: Colors.white),
                     AtomText(
-                      data: loanToSum.lender == "Me"
-                          ? " Prêté à ${loanToSum.applicant}"
-                          : " Emprunté à ${loanToSum.lender}",
+                      data: loanToSum.lenderId == "Me"
+                          ? " Prêté à ${loanToSum.applicantId}"
+                          : " Emprunté à ${loanToSum.lenderId}",
                       fontSize: 20,
                     ),
                   ],

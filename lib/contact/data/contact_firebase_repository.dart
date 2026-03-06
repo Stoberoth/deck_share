@@ -5,21 +5,18 @@ import 'package:deck_share/core/data/base_firebase_repository.dart';
 class ContactFirebaseRepository extends BaseFirebaseRepository<Contact>
     implements ContactRepository {
   @override
-  Future<void> deleteContact(String id) {
-    // TODO: implement deleteContact
-    throw UnimplementedError();
+  Future<void> deleteContact(String id) async {
+    await delete(id);
   }
 
   @override
-  fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
-    throw UnimplementedError();
+  Contact fromJson(Map<String, dynamic> json) {
+    return Contact.fromJson(json);
   }
 
   @override
-  Future<List<Contact>> getAllContacts() {
-    // TODO: implement getAllContacts
-    throw UnimplementedError();
+  Future<List<Contact>> getAllContacts() async {
+    return await getAll();
   }
 
   @override
@@ -28,20 +25,29 @@ class ContactFirebaseRepository extends BaseFirebaseRepository<Contact>
   }
 
   @override
-  Future<Contact> getContactById(String id) {
-    // TODO: implement getContactById
-    throw UnimplementedError();
+  Future<Contact> getContactById(String id) async {
+    return await getById(id);
   }
 
   @override
-  String? getId(item) {
-    // TODO: implement getId
-    throw UnimplementedError();
+  String? getId(Contact item) {
+    return item.id;
   }
 
   @override
   Future<void> saveContact(Contact contact) async {
     await save(contact);
+  }
+
+  @override
+  Future<bool> isAlreadyInContact(String phone) async
+  {
+    final all = await getAll();
+    if(all.where((sc) => sc.phone == phone).toList().isNotEmpty)
+    {
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -51,14 +57,12 @@ class ContactFirebaseRepository extends BaseFirebaseRepository<Contact>
   }
 
   @override
-  setId(item, String id) {
-    // TODO: implement setId
-    throw UnimplementedError();
+  Contact setId(Contact item, String id) {
+    return item.copyWith(id:id);
   }
 
   @override
-  Map<String, dynamic> toJson(item) {
-    // TODO: implement toJson
-    throw UnimplementedError();
+  Map<String, dynamic> toJson(Contact item) {
+    return item.toJson();
   }
 }

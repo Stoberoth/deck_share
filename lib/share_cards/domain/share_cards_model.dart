@@ -32,8 +32,8 @@ abstract class ShareCards with _$ShareCards
   DateTime? returnedAt,
   ShareCardsStatus? status,
   String? notes,
-  required String lender,
-  required String applicant,
+  required String lenderId,
+  required String applicantId,
   @JsonKey(fromJson: _lendingCardsFromJson, toJson: _lendingCardsToJson)
   required List<MtgCard> lendingCards,
   DateTime? lendingDate
