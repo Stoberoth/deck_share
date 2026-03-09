@@ -15,22 +15,27 @@ class MoleculeUserList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      child: AtomCard(
-        color: AppColors.primaryLight,
+    return AtomCard(
+      color: AppColors.primary,
+      child: InkWell(
         child: AtomListTile(title: AtomText(data: userProfile.name)),
+        onTap: () async {
+          if (await ref.read(contactServiceProvider).isAlreadyInContact(userProfile.phone!))
+          {
+            return;
+          }
+          ref
+              .read(contactServiceProvider)
+              .saveContact(
+                Contact(
+                  name: userProfile.name,
+                  isRegistered: true,
+                  userId: userProfile.id,
+                  phone: userProfile.phone,
+                ),
+              );
+        },
       ),
-      onTap: () {
-        ref
-            .read(contactServiceProvider)
-            .saveContact(
-              Contact(
-                name: userProfile.name,
-                userId: userProfile.id,
-                phone: userProfile.phone,
-              ),
-            );
-      },
     );
   }
 }

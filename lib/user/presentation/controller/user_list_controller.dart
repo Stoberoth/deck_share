@@ -15,4 +15,12 @@ class UserListController extends StateNotifier<AsyncValue<List<UserProfile>>> {
       return result;
     });
   }
+
+  Future<void> searchContact(String? name, String? phone) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final result = await userServices.searchUser(name, phone);
+      return result;
+    });
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:deck_share/contact/presentation/page/contact_creation.dart';
+import 'package:deck_share/share_cards/application/providers/share_cards_providers.dart';
 import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_creation_page.dart';
@@ -14,6 +15,7 @@ import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/ui/templates/template_loan_list.dart';
 import 'package:deck_share/user/domain/user_model.dart';
 import 'package:deck_share/user/presentation/page/user_information_page.dart';
+import 'package:deck_share/user/presentation/providers/user_providers.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,19 +38,12 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
     // Chargement initial des données
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
-      _fetchData();
     });
   }
 
   Future<void> _loadData() async {
+    await ref.read(userControllerProvider.notifier).getUserInformation();
     final controller = ref.read(shareCardsControllerProvider.notifier);
-
-    // Charger les compteurs
-    final lent = await controller.getNumberOfCurrentLent();
-    final borrow = await controller.getNumberOfCurrentBorrow();
-
-    ref.read(lentNumber.notifier).state = lent;
-    ref.read(borrowNumber.notifier).state = borrow;
 
     // Charger la liste selon l'index actuel
     final currentIndex = ref.read(indexProvider);
@@ -172,9 +167,7 @@ class _ShareCardsPageState extends ConsumerState<ShareCardsPage> {
             ),
             SizedBox(height: 10),
             TemplateLoanList(
-              loanList: ref.watch(shareCardsControllerProvider).value != null
-                  ? ref.watch(shareCardsControllerProvider).value!
-                  : [],
+              loanList: ref.watch(shareCardsControllerProvider).value ?? [],
               filter: ref.watch(indexProvider) == 1
                   ? LoanListFilter.borrow
                   : LoanListFilter.lent,

@@ -1,11 +1,18 @@
 import 'package:deck_share/share_cards/domain/share_card_repository.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
+import 'package:deck_share/user/application/user_services.dart';
 
 class ShareCardsServices {
   final ShareCardRepository repository;
+  final UserServices userServices;
+  String? _cachedUserId;
 
-  ShareCardsServices({required this.repository});
+  ShareCardsServices({required this.repository, required this.userServices});
 
+  Future<String> _getUserId() async{
+    _cachedUserId ??= (await userServices.getUserInformation()).id;
+    return _cachedUserId ?? "";
+  }
   // Marquer un prêt comme rendu
   Future<void> markAsReturned(String id) async {
     final shareCards = await getShareCardsById(id);
@@ -26,36 +33,40 @@ class ShareCardsServices {
 
   Future<int> getNumberOfCurrentLent() async
   {
+    final userId = await _getUserId();
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lenderId == "Me" && sc.returnedAt == null).toList().length;
+    return all.where((sc) => sc.lenderId == userId && sc.returnedAt == null).toList().length;
   }
 
   Future<int> getNumberOfCurrentBorrow() async
   {
+    final userId = await _getUserId();
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicantId == "Me" && sc.status != ShareCardsStatus.returned).toList().length;
+    return all.where((sc) => sc.applicantId == userId && sc.status != ShareCardsStatus.returned).toList().length;
   }
 
   Future<int> getNumberOfLent() async{
+    final userId = await _getUserId();
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lenderId == "Me").toList().length;
+    return all.where((sc) => sc.lenderId == userId).toList().length;
   }
 
   Future<int> getNumberOfBorrow() async{
+    final userId = await _getUserId();
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lenderId != "Me").toList().length;
+    return all.where((sc) => sc.applicantId != userId).toList().length;
   }
 
-  // Obtenir les prêts que je fais (lender = "Me")
   Future<List<ShareCards>> getLentCards() async {
+    final userId = await _getUserId();
     final all = await getAllShareCards();
-    return all.where((sc) => sc.lenderId == "Me" && sc.status != ShareCardsStatus.returned).toList();
+    return all.where((sc) => sc.lenderId == userId && sc.status != ShareCardsStatus.returned).toList();
   }
 
-  //Obtenir les prêts que je reçois
   Future<List<ShareCards>> getBorrowedCards() async {
+    final userId = await _getUserId();
     final all = await getAllShareCards();
-    return all.where((sc) => sc.applicantId == "Me"  && sc.status != ShareCardsStatus.returned).toList();
+    return all.where((sc) => sc.applicantId == userId  && sc.status != ShareCardsStatus.returned).toList();
   }
 
   Future<void> saveShareCards(ShareCards shareCards) async {

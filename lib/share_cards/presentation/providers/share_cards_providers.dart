@@ -22,12 +22,13 @@ final shareCardsControllerProvider =
     ) {
       return ShareCardsController(
         shareCardsServices: ref.read(shareCardsServiceProvider),
-        selectedItem: ref.read(selectedItemProvider),
       );
     });
 
 final lentNumber = StateProvider<int>((ref) => 0);
 final borrowNumber = StateProvider<int>((ref) => 0);
+
+final selectId = StateProvider<String>((ref) => "");
 
 final lentNumberProvider = FutureProvider((ref) => ref.read(shareCardsControllerProvider.notifier).getNumberOfLentCard());
 final borrowNumberProvider = FutureProvider((ref) => ref.read(shareCardsControllerProvider.notifier).getNumberOfBorrowCard());

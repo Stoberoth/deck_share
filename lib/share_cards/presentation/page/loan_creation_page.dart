@@ -1,14 +1,19 @@
+import 'package:deck_share/contact/application/providers/contact_providers.dart';
+import 'package:deck_share/contact/domain/contact_model.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_button.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
+import 'package:deck_share/ui/atom/atom_dropdownmenu.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
 import 'package:deck_share/ui/atom/atom_text_field.dart';
 import 'package:deck_share/ui/molecules/molecule_date_picker.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
 import 'package:deck_share/ui/organisms/organism_loan_cards_list.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
+import 'package:deck_share/user/presentation/providers/user_providers.dart';
 import 'package:deck_share/utils/app_color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,7 +30,6 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
-    TextEditingController contactController = TextEditingController();
     TextEditingController noteController = TextEditingController();
     return TemplateBase(
       baseAppBar: OrganismAppBar(title: "Nouveau prêt"),
@@ -56,7 +60,8 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
                   AtomText(data: "Je prête", color: Colors.black, fontSize: 20),
                 ],
               ),
-
+              AtomDropdownmenu<Contact>(list: contactListProvider, labelBuilder: (item) => item.name, idBuilder: (item) => item.id!,),
+              /*
               AtomCard(
                 color: Colors.white,
                 child: Padding(
@@ -69,6 +74,7 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
                   ),
                 ),
               ),
+              */
               MoleculeDatePicker(),
               AtomCard(
                 color: Colors.white,
@@ -88,8 +94,8 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
       floatingActionButton: AtomButton(
         label: "Créer le prêt",
         buttonColor: AppColors.surface,
-        onPressed: () {
-          if (ref.read(pickcards).isEmpty) {
+        onPressed: () async {
+          if (ref.read(pickcards).isEmpty)  {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: AtomText(
@@ -101,12 +107,13 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
             );
             return;
           }
+          await ref.read(userControllerProvider.notifier).getUserInformation();
           // Create a new share cards
           ShareCards sc = ShareCards(
             status: ShareCardsStatus.active,
             title: titleController.text,
-            lenderId: amILender ? "Me" : contactController.text,
-            applicantId: !amILender ? "Me" : contactController.text,
+            lenderId: amILender ? ref.watch(userControllerProvider).value!.id! : ref.read(selectId),
+            applicantId: !amILender ? ref.watch(userControllerProvider).value!.id! : ref.read(selectId),
             lendingCards: ref.read(pickcards).toList(),
             expectedReturnDate: ref.read(selectDate),
             lendingDate: DateTime.now(),

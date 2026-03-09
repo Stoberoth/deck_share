@@ -1,11 +1,40 @@
+import 'package:deck_share/contact/application/providers/contact_providers.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/providers/share_cards_providers.dart';
 import 'package:deck_share/ui/atom/atom_card.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
+import 'package:deck_share/user/presentation/providers/user_providers.dart';
 import 'package:deck_share/utils/app_color.dart';
 import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+
+class _ContactName extends ConsumerWidget {
+  final String contactId;
+  final bool isLent;
+  final double fontSize;
+
+  const _ContactName({required this.contactId, required this.isLent, this.fontSize = 10});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // TODO: implement build
+    return FutureBuilder(
+      future: ref.read(contactServiceProvider).getContactById(contactId),
+      builder: (context, snapshot) {
+        return AtomText(
+          data: snapshot.hasData
+              ? isLent
+                    ? "Prêtés à : ${snapshot.data!.name}"
+                    : "Prêtés par : ${snapshot.data!.name}"
+              : "Chargement ...",
+          fontSize: fontSize,
+        );
+      },
+    );
+  }
+}
 
 class MoleculeLoanSum extends ConsumerWidget {
   const MoleculeLoanSum({super.key});
@@ -55,12 +84,7 @@ class MoleculeLoanSum extends ConsumerWidget {
                 Row(
                   children: [
                     Icon(Icons.man, color: Colors.white),
-                    AtomText(
-                      data: loanToSum.lenderId == "Me"
-                          ? " Prêté à ${loanToSum.applicantId}"
-                          : " Emprunté à ${loanToSum.lenderId}",
-                      fontSize: 20,
-                    ),
+                    loanToSum.lenderId == ref.watch(userControllerProvider).value!.id! ?  _ContactName(contactId: loanToSum.applicantId, isLent: true, fontSize: 20,) : _ContactName(contactId: loanToSum.lenderId, isLent: false, fontSize: 20,)
                   ],
                 ),
                 Spacer(),

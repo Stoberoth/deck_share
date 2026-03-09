@@ -1,3 +1,5 @@
+import 'package:deck_share/contact/application/providers/contact_providers.dart';
+import 'package:deck_share/contact/domain/contact_model.dart';
 import 'package:deck_share/share_cards/domain/loan_list_filter.dart';
 import 'package:deck_share/share_cards/domain/share_cards_model.dart';
 import 'package:deck_share/share_cards/presentation/page/loan_details_page.dart';
@@ -28,13 +30,19 @@ class TemplateLoanList extends ConsumerStatefulWidget {
 }
 
 class _TemplateLoanListState extends ConsumerState<TemplateLoanList> {
+
+  Future<Contact> getContact(String id)
+  {
+    return ref.read(contactServiceProvider).getContactById(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(shareCardsControllerProvider);
     final list = state.value;
 
     if (list == null) return Container();
-
+    
     return Expanded(
       child: ListView.builder(
         itemCount: list.length,
@@ -45,7 +53,7 @@ class _TemplateLoanListState extends ConsumerState<TemplateLoanList> {
               //url: currentShareCards.lendingCards[0].imageUris!.png.toString(),
               url: currentShareCards.lendingCards.isNotEmpty ? getCardImageUrl(currentShareCards.lendingCards[0]) : "",
             ),
-            loanTitle: AtomText(data: currentShareCards.title!, fontSize: 20),
+            loanTitle: AtomText(data: currentShareCards.title ?? "", fontSize: 20),
             loanSubtitle: MoleculeLoanSubtitle(
               cardNumber: currentShareCards.lendingCards.length,
               contact: widget.filter == LoanListFilter.lent

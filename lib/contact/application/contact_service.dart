@@ -26,6 +26,10 @@ class ContactService {
     return repository.getAllContacts();
   }
 
+  Future<Contact> getContactById(String id) async{
+    return repository.getContactById(id);
+  }
+
   Future<void> syncContactAndUser() async
   {
     throw UnimplementedError();

@@ -15,10 +15,9 @@ class OrganismUserListView extends ConsumerStatefulWidget {
 
 class OrganismUserListViewState extends ConsumerState {
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    Future.microtask(() =>)
-    await ;
+    Future.microtask(() => ref.read(userListControllerProvider.notifier).getAllUserProfile());
   }
 
   @override
@@ -26,9 +25,9 @@ class OrganismUserListViewState extends ConsumerState {
     final list = ref.watch(userListControllerProvider);
     return list.when(
       data: (users) => ListView.builder(
-        itemCount: list.value!.length,
+        itemCount: users.length,
         itemBuilder: (context, index) {
-          return MoleculeUserList(userProfile: list.value![index]);
+          return MoleculeUserList(userProfile: users[index]);
         },
       ),
       error: (error, stack) => Center(child: AtomText(data: "Error")),

@@ -5,11 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
   final ShareCardsServices shareCardsServices;
-  String selectedItem;
 
   ShareCardsController({
     required this.shareCardsServices,
-    required this.selectedItem,
   }) : super(const AsyncValue.data([]));
 
   Future<void> addShareCards(ShareCards shareCards) async {
@@ -17,9 +15,6 @@ class ShareCardsController extends StateNotifier<AsyncValue<List<ShareCards>>> {
     await shareCardsServices.saveShareCards(shareCards);
   }
 
-  Future<void> selectItem(String id) async {
-    selectedItem = id;
-  }
 
   Future<void> deleteShareCards(String id) async {
     state = const AsyncLoading();

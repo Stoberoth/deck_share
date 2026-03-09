@@ -13,6 +13,12 @@ class UserServices {
     return await repository.getAllUserProfile();
   }
 
+  Future<List<UserProfile>> searchUser(String? name, String? phone) async
+  {
+    final all = await getAllUserProfile();
+    return all.where((sc) => sc.name.contains(name!) || sc.phone == phone).toList();
+  }
+
   Future<UserProfile> getUserInformation() async
   {
     return await repository.getUserInformation();

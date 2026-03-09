@@ -29,15 +29,20 @@ class UserSearchPageState extends ConsumerState {
           AtomTextField(
             controller: nameController,
             hintText: "Entrez le nom d'utilisateur",
-            onSubmitted: (value) => ref.read(userListControllerProvider.notifier).getAllUserProfile(),
+            onSubmitted: (value) => ref
+                .read(userListControllerProvider.notifier)
+                .searchContact(nameController.text, phoneController.text),
           ),
           AtomTextField(
             controller: phoneController,
             hintText: "Entrez le numéro d'utilisateur",
             keyboardInput: TextInputType.phone,
-            onSubmitted: (value) => ref.read(userListControllerProvider.notifier).getAllUserProfile(),
+            onSubmitted: (value) => ref
+                .read(userListControllerProvider.notifier)
+                .searchContact(nameController.text, phoneController.text),
           ),
-          OrganismUserListView(),
+          Expanded(child: OrganismUserListView()),
+
           // TODO: create a dynamic list which will take a stateProvider
           // from a controller to see which userprofile get our from the search
         ],
