@@ -9,17 +9,19 @@ import 'package:deck_share/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class _ContactName extends ConsumerWidget {
   final String contactId;
   final bool isLent;
   final double fontSize;
 
-  const _ContactName({required this.contactId, required this.isLent, this.fontSize = 10});
+  const _ContactName({
+    required this.contactId,
+    required this.isLent,
+    this.fontSize = 10,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
     return FutureBuilder(
       future: ref.read(contactServiceProvider).getContactById(contactId),
       builder: (context, snapshot) {
@@ -30,6 +32,26 @@ class _ContactName extends ConsumerWidget {
                     : "Prêtés par : ${snapshot.data!.name}"
               : "Chargement ...",
           fontSize: fontSize,
+        );
+      },
+    );
+  }
+}
+
+class _ContactPhone extends ConsumerWidget {
+  final String contactId;
+  const _ContactPhone({required this.contactId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder(
+      future: ref.read(contactServiceProvider).getContactById(contactId),
+      builder: (context, snapshot) {
+        return AtomText(
+          data: snapshot.hasData
+              ? "Téléphone : ${snapshot.data!.phone}"
+              : "Chargement ...",
+          fontSize: 20,
         );
       },
     );
@@ -77,16 +99,42 @@ class MoleculeLoanSum extends ConsumerWidget {
                       : AppColors.success,
                   child: Padding(
                     padding: EdgeInsetsGeometry.all(5),
-                    child: AtomText(data: loanToSum.status!.name != ShareCardsStatus.returned.name ? "En cours" : "Returned", fontSize: 20),
+                    child: AtomText(
+                      data:
+                          loanToSum.status!.name !=
+                              ShareCardsStatus.returned.name
+                          ? "En cours"
+                          : "Returned",
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 Spacer(),
                 Row(
                   children: [
                     Icon(Icons.man, color: Colors.white),
-                    loanToSum.lenderId == ref.watch(userControllerProvider).value!.id! ?  _ContactName(contactId: loanToSum.applicantId, isLent: true, fontSize: 20,) : _ContactName(contactId: loanToSum.lenderId, isLent: false, fontSize: 20,)
+                    loanToSum.lenderId ==
+                            ref.watch(userControllerProvider).value!.id!
+                        ? _ContactName(
+                            contactId: loanToSum.applicantId,
+                            isLent: true,
+                            fontSize: 20,
+                          )
+                        : _ContactName(
+                            contactId: loanToSum.lenderId,
+                            isLent: false,
+                            fontSize: 20,
+                          ),
                   ],
                 ),
+                Spacer(),
+                Row(children: [
+                  Icon(Icons.phone, color: Colors.white,),
+                  loanToSum.lenderId ==
+                        ref.watch(userControllerProvider).value!.id!
+                    ? _ContactPhone(contactId: loanToSum.applicantId)
+                    : _ContactPhone(contactId: loanToSum.lenderId),],),
+                
                 Spacer(),
                 Row(
                   children: [

@@ -1,3 +1,4 @@
+import 'package:deck_share/contact/application/providers/contact_providers.dart';
 import 'package:deck_share/core/application/providers/connectivity_provider.dart';
 import 'package:deck_share/core/application/providers/sync_service_provider.dart';
 import 'package:deck_share/ui/atom/atom_text.dart';
@@ -34,11 +35,13 @@ class ConnectivityListenerState extends ConsumerState<ConnectivityListener> {
         _previousConnectivityState = isConnected;
       });
     });
+    ref.read(contactServiceProvider).syncContactAndUser();
     return widget.child;
   }
 
   void _onConnectionRestored() {
     ref.read(syncServiceProvider).syncShareCards();
+    ref.read(contactServiceProvider).syncContactAndUser();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

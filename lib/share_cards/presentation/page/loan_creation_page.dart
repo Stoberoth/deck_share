@@ -60,21 +60,15 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
                   AtomText(data: "Je prête", color: Colors.black, fontSize: 20),
                 ],
               ),
-              AtomDropdownmenu<Contact>(list: contactListProvider, labelBuilder: (item) => item.name, idBuilder: (item) => item.id!,),
-              /*
-              AtomCard(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsetsGeometry.all(10),
-                  child: AtomTextField(
-                    controller: contactController,
-                    hintText:
-                        "Entrez le nom ${amILender ? "de l'emprunteur" : "du prêteur"}",
-                    textColor: Colors.black,
-                  ),
+              Padding(
+                padding: EdgeInsetsGeometry.all(10),
+                child: AtomDropdownmenu<Contact>(
+                  list: contactListProvider,
+                  labelBuilder: (item) => item.name,
+                  idBuilder: (item) => item.id!,
                 ),
               ),
-              */
+
               MoleculeDatePicker(),
               AtomCard(
                 color: Colors.white,
@@ -95,7 +89,19 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
         label: "Créer le prêt",
         buttonColor: AppColors.surface,
         onPressed: () async {
-          if (ref.read(pickcards).isEmpty)  {
+          if (titleController.text.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: AtomText(
+                  data: "Veuillez donner un titre à votre prêt",
+                ),
+                backgroundColor: AppColors.error,
+                duration: Duration(seconds: 2),
+              ),
+            );
+            return;
+          }
+          if (ref.read(pickcards).isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: AtomText(
@@ -112,8 +118,12 @@ class _LoanCreationState extends ConsumerState<LoanCreationPage> {
           ShareCards sc = ShareCards(
             status: ShareCardsStatus.active,
             title: titleController.text,
-            lenderId: amILender ? ref.watch(userControllerProvider).value!.id! : ref.read(selectId),
-            applicantId: !amILender ? ref.watch(userControllerProvider).value!.id! : ref.read(selectId),
+            lenderId: amILender
+                ? ref.watch(userControllerProvider).value!.id!
+                : ref.read(selectId),
+            applicantId: !amILender
+                ? ref.watch(userControllerProvider).value!.id!
+                : ref.read(selectId),
             lendingCards: ref.read(pickcards).toList(),
             expectedReturnDate: ref.read(selectDate),
             lendingDate: DateTime.now(),

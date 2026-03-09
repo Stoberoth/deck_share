@@ -30,6 +30,8 @@ class _ContactName extends ConsumerWidget {
   }
 }
 
+
+
 class MoleculeLoanSubtitle extends ConsumerWidget {
   final int cardNumber;
   final String contact;

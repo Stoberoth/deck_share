@@ -19,11 +19,17 @@ class AtomDropdownmenu<T> extends ConsumerStatefulWidget {
 }
 
 class _AtomDropdownmenuState<T> extends ConsumerState<AtomDropdownmenu<T>> {
+  TextEditingController filter = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final asyncValue = ref.watch(widget.list);
     return asyncValue.when(
       data: (items) => DropdownMenu<T>(
+        expandedInsets: EdgeInsets.zero,
+        enableFilter: true,
+        enableSearch: true,
+        requestFocusOnTap: true,
+        initialSelection: items.first, 
         dropdownMenuEntries: items
             .map(
               (e) =>
@@ -32,7 +38,6 @@ class _AtomDropdownmenuState<T> extends ConsumerState<AtomDropdownmenu<T>> {
             .toList(),
       onSelected: (value) {
         ref.read(selectId.notifier).state = widget.idBuilder(value as T);
-        print(widget.idBuilder(value));
       },
       ),
       loading: () => const CircularProgressIndicator(),

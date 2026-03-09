@@ -81,6 +81,7 @@ class MoleculeRegisterState extends ConsumerState {
                               ref.watch(emailControllerProvider).text,
                               ref.watch(passwordControllerProvider).text,
                             );
+                            // TODO: Ecran unique qui demandera les infos utilisateurs pour créer le user dans la bdd
                       } catch (e) {
                         setState(() {
                           _isLoading = false;
