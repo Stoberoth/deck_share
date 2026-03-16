@@ -3,6 +3,8 @@ import 'package:deck_share/contact/data/contact_repository.dart';
 import 'package:deck_share/contact/domain/contact_model.dart';
 import 'package:deck_share/user/application/user_services.dart';
 import 'package:deck_share/user/domain/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class ContactService {
   final ContactRepository repository;
@@ -35,6 +37,10 @@ class ContactService {
 
   Future<void> syncContactAndUser() async
   {
+    if(FirebaseAuth.instance.currentUser == null)
+    {
+      return;
+    }
     final all = await getAllContact();
     final contact = all.where((element) => element.userId == null || element.userId!.isEmpty);
     final allUser = await userServices.getAllUserProfile();

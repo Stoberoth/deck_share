@@ -1,6 +1,7 @@
 import 'package:deck_share/ui/molecules/molecule_loan_resume.dart';
 import 'package:deck_share/ui/molecules/molecule_personnal_information.dart';
 import 'package:deck_share/ui/organisms/organism_app_bar.dart';
+import 'package:deck_share/ui/organisms/organism_contact_list_view.dart';
 import 'package:deck_share/ui/templates/template_base.dart';
 import 'package:deck_share/user/domain/user_model.dart';
 import 'package:deck_share/user/presentation/providers/user_providers.dart';
@@ -38,6 +39,8 @@ class UserInformationPageState extends ConsumerState {
               : Container(),
           SizedBox(height: 10,),
           MoleculeLoanResume(),
+          SizedBox(height: 10,),
+          OrganismContactListView(),
         ],
       ),
     );
