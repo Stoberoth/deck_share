@@ -16,12 +16,25 @@ class MoleculeUserList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AtomCard(
-      color: AppColors.primary,
+      color: AppColors.primaryLight,
       child: InkWell(
-        child: AtomListTile(title: AtomText(data: userProfile.name)),
+        child: AtomListTile(
+          title: AtomText(data: userProfile.name),
+          tileColor: AppColors.primaryLight,
+        ),
         onTap: () async {
-          if (await ref.read(contactServiceProvider).isAlreadyInContact(userProfile.phone!))
-          {
+          if (await ref
+              .read(contactServiceProvider)
+              .isAlreadyInContact(userProfile.phone!)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: Duration(seconds: 1),
+                content: AtomText(
+                  data: "Utilisateur déjà dans vos contact",
+                  color: AppColors.error,
+                ),
+              ),
+            );
             return;
           }
           ref
@@ -34,6 +47,15 @@ class MoleculeUserList extends ConsumerWidget {
                   phone: userProfile.phone,
                 ),
               );
+           ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: Duration(seconds: 1),
+                content: AtomText(
+                  data: "Utilisaterur ajouté à vos contact",
+                  color: AppColors.success,
+                ),
+              ),
+            );
         },
       ),
     );

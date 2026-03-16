@@ -32,6 +32,7 @@ class MoleculeContactFormState extends ConsumerState {
         children: [
           TextFormField(
             controller: nameController,
+            style: TextStyle(color: AppColors.textPrimary),
             decoration: InputDecoration(
               hintText: "Entrez le nom de votre contact",
               hintStyle: TextStyle(color: AppColors.textSecondary),
@@ -41,6 +42,7 @@ class MoleculeContactFormState extends ConsumerState {
           ),
           TextFormField(
             controller: phoneController,
+            style: TextStyle(color: AppColors.textPrimary),
             decoration: InputDecoration(
               hintText: "Entrez le numéro de téléphone de votre contact",
               hintStyle: TextStyle(color: AppColors.textSecondary),
@@ -78,3 +80,4 @@ class MoleculeContactFormState extends ConsumerState {
     );
   }
 }
+
